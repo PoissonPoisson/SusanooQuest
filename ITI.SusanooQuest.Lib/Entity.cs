@@ -4,22 +4,28 @@ using System.Text;
 
 namespace ITI.SusanooQuest.Lib
 {
-    abstract class Entity
+    public abstract class Entity
     {
-        double _length;
-        double _speed = double.MinValue;
-        Vector _pos;
-        Game _game;
-        ushort _live;
+        readonly float _length;
+        protected Game _game;
+        float _speed;
+        protected ushort _life;
+        protected Vector _pos;
 
-        protected Entity (Vector pos, double length, Game game, ushort live)
+
+        protected Entity (Vector pos, float length, Game game, ushort life)
         {
             _length = length;
             _game = game;
             _pos = pos;
-            _live = live;
+            _life = life;
         }
 
         internal abstract void Update();
+
+        protected abstract void Kill();
+
+        protected abstract void Move();
+
     }
 }

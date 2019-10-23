@@ -1,24 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ITI.SusanooQuest.Lib
 {
-    class Player : Entity
+    public class Player : Entity
     {
         
         
         ushort _bombes = 3;
         
         
-        public Player (Vector pos, double length, Game game)
+        public Player (Vector pos, float length, Game game)
             : base(pos, length, game, 3)
         {
         }
 
         internal override void Update()
         {
-
+            Move();
         }
+
+        protected override void Kill() {}
+
+        protected override void Move()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal int Life => _life;
     }
 }
