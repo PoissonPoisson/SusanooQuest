@@ -19,15 +19,15 @@ namespace ITI.SusanooQuest.UI
 
         public MainMenu(RenderWindow window)
         {
-            if (window == null) throw new ArgumentException("Window is null.", nameof(window));
+            if (window == null) throw new NullReferenceException("Window is null.");
 
             _buttons = new Button[5]
             {
-                new Button(new Vector(100, 100), 400, 50),
-                new Button(new Vector(100, 200), 400, 50),
-                new Button(new Vector(100, 300), 400, 50),
-                new Button(new Vector(100, 400), 400, 50),
-                new Button(new Vector(100, 500), 400, 50)
+                new Button(new Vector(1200, 315), 400, 50),
+                new Button(new Vector(1200, 415), 400, 50),
+                new Button(new Vector(1200, 515), 400, 50),
+                new Button(new Vector(1200, 615), 400, 50),
+                new Button(new Vector(1200, 715), 400, 50)
             };
             _window = window;
             _nextMenu = this;
@@ -75,11 +75,11 @@ namespace ITI.SusanooQuest.UI
             {
                 Vector posInput = new Vector(e.X, e.Y);
 
-                if (_buttons[0].Selected(posInput)) _nextMenu = new Game();
-                if (_buttons[1].Selected(posInput)) _nextMenu = new GameMulti();
-                if (_buttons[2].Selected(posInput)) _nextMenu = new OptionMenu();
-                if (_buttons[3].Selected(posInput)) _nextMenu = new Credit();
-                if (_buttons[4].Selected(posInput)) _window.Close();
+                if (_buttons[0].Selected(posInput)) { _isUpdate = true; _nextMenu = new Game(); }
+                if (_buttons[1].Selected(posInput)) { _isUpdate = true; _nextMenu = new GameMulti(); }
+                if (_buttons[2].Selected(posInput)) { _isUpdate = true; _nextMenu = new OptionMenu(_window); }
+                if (_buttons[3].Selected(posInput)) { _isUpdate = true; _nextMenu = new Credit(); }
+                if (_buttons[4].Selected(posInput)) { _isUpdate = true; _window.Close(); }
             }
         }
 
