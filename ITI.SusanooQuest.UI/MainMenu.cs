@@ -78,7 +78,7 @@ namespace ITI.SusanooQuest.UI
                 if (_buttons[0].Selected(posInput)) { _isUpdate = true; _nextMenu = new Game(); }
                 if (_buttons[1].Selected(posInput)) { _isUpdate = true; _nextMenu = new GameMulti(); }
                 if (_buttons[2].Selected(posInput)) { _isUpdate = true; _nextMenu = new OptionMenu(_window); }
-                if (_buttons[3].Selected(posInput)) { _isUpdate = true; _nextMenu = new Credit(); }
+                if (_buttons[3].Selected(posInput)) { _isUpdate = true; _nextMenu = new Credit(_window); }
                 if (_buttons[4].Selected(posInput)) { _isUpdate = true; _window.Close(); }
             }
         }
