@@ -23,7 +23,7 @@ namespace ITI.SusanooQuest.UI
 
         public OptionMenu(RenderWindow window)
         {
-            if (window == null) throw new NullReferenceException("Window is null");
+            if (window == null) throw new NullReferenceException("Window is null.");
 
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
 
@@ -71,11 +71,7 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.Escape)
-            {
-                _nextMenu = new MainMenu(_window);
-                Dispose();
-            }
+            if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
         }
 
         public void Render()
