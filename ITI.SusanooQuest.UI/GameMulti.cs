@@ -5,15 +5,9 @@ using SFML.Window;
 
 namespace ITI.SusanooQuest.UI
 {
-    public class GameMulti : IMenu
+    public class GameMulti : IController, IDisposable
     {
-        public IMenu GetNextMenu => throw new NotImplementedException();
-
-        public bool IsUpdate
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public IController GetNextMenu => throw new NotImplementedException();
 
         public void MouseButtonPressed(MouseButtonEventArgs e)
         {
@@ -25,12 +19,22 @@ namespace ITI.SusanooQuest.UI
             throw new NotImplementedException();
         }
 
+        public void KeyReleased(KeyEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Render()
         {
             throw new NotImplementedException();
         }
 
         public void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException();
         }

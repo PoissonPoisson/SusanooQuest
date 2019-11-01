@@ -6,24 +6,29 @@ namespace ITI.SusanooQuest.Lib
 {
     public struct Vector
     {
-        public readonly double X;
+        public readonly float X;
 
-        public readonly double Y;
+        public readonly float Y;
 
-        public Vector(double x, double y)
+        public Vector(float x, float y)
         {
             X = x;
             Y = y;
         }
 
-        public Vector Add(double x, double y)
+        public Vector Add(float x, float y)
         {
             return new Vector(X + x, Y + y);
         }
 
-        public Vector Multiply(double n)
+        public Vector Multiply(float n)
         {
             return new Vector(X * n, Y * n);
+        }
+
+        public float Distance(Vector other)
+        {
+            return (float)Math.Sqrt(Math.Pow(X - other.X, 2) + Math.Pow(Y - other.Y, 2));
         }
     }
 }

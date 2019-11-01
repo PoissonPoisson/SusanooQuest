@@ -5,15 +5,9 @@ using SFML.Window;
 
 namespace ITI.SusanooQuest.UI
 {
-    public class Credit : IMenu
+    public class Credit : IController, IDisposable
     {
-        public IMenu GetNextMenu => throw new NotImplementedException();
-
-        public bool IsUpdate
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public IController GetNextMenu => throw new NotImplementedException();
 
         public void MouseButtonPressed(MouseButtonEventArgs e)
         {
@@ -31,6 +25,11 @@ namespace ITI.SusanooQuest.UI
         }
 
         public void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException();
         }

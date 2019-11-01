@@ -8,15 +8,16 @@ namespace ITI.SusanooQuest.UI
     {
         static void Main(string[] args)
         {
-            using (RenderWindow window = new RenderWindow(VideoMode.FullscreenModes[0], "SusanooQuest.UI", Styles.Close | Styles.Titlebar ))
+            using (RenderWindow window = new RenderWindow(VideoMode.FullscreenModes[0], "SusanooQuest", Styles.Default ))
             {
-                IMenu currentMenu = new MainMenu(window);
+                IController currentMenu = new MainMenu(window);
 
                 window.Closed += (s, e) => window.Close();
 
                 window.KeyPressed += (s, e) =>
                 {
                     currentMenu.KeyPressed(e);
+                    Console.WriteLine(e);
                 };
 
                 window.MouseButtonPressed += (s, e) =>
@@ -24,17 +25,20 @@ namespace ITI.SusanooQuest.UI
                     currentMenu.MouseButtonPressed(e);
                     Console.WriteLine(e);
                 };
-
+                
                 while(window.IsOpen)
                 {
                     window.DispatchEvents();
+
+                    if (currentMenu != currentMenu.GetNextMenu) currentMenu.Dispose();
                     currentMenu = currentMenu.GetNextMenu;
-                    if (currentMenu.IsUpdate)
-                    {
-                        currentMenu.Render();
-                        currentMenu.IsUpdate = false;
-                        window.Display();
-                    }
+
+                    window.Clear();
+
+                    //currentMenu.Update();
+                    currentMenu.Render();
+
+                    window.Display();
                 }
             }
         }
