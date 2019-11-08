@@ -11,9 +11,9 @@ namespace ITI.SusanooQuest.Lib
         float _speed;
         protected ushort _life;
         protected Vector _pos;
+        protected Vector _direction;
 
-
-        protected Entity (Vector pos, float length, Game game, ushort life)
+        protected Entity(Vector pos, float length, Game game, ushort life)
         {
             _length = length;
             _game = game;
@@ -21,11 +21,15 @@ namespace ITI.SusanooQuest.Lib
             _life = life;
         }
 
+        internal Vector Direction
+        {
+            get { return _direction; }
+            set { _direction = value; }
+        }
+
         internal abstract void Update();
 
         protected abstract void Kill();
-
-        protected abstract void Move();
 
     }
 }

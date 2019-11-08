@@ -8,6 +8,7 @@ namespace ITI.SusanooQuest.Lib
         readonly List<Ennemy> _ennemies;
         readonly Player _player;
         readonly Random _random;
+        Vector _direction;
 
         public Game()
         {
@@ -35,7 +36,7 @@ namespace ITI.SusanooQuest.Lib
                 ennemy.Update();
             }
 
-            _player.Update();
+            _player.Update(taille, Vector direction);
             return _player.Life == 0;
 
 
@@ -54,6 +55,16 @@ namespace ITI.SusanooQuest.Lib
         public List<Ennemy> Ennemy
         {
             get { return _ennemies; }
+        }
+
+        public Vector PlayerDirection
+        {
+            get { return _direction}
+            set
+            {
+                _direction = value;
+
+            }
         }
 
         public Player Player => _player;
