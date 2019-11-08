@@ -36,21 +36,12 @@ namespace ITI.SusanooQuest.Lib
                 ennemy.Update();
             }
 
-            _player.Update(taille, Vector direction);
+            //_player.Update(taille, Vector direction);
             return _player.Life == 0;
 
 
         }
 
-        internal Vector GetRandomPosition()
-        {
-            return new Vector(GetNextRandomDouble(0, 900), GetNextRandomDouble(0, 1000));
-        }
-
-        internal double GetNextRandomDouble(double min, double max)
-        {
-            return _random.NextDouble() * (max - min) + min;
-        }
 
         public List<Ennemy> Ennemy
         {
@@ -59,7 +50,7 @@ namespace ITI.SusanooQuest.Lib
 
         public Vector PlayerDirection
         {
-            get { return _direction}
+            get { return _direction; }
             set
             {
                 _direction = value;

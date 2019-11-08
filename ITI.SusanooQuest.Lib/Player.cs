@@ -14,15 +14,15 @@ namespace ITI.SusanooQuest.Lib
 
         internal override void Update()
         {
-            Move();
+
         }
 
         protected override void Kill() {}
 
-        protected override void Move(float x, float y)
-        {
-            _pos = new Vector(_pos.X + x, _pos.Y + y);
-        }
+        //protected override void Move(float x, float y)
+        //{
+        //    _pos = new Vector(_pos.X + x, _pos.Y + y);
+        //}
 
         
         internal int Life => _life;

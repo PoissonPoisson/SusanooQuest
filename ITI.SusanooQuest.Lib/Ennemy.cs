@@ -25,9 +25,9 @@ namespace ITI.SusanooQuest.Lib
             
         }
 
-        protected override void Move()
+        protected void Move()
         {
-            _pos = new Vector(_game.GetNextRandomDouble(-1.0, 1.0), _game.GetNextRandomDouble(-1.0, 1.0));
+            
         }
     }
 }
