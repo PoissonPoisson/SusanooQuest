@@ -4,6 +4,8 @@ using ITI.SusanooQuest.Lib;
 using SFML.Window;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Audio;
+using System.IO;
 
 namespace ITI.SusanooQuest.UI
 {
@@ -14,9 +16,11 @@ namespace ITI.SusanooQuest.UI
         readonly Button[] _buttons;
         readonly RenderWindow _window;
         readonly View _view;
-        float _report;
+        float _ratio;
         readonly RectangleShape _bg;
         IController _nextMenu;
+        readonly Vector _size;
+        readonly Music _music;
 
         #endregion
 
@@ -24,12 +28,14 @@ namespace ITI.SusanooQuest.UI
         {
             if (window == null) throw new NullReferenceException("Window is null.");
 
+            _size = new Vector(1920, 1080);
+
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             _window = window;
             _nextMenu = this;
-            _report = Math.Min(_window.Size.X / 1920.0f, _window.Size.Y / 1080.0f);
-            _view = new View(new FloatRect(0.0f, 0.0f, 1920.0f, 1080.0f));
-            _bg = new RectangleShape(new Vector2f(1920.0f, 1080.0f))
+            _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
+            _view = new View(new FloatRect(0.0f, 0.0f, _size.X, _size.Y));
+            _bg = new RectangleShape(new Vector2f(_size.X, _size.Y))
             {
                 Position = new Vector2f(0.0f, 0.0f),
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.bg_MainMenu.png"))
@@ -47,6 +53,9 @@ namespace ITI.SusanooQuest.UI
             _buttons[3] = new Button(new Vector(1200, 615), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_quit.png"));
             _buttons[4] = new Button(new Vector(1200, 715), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
+
+            //_music = new Music(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.Lullaby_of_Deserted_Hell.wav"));
+            //_music.Play();
         }
 
         #region Properties
@@ -64,7 +73,7 @@ namespace ITI.SusanooQuest.UI
         {
             throw new NotImplementedException();
         }
-
+        
         public void Render()
         {
             _window.Draw(_bg, RenderStates.Default);
@@ -73,13 +82,13 @@ namespace ITI.SusanooQuest.UI
                 _window.Draw(button.Image, RenderStates.Default);
             }
 
-            _report = Math.Min(_window.Size.X / 1920.0f, _window.Size.Y / 1080.0f);
+            _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
 
             _view.Viewport = new FloatRect(
-                (_window.Size.X / 2 - (1920.0f / 2) * _report) / _window.Size.X,
-                (_window.Size.Y / 2 - (1080.0f / 2) * _report) / _window.Size.Y,
-                ((_window.Size.X / 2 + (1920.0f / 2) * _report) / _window.Size.X) - ((_window.Size.X / 2 - (1920.0f / 2) * _report) / _window.Size.X),
-                ((_window.Size.Y / 2 + (1080.0f / 2) * _report) / _window.Size.Y) - ((_window.Size.Y / 2 - (1080.0f / 2) * _report) / _window.Size.Y)
+                (_window.Size.X / 2 - (_size.X / 2) * _ratio) / _window.Size.X,
+                (_window.Size.Y / 2 - (_size.Y / 2) * _ratio) / _window.Size.Y,
+                ((_window.Size.X / 2 + (_size.X / 2) * _ratio) / _window.Size.X) - ((_window.Size.X / 2 - (_size.X / 2) * _ratio) / _window.Size.X),
+                ((_window.Size.Y / 2 + (_size.Y / 2) * _ratio) / _window.Size.Y) - ((_window.Size.Y / 2 - (_size.Y / 2) * _ratio) / _window.Size.Y)
             );
 
             _window.SetView(_view);
@@ -90,14 +99,14 @@ namespace ITI.SusanooQuest.UI
             if (e.Button == Mouse.Button.Left)
             {
                 Vector posInput = new Vector(
-                    (e.X - (_window.Size.X / 2 - (1920.0f / 2) * _report)) / _report,
-                    (e.Y - (_window.Size.Y / 2 - (1080.0f / 2) * _report)) / _report
+                    (e.X - (_window.Size.X / 2 - (_size.X / 2) * _ratio)) / _ratio,
+                    (e.Y - (_window.Size.Y / 2 - (_size.Y / 2) * _ratio)) / _ratio
                 );
 
                 //Console.WriteLine($"X : {posInput.X}, Y : {posInput.Y}");
                 //Console.WriteLine($"Button :\n - X : {_buttons[2].Pos.X} - {_buttons[2].Pos.X + _buttons[2].Width}\n - Y : {_buttons[2].Pos.Y} - {_buttons[2].Pos.Y + _buttons[2].Height}");
 
-                if (_buttons[0].Selected(posInput)) _nextMenu = new GameController();
+                if (_buttons[0].Selected(posInput)) _nextMenu = new GameController(_window);
                 if (_buttons[1].Selected(posInput)) _nextMenu = new GameMulti();
                 if (_buttons[2].Selected(posInput)) _nextMenu = new OptionMenu(_window);
                 if (_buttons[3].Selected(posInput)) _nextMenu = new Credit(_window);
@@ -115,6 +124,9 @@ namespace ITI.SusanooQuest.UI
 
         public void Dispose()
         {
+            //_music.Stop();
+            //_music.Dispose();
+
             _view.Dispose();
             _bg.Texture.Dispose();
             _bg.Dispose();

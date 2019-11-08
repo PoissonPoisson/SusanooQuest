@@ -24,7 +24,7 @@ namespace ITI.SusanooQuest.UI
             _width = width;
             _height = height;
 
-            _image = new RectangleShape(new Vector2f(400, 50))
+            _image = new RectangleShape(new Vector2f(width, height))
             {
                 Texture = texture,
                 Position = new Vector2f(_pos.X, _pos.Y)
