@@ -20,7 +20,7 @@ namespace ITI.SusanooQuest.UI
         readonly Text[] _texts;
         readonly Font _font;
         readonly Vector _size;
-        //readonly Game _game;
+        readonly Game _game;
 
         #endregion
 
@@ -46,6 +46,7 @@ namespace ITI.SusanooQuest.UI
             _texts[0] = new Text($"Meilleur score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 100) };
             _texts[1] = new Text($"Score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 200) };
             _texts[2] = new Text($"Nombre de vie", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 300) };
+            _game = new Game();
         }
 
         public IController GetNextMenu
@@ -62,10 +63,10 @@ namespace ITI.SusanooQuest.UI
         {
             Vector vector = new Vector(0, 0);
             bool slow = false;
-            if (e.Code == Keyboard.Key.Left)    vector = vector.Add(-1, 0);
-            if (e.Code == Keyboard.Key.Up)      vector = vector.Add(0, -1);
-            if (e.Code == Keyboard.Key.Right)   vector = vector.Add(1, 0);
-            if (e.Code == Keyboard.Key.Down)    vector = vector.Add(0, 1);
+            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(-2, 0);
+            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(0, -2);
+            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(2, 0);
+            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(0, 2);
             if (e.Shift) slow = true ;
             if (e.Code == Keyboard.Key.W);
             if (e.Code == Keyboard.Key.X) ;
@@ -76,9 +77,12 @@ namespace ITI.SusanooQuest.UI
             if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
         }
 
-        public void KeyReleased(KeyEventArgs e)
+        void OnKeyReleased(object Sender, KeyEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.Code == Keyboard.Key.Right || e.Code == Keyboard.Key.Left || e.Code == Keyboard.Key.Up || e.Code == Keyboard.Key.Down)
+            {
+                _game.Player.EndMove();
+            }
         }
 
         public void Render()

@@ -9,11 +9,13 @@ namespace ITI.SusanooQuest.Lib
         readonly Player _player;
         readonly Random _random;
         Vector _direction;
+        Map _map;
 
         public Game()
         {
             _ennemies = new List<Ennemy>();
-            _player = new Player(new Vector(0, 0), 3, this);
+            _map = new Map(900, 1000);
+            _player = new Player(new Vector(0, 0), 3, this, _map.Width, _map.Height);
             _random = new Random();
         }
 
@@ -33,10 +35,10 @@ namespace ITI.SusanooQuest.Lib
         {
             foreach (Ennemy ennemy in _ennemies)
             {
-                ennemy.Update();
+                //ennemy.Update();
             }
 
-            //_player.Update(taille, Vector direction);
+            _player.Update();
             return _player.Life == 0;
 
 
