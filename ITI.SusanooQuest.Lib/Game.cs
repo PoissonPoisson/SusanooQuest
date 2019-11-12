@@ -15,7 +15,7 @@ namespace ITI.SusanooQuest.Lib
         {
             _ennemies = new List<Ennemy>();
             _map = new Map(900, 1000);
-            _player = new Player(new Vector(0, 0), 3, this, _map.Width, _map.Height);
+            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 3, this, _map.Width, _map.Height);
             _random = new Random();
         }
 
@@ -61,5 +61,7 @@ namespace ITI.SusanooQuest.Lib
         }
 
         public Player Player => _player;
+
+        public Map Map => _map;
     }
 }

@@ -20,6 +20,11 @@ namespace ITI.SusanooQuest.UI
                     Console.WriteLine(e);
                 };
 
+                window.KeyReleased += (s, e) =>
+                {
+                    currentMenu.KeyReleased(e);
+                };
+
                 window.MouseButtonPressed += (s, e) =>
                 {
                     currentMenu.MouseButtonPressed(e);
@@ -35,7 +40,7 @@ namespace ITI.SusanooQuest.UI
 
                     window.Clear();
 
-                    //currentMenu.Update();
+                    currentMenu.Update();
                     currentMenu.Render();
 
                     window.Display();

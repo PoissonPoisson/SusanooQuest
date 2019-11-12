@@ -21,6 +21,8 @@ namespace ITI.SusanooQuest.UI
         readonly Font _font;
         readonly Vector _size;
         readonly Game _game;
+        readonly RectangleShape _bgMap;
+        readonly CircleShape _playerTexture;
 
         #endregion
 
@@ -47,6 +49,20 @@ namespace ITI.SusanooQuest.UI
             _texts[1] = new Text($"Score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 200) };
             _texts[2] = new Text($"Nombre de vie", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 300) };
             _game = new Game();
+
+            _bgMap = new RectangleShape(new Vector2f(_game.Map.Width, _game.Map.Height))
+            {
+                Position = new Vector2f(100, 40),
+                FillColor = Color.Black
+            };
+
+            _playerTexture = new CircleShape(4) { FillColor = Color.Green };
+            _playerTexture.Position = new Vector2f(
+                _bgMap.Position.X + _game.Player.Position.X - _playerTexture.Radius,
+                _bgMap.Position.Y + _game.Player.Position.Y - _playerTexture.Radius
+            );
+
+            _window.SetFramerateLimit(60);
         }
 
         public IController GetNextMenu
@@ -56,7 +72,7 @@ namespace ITI.SusanooQuest.UI
 
         public void MouseButtonPressed(MouseButtonEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void KeyPressed(KeyEventArgs e)
@@ -72,12 +88,16 @@ namespace ITI.SusanooQuest.UI
             if (e.Code == Keyboard.Key.X) ;
             if (e.Code == Keyboard.Key.Escape) ;
 
+            _playerTexture.Position = new Vector2f(
+                _bgMap.Position.X + _game.Player.Position.X - _playerTexture.Radius,
+                _bgMap.Position.Y + _game.Player.Position.Y - _playerTexture.Radius
+            );
             //_game.AssignPlayerMotion(vector, slow);
 
             if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
         }
 
-        void OnKeyReleased(object Sender, KeyEventArgs e)
+        public void KeyReleased(KeyEventArgs e)
         {
             if (e.Code == Keyboard.Key.Right || e.Code == Keyboard.Key.Left || e.Code == Keyboard.Key.Up || e.Code == Keyboard.Key.Down)
             {
@@ -88,16 +108,30 @@ namespace ITI.SusanooQuest.UI
         public void Render()
         {
             _window.Draw(_bg);
+            _window.Draw(_bgMap);
+            _window.Draw(_playerTexture);
             foreach (Text text in _texts) _window.Draw(text);
+
+            _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
+
+            _view.Viewport = new FloatRect(
+                (_window.Size.X / 2 - (_size.X / 2) * _ratio) / _window.Size.X,
+                (_window.Size.Y / 2 - (_size.Y / 2) * _ratio) / _window.Size.Y,
+                ((_window.Size.X / 2 + (_size.X / 2) * _ratio) / _window.Size.X) - ((_window.Size.X / 2 - (_size.X / 2) * _ratio) / _window.Size.X),
+                ((_window.Size.Y / 2 + (_size.Y / 2) * _ratio) / _window.Size.Y) - ((_window.Size.Y / 2 - (_size.Y / 2) * _ratio) / _window.Size.Y)
+            );
+
+            _window.SetView(_view);
         }
 
         public void Update()
         {
-            throw new NotImplementedException();
+            _game.Update();
         }
 
         public void Dispose()
         {
+            _bgMap.Dispose();
             _bg.Texture.Dispose();
             _bg.Dispose();
             _view.Dispose();

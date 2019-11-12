@@ -20,7 +20,7 @@ namespace ITI.SusanooQuest.Lib
             _life = life;
         }
 
-        internal Vector Position
+        public Vector Position
         {
             get { return _pos; }
         }

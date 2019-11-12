@@ -71,7 +71,6 @@ namespace ITI.SusanooQuest.UI
 
         public void Update()
         {
-            throw new NotImplementedException();
         }
         
         public void Render()
@@ -107,7 +106,7 @@ namespace ITI.SusanooQuest.UI
                 //Console.WriteLine($"Button :\n - X : {_buttons[2].Pos.X} - {_buttons[2].Pos.X + _buttons[2].Width}\n - Y : {_buttons[2].Pos.Y} - {_buttons[2].Pos.Y + _buttons[2].Height}");
 
                 if (_buttons[0].Selected(posInput)) _nextMenu = new GameController(_window);
-                if (_buttons[1].Selected(posInput)) _nextMenu = new GameMulti();
+                if (_buttons[1].Selected(posInput)) ;// _nextMenu = new GameMulti();
                 if (_buttons[2].Selected(posInput)) _nextMenu = new OptionMenu(_window);
                 if (_buttons[3].Selected(posInput)) _nextMenu = new Credit(_window);
                 if (_buttons[4].Selected(posInput)) _window.Close();
@@ -120,6 +119,11 @@ namespace ITI.SusanooQuest.UI
             {
                 _window.Close();
             }
+        }
+
+        public void KeyReleased(KeyEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         public void Dispose()

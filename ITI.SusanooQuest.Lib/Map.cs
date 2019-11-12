@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ITI.SusanooQuest.Lib
 {
-    internal class Map //: IRectangleSurface
+    public class Map //: IRectangleSurface
     {
         readonly Vector _pos;
         readonly int _width;
@@ -19,17 +19,12 @@ namespace ITI.SusanooQuest.Lib
             _height = height;
         }
 
-        internal Vector Pos
-        {
-            get { return _pos; }
-        }
-
-        internal int Width
+        public int Width
         {
             get { return _width; }
         }
 
-        internal int Height
+        public int Height
         {
             get { return _height; }
         }

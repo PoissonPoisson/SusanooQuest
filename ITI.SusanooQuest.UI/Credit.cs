@@ -75,6 +75,11 @@ namespace ITI.SusanooQuest.UI
             if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
         }
 
+        public void KeyReleased(KeyEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
         public void Render()
         {
             _window.Draw(_bg, RenderStates.Default);

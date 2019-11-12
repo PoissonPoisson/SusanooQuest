@@ -14,6 +14,8 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e);
 
+        public void KeyReleased(KeyEventArgs e);
+
         public void Dispose();
     }
 }
