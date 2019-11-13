@@ -44,8 +44,8 @@ namespace ITI.SusanooQuest.Lib
 
         public void Move()
         {
-            float x = Math.Max(Math.Min(_pos.X + _deltaX, _width), 0);
-            float y = Math.Max(Math.Min(_pos.Y + _deltaY, _height), 0);
+            float x = Math.Max(Math.Min(_pos.X + _deltaX, _game.Map.Width), 0);
+            float y = Math.Max(Math.Min(_pos.Y + _deltaY, _game.Map.Height), 0);
             _pos = new Vector(x, y);
         }
         

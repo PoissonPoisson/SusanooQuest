@@ -23,6 +23,8 @@ namespace ITI.SusanooQuest.UI
         readonly Game _game;
         readonly RectangleShape _bgMap;
         readonly CircleShape _playerTexture;
+        readonly RenderTexture _drawMap;
+        readonly Sprite _spriteMap;
 
         #endregion
 
@@ -32,14 +34,20 @@ namespace ITI.SusanooQuest.UI
 
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
 
+            // general data
+
             _size = new Vector(1920, 1080);
             _window = window;
             _nextMenu = this;
+            _game = new Game();
+
+            // window and view data
+
             _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
-            _view = new View(new FloatRect(0.0f, 0.0f, _size.X, _size.Y));
+            _view = new View(new FloatRect(0f, 0f, _size.X, _size.Y));
             _bg = new RectangleShape(new Vector2f(_size.X, _size.Y))
             {
-                Position = new Vector2f(0.0f, 0.0f),
+                Position = new Vector2f(0f, 0f),
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.bg_MainMenu.png"))
             };
 
@@ -48,27 +56,39 @@ namespace ITI.SusanooQuest.UI
             _texts[0] = new Text($"Meilleur score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 100) };
             _texts[1] = new Text($"Score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 200) };
             _texts[2] = new Text($"Nombre de vie", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 300) };
-            _game = new Game();
+
+            // map data
 
             _bgMap = new RectangleShape(new Vector2f(_game.Map.Width, _game.Map.Height))
             {
-                Position = new Vector2f(100, 40),
+                Position = new Vector2f(0f, 0f),
                 FillColor = Color.Black
             };
 
             _playerTexture = new CircleShape(4) { FillColor = Color.Green };
-            _playerTexture.Position = new Vector2f(
-                _bgMap.Position.X + _game.Player.Position.X - _playerTexture.Radius,
-                _bgMap.Position.Y + _game.Player.Position.Y - _playerTexture.Radius
+            _playerTexture.Position = new Vector2f
+            (
+                _game.Player.Position.X - _playerTexture.Radius,
+                _game.Player.Position.Y - _playerTexture.Radius
             );
+
+            _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
+            _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };
+            
 
             _window.SetFramerateLimit(60);
         }
+
+        #region Properties
 
         public IController GetNextMenu
         {
             get { return _nextMenu; }
         }
+
+        #endregion
+
+        #region Methodes
 
         public void MouseButtonPressed(MouseButtonEventArgs e)
         {
@@ -79,19 +99,15 @@ namespace ITI.SusanooQuest.UI
         {
             Vector vector = new Vector(0, 0);
             bool slow = false;
-            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(-2, 0);
-            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(0, -2);
-            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(2, 0);
-            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(0, 2);
+            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(-4, 0);
+            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(0, -4);
+            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(4, 0);
+            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(0, 4);
             if (e.Shift) slow = true ;
             if (e.Code == Keyboard.Key.W);
             if (e.Code == Keyboard.Key.X) ;
             if (e.Code == Keyboard.Key.Escape) ;
 
-            _playerTexture.Position = new Vector2f(
-                _bgMap.Position.X + _game.Player.Position.X - _playerTexture.Radius,
-                _bgMap.Position.Y + _game.Player.Position.Y - _playerTexture.Radius
-            );
             //_game.AssignPlayerMotion(vector, slow);
 
             if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
@@ -108,8 +124,11 @@ namespace ITI.SusanooQuest.UI
         public void Render()
         {
             _window.Draw(_bg);
-            _window.Draw(_bgMap);
-            _window.Draw(_playerTexture);
+
+            CreateDrawMap();
+
+            _window.Draw(_spriteMap);
+            
             foreach (Text text in _texts) _window.Draw(text);
 
             _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
@@ -122,6 +141,10 @@ namespace ITI.SusanooQuest.UI
             );
 
             _window.SetView(_view);
+            
+            // en faire 2 => les states et la map
+            // créer le dessin de la map, des states et de la fenêtre globale
+            // créer une méthode qui s'occupe de desiner chaques view
         }
 
         public void Update()
@@ -137,6 +160,24 @@ namespace ITI.SusanooQuest.UI
             _view.Dispose();
             foreach (Text text in _texts) text.Dispose();
             _font.Dispose();
+            _drawMap.Dispose();
         }
+
+        void CreateDrawMap()
+        {
+            _drawMap.Clear();
+            _drawMap.Draw(_bgMap);
+
+            _playerTexture.Position = new Vector2f
+            (
+                _game.Player.Position.X - _playerTexture.Radius,
+                _game.Player.Position.Y - _playerTexture.Radius
+            );
+            _drawMap.Draw(_playerTexture);
+
+            _drawMap.Display();
+        }
+
+        #endregion
     }
 }

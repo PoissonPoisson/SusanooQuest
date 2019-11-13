@@ -1,8 +1,9 @@
 ﻿using SFML.Window;
+using System;
 
 namespace ITI.SusanooQuest.UI
 {
-    public interface IController
+    public interface IController : IDisposable
     {
         public IController GetNextMenu { get; }
 
@@ -15,7 +16,5 @@ namespace ITI.SusanooQuest.UI
         public void KeyPressed(KeyEventArgs e);
 
         public void KeyReleased(KeyEventArgs e);
-
-        public void Dispose();
     }
 }

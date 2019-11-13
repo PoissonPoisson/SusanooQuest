@@ -43,6 +43,7 @@ namespace ITI.SusanooQuest.UI
                     currentMenu.Update();
                     currentMenu.Render();
 
+                    
                     window.Display();
                 }
             }
