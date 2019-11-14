@@ -23,6 +23,7 @@ namespace ITI.SusanooQuest.UI
         readonly Game _game;
         readonly RectangleShape _bgMap;
         readonly CircleShape _playerTexture;
+        readonly RectangleShape _playerTexture2;
         readonly RenderTexture _drawMap;
         readonly Sprite _spriteMap;
 
@@ -62,7 +63,7 @@ namespace ITI.SusanooQuest.UI
             _bgMap = new RectangleShape(new Vector2f(_game.Map.Width, _game.Map.Height))
             {
                 Position = new Vector2f(0f, 0f),
-                FillColor = Color.Black
+                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.background_map.jpg"))
             };
 
             _playerTexture = new CircleShape(4) { FillColor = Color.Green };
@@ -71,6 +72,12 @@ namespace ITI.SusanooQuest.UI
                 _game.Player.Position.X - _playerTexture.Radius,
                 _game.Player.Position.Y - _playerTexture.Radius
             );
+            _playerTexture2 = new RectangleShape(new Vector2f(60, 60))
+            {
+                Position = _playerTexture.Position,
+                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png"))
+            };
+            
 
             _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
             _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };
@@ -155,6 +162,7 @@ namespace ITI.SusanooQuest.UI
 
         public void Dispose()
         {
+            _bgMap.Texture.Dispose();
             _bgMap.Dispose();
             _bg.Texture.Dispose();
             _bg.Dispose();
@@ -174,6 +182,12 @@ namespace ITI.SusanooQuest.UI
                 _game.Player.Position.X - _playerTexture.Radius,
                 _game.Player.Position.Y - _playerTexture.Radius
             );
+            _playerTexture2.Position = new Vector2f(
+                _playerTexture.Position.X - (_playerTexture2.Size.X / 2),
+                _playerTexture.Position.Y - (_playerTexture2.Size.Y / 2)
+            );
+
+            _drawMap.Draw(_playerTexture2);
             _drawMap.Draw(_playerTexture);
 
             _drawMap.Display();
