@@ -23,6 +23,7 @@ namespace ITI.SusanooQuest.UI
                 window.KeyReleased += (s, e) =>
                 {
                     currentMenu.KeyReleased(e);
+                    Console.WriteLine(e);
                 };
 
                 window.MouseButtonPressed += (s, e) =>

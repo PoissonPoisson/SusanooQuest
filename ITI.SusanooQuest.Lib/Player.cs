@@ -6,14 +6,14 @@ namespace ITI.SusanooQuest.Lib
     {
         
         ushort _bombes = 3;
-        float _deltaX;
-        float _deltaY;
+        Vector _delta;
         readonly int _width;
         readonly int _height;
 
         public Player (Vector pos, float length, Game game, int width, int height)
             : base(pos, length, game, 3)
         {
+            _delta = new Vector(0, 0);
             _width = width;
             _height = height;
         }
@@ -30,22 +30,20 @@ namespace ITI.SusanooQuest.Lib
         //    _pos = new Vector(_pos.X + x, _pos.Y + y);
         //}
 
-        public void StartMove (float x, float y)
+        public void StartMove (Vector deplacement)
         {
-            _deltaX = x;
-            _deltaY = y;
+            _delta = _delta.Add(deplacement);
         }
 
         public void EndMove()
         {
-            _deltaX = 0;
-            _deltaY = 0;
+            _delta = new Vector(0, 0);
         }
 
         public void Move()
         {
-            float x = Math.Max(Math.Min(_pos.X + _deltaX, _game.Map.Width), 0);
-            float y = Math.Max(Math.Min(_pos.Y + _deltaY, _game.Map.Height), 0);
+            float x = Math.Max(Math.Min(_pos.X + _delta.X, _game.Map.Width), 0);
+            float y = Math.Max(Math.Min(_pos.Y + _delta.Y, _game.Map.Height), 0);
             _pos = new Vector(x, y);
         }
         

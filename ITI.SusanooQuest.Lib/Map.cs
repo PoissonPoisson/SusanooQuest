@@ -6,7 +6,6 @@ namespace ITI.SusanooQuest.Lib
 {
     public class Map //: IRectangleSurface
     {
-        readonly Vector _pos;
         readonly int _width;
         readonly int _height;
 

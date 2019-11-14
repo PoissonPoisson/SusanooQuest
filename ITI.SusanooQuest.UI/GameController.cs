@@ -99,10 +99,10 @@ namespace ITI.SusanooQuest.UI
         {
             Vector vector = new Vector(0, 0);
             bool slow = false;
-            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(-4, 0);
-            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(0, -4);
-            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(4, 0);
-            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(0, 4);
+            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(new Vector(-4, 0));
+            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(new Vector(0, -4));
+            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(new Vector(4, 0));
+            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(new Vector(0, 4));
             if (e.Shift) slow = true ;
             if (e.Code == Keyboard.Key.W);
             if (e.Code == Keyboard.Key.X) ;

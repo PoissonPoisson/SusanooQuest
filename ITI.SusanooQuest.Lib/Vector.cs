@@ -21,6 +21,11 @@ namespace ITI.SusanooQuest.Lib
             return new Vector(X + x, Y + y);
         }
 
+        public Vector Add(Vector other)
+        {
+            return new Vector(X + other.X, Y + other.Y);
+        }
+
         public Vector Multiply(float n)
         {
             return new Vector(X * n, Y * n);
