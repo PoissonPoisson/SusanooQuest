@@ -30,7 +30,7 @@ namespace ITI.SusanooQuest.Lib
         //    _pos = new Vector(_pos.X + x, _pos.Y + y);
         //}
 
-        public void StartMove (Vector deplacement)
+        public void StartMove (Vector deplacement, bool slow)
         {
             float x;
             float y;
@@ -38,6 +38,12 @@ namespace ITI.SusanooQuest.Lib
             else x = 0;
             if (deplacement.Y != 0 && _delta.Y == 0) y = deplacement.Y;
             else y = 0;
+
+            if (slow)
+            {
+                x /= 2;
+                y /= 2;
+            }
 
             _delta = _delta.Add(x, y);
         }

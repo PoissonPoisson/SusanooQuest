@@ -104,19 +104,15 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e)
         {
-            Console.WriteLine(e);
-            Vector vector = new Vector(0, 0);
-            bool slow = false;
-            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(new Vector(-4, 0));
-            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(new Vector(0, -4));
-            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(new Vector(4, 0));
-            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(new Vector(0, 4));
-            if (e.Shift) slow = true ;
+            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(new Vector(-4, 0), e.Shift);
+            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(new Vector(0, -4), e.Shift);
+            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(new Vector(4, 0), e.Shift);
+            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(new Vector(0, 4), e.Shift);
             if (e.Code == Keyboard.Key.W);
             if (e.Code == Keyboard.Key.X) ;
             if (e.Code == Keyboard.Key.Escape) ;
+            
 
-            //_game.AssignPlayerMotion(vector, slow);
 
             if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
         }
