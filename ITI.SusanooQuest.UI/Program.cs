@@ -50,4 +50,5 @@ namespace ITI.SusanooQuest.UI
             }
         }
     }
+
 }

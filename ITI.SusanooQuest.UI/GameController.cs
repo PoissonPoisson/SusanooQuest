@@ -97,6 +97,7 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e)
         {
+            Console.WriteLine(e);
             Vector vector = new Vector(0, 0);
             bool slow = false;
             if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(new Vector(-4, 0));
@@ -115,10 +116,10 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyReleased(KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.Right || e.Code == Keyboard.Key.Left || e.Code == Keyboard.Key.Up || e.Code == Keyboard.Key.Down)
-            {
-                _game.Player.EndMove();
-            }
+            if (e.Code == Keyboard.Key.Left) _game.Player.EndMove(new Vector(4, 0));
+            if (e.Code == Keyboard.Key.Up) _game.Player.EndMove(new Vector(0, 4));
+            if (e.Code == Keyboard.Key.Right) _game.Player.EndMove(new Vector(-4, 0));
+            if (e.Code == Keyboard.Key.Down) _game.Player.EndMove(new Vector(0, -4));
         }
 
         public void Render()

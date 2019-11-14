@@ -32,12 +32,20 @@ namespace ITI.SusanooQuest.Lib
 
         public void StartMove (Vector deplacement)
         {
-            _delta = _delta.Add(deplacement);
+            float x;
+            float y;
+            if (deplacement.X != 0 && _delta.X == 0) x = deplacement.X;
+            else x = 0;
+            if (deplacement.Y != 0 && _delta.Y == 0) y = deplacement.Y;
+            else y = 0;
+
+            _delta = _delta.Add(x, y);
         }
 
-        public void EndMove()
+        public void EndMove(Vector vector)
         {
-            _delta = new Vector(0, 0);
+            if (vector.X != 0) _delta = _delta.Add(-_delta.X, vector.Y);
+            if (vector.Y != 0) _delta = _delta.Add(vector.X, -_delta.Y);
         }
 
         public void Move()
