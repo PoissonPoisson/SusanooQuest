@@ -8,14 +8,13 @@ namespace ITI.SusanooQuest.Lib
         readonly List<Ennemy> _ennemies;
         readonly Player _player;
         readonly Random _random;
-        Vector _direction;
         Map _map;
 
-        public Game()
+        public Game(ushort playerLife ,ushort bombes)
         {
             _ennemies = new List<Ennemy>();
             _map = new Map(900, 1000);
-            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 3, this, _map.Width, _map.Height);
+            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 5, bombes);
             _random = new Random();
         }
 
@@ -24,40 +23,25 @@ namespace ITI.SusanooQuest.Lib
             _ennemies.Remove(ennemy);
         }
 
-        public Ennemy Create_Ennemy(Vector pos, float length, Game game, ushort live)
+        public Ennemy Create_Ennemy(Vector pos, float length, Game game, ushort live, float speed)
         {
-            Ennemy ennemy = new Ennemy(pos, length, game, live);
+            Ennemy ennemy = new Ennemy(pos, length, game, live, speed);
             _ennemies.Add(ennemy);
             return ennemy;
         }
 
         public bool Update()
         {
-            foreach (Ennemy ennemy in _ennemies)
-            {
-                //ennemy.Update();
-            }
+            foreach (Ennemy ennemy in _ennemies) ennemy.Update();
 
             _player.Update();
             return _player.Life == 0;
-
-
         }
 
 
         public List<Ennemy> Ennemy
         {
             get { return _ennemies; }
-        }
-
-        public Vector PlayerDirection
-        {
-            get { return _direction; }
-            set
-            {
-                _direction = value;
-
-            }
         }
 
         public Player Player => _player;

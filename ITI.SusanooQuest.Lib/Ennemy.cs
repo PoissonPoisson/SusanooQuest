@@ -6,8 +6,8 @@ namespace ITI.SusanooQuest.Lib
 {
     public class Ennemy : Entity
     {
-        public Ennemy(Vector pos, float length, Game game, ushort live)
-            : base(pos, length, game, live)
+        public Ennemy(Vector pos, float length, Game game, ushort life, float speed)
+            : base(pos, length, game, life, speed)
         {
         }
 

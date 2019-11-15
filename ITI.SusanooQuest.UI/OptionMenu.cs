@@ -64,19 +64,9 @@ namespace ITI.SusanooQuest.UI
             _texts = new Text[1];
             _texts[0] = new Text($"Nombre de vie", _font) { CharacterSize = 60, FillColor = Color.Red, Position = new Vector2f(600, 275) };
 
-            if (File.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/SusanooQuest/data.sq"))
-            {
-                using (BinaryReader reader = new BinaryReader(File.Open($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/SusanooQuest/data.sq", FileMode.Open)))
-                {
-                    _maxLive = reader.ReadUInt16();
-                    _highScore = reader.ReadUInt32();
-                }
-            }
-            else
-            {
-                _maxLive = 3;
-                _highScore = 0;
-            }
+            Tuple<ushort, uint> data = DataManager.Reader();
+            _maxLive = data.Item1;
+            _highScore = data.Item2;
 
             _selectCircl = new CircleShape(25) { Position = _buttons[_maxLive].Image.Position, FillColor = Color.Yellow};
         }
@@ -106,7 +96,7 @@ namespace ITI.SusanooQuest.UI
 
                 if (_buttons[0].Selected(posInput))
                 {
-                    SaveData();
+                    DataManager.Writer(_maxLive, _highScore);
                     _nextMenu = new MainMenu(_window);
                 }
                 else
@@ -128,7 +118,7 @@ namespace ITI.SusanooQuest.UI
         {
             if (e.Code == Keyboard.Key.Escape)
             {
-                SaveData();
+                DataManager.Writer(_maxLive, _highScore);
                 _nextMenu = new MainMenu(_window);
             }
         }

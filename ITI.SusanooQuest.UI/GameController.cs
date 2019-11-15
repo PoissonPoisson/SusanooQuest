@@ -33,6 +33,8 @@ namespace ITI.SusanooQuest.UI
         {
             if (window == null) throw new NullReferenceException("Window is null.");
 
+            Tuple<ushort, uint> data = DataManager.Reader();
+
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
 
             // general data
@@ -40,7 +42,7 @@ namespace ITI.SusanooQuest.UI
             _size = new Vector(1920, 1080);
             _window = window;
             _nextMenu = this;
-            _game = new Game();
+            _game = new Game(data.Item1, 3);
 
             // window and view data
 
@@ -66,7 +68,7 @@ namespace ITI.SusanooQuest.UI
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.background_map.jpg"))
             };
 
-            _playerTexture = new CircleShape(4) { FillColor = Color.Green };
+            _playerTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Green };
             _playerTexture.Position = new Vector2f
             (
                 _game.Player.Position.X - _playerTexture.Radius,
@@ -104,25 +106,25 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(new Vector(-4, 0), e.Shift);
-            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(new Vector(0, -4), e.Shift);
-            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(new Vector(4, 0), e.Shift);
-            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(new Vector(0, 4), e.Shift);
+            if (e.Code == Keyboard.Key.LShift)  _game.Player.Slow = true;
+            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(new Vector(-1, 0));
+            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(new Vector(0, -1));
+            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(new Vector(1, 0));
+            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(new Vector(0, 1));
             if (e.Code == Keyboard.Key.W);
             if (e.Code == Keyboard.Key.X) ;
             if (e.Code == Keyboard.Key.Escape) ;
             
-
-
             if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
         }
 
         public void KeyReleased(KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.Left) _game.Player.EndMove(new Vector(4, 0));
-            if (e.Code == Keyboard.Key.Up) _game.Player.EndMove(new Vector(0, 4));
-            if (e.Code == Keyboard.Key.Right) _game.Player.EndMove(new Vector(-4, 0));
-            if (e.Code == Keyboard.Key.Down) _game.Player.EndMove(new Vector(0, -4));
+            if (e.Code == Keyboard.Key.LShift) _game.Player.Slow = false;
+            if (e.Code == Keyboard.Key.Left) _game.Player.EndMove(new Vector(1, 0));
+            if (e.Code == Keyboard.Key.Up) _game.Player.EndMove(new Vector(0, 1));
+            if (e.Code == Keyboard.Key.Right) _game.Player.EndMove(new Vector(-1, 0));
+            if (e.Code == Keyboard.Key.Down) _game.Player.EndMove(new Vector(0, -1));
         }
 
         public void Render()
