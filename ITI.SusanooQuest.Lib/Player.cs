@@ -8,6 +8,7 @@ namespace ITI.SusanooQuest.Lib
         ushort _bombes = 3;
         Vector _delta;
         bool _slow;
+        bool _onShoot;
 
         public Player (Vector pos, float length, Game game, ushort life, float speed, ushort bombes)
             : base(pos, length, game, life,  speed)
@@ -15,6 +16,7 @@ namespace ITI.SusanooQuest.Lib
             _delta = new Vector(0, 0);
             _slow = false;
             _bombes = bombes;
+            _onShoot = false; 
         }
 
         internal override void Update()
@@ -81,6 +83,21 @@ namespace ITI.SusanooQuest.Lib
         {
             get { return _slow; }
             set { _slow = value; }
+        }
+
+        public void StartShoot()
+        {
+            _onShoot = true;            
+            Console.WriteLine("je tire");
+        }
+
+        internal bool OnShoot => _onShoot;
+
+
+        public void EndShoot()
+        {
+            _onShoot = false;
+            Console.WriteLine("je ne tire plus");
         }
     }
 }
