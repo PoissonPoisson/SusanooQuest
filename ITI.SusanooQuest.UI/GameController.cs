@@ -112,7 +112,7 @@ namespace ITI.SusanooQuest.UI
             if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(new Vector(1, 0));
             if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(new Vector(0, 1));
             if (e.Code == Keyboard.Key.W)       _game.Player.StartShoot();
-            if (e.Code == Keyboard.Key.X) ;
+            if (e.Code == Keyboard.Key.X)       _game.OnClearProjectil();
             if (e.Code == Keyboard.Key.Escape) ;
             
             if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
@@ -126,6 +126,7 @@ namespace ITI.SusanooQuest.UI
             if (e.Code == Keyboard.Key.Right) _game.Player.EndMove(new Vector(-1, 0));
             if (e.Code == Keyboard.Key.Down) _game.Player.EndMove(new Vector(0, -1));
             if (e.Code == Keyboard.Key.W) _game.Player.EndShoot();
+            if (e.Code == Keyboard.Key.X) _game.EndClearProjectil();
         }
 
         public void Render()
