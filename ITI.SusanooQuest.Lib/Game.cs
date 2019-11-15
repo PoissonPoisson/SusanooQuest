@@ -6,6 +6,7 @@ namespace ITI.SusanooQuest.Lib
     public class Game
     {
         readonly List<Ennemy> _ennemies;
+        readonly List<IProjectile> _projectiles;
         readonly Player _player;
         readonly Random _random;
         Map _map;
@@ -19,6 +20,7 @@ namespace ITI.SusanooQuest.Lib
             _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 5, bombes);
             _random = new Random();
             _highScore = highScore;
+            _projectiles = new List<IProjectile>();
         }
 
         internal void OnKill(Ennemy ennemy)
@@ -40,12 +42,23 @@ namespace ITI.SusanooQuest.Lib
             _player.Update();
             return _player.Life == 0;
         }
+        public void OnClearProjectil()
+        {
+            _projectiles.Clear();
+            _player.Bombes--;
+            Console.WriteLine("BOOOOOOOOOM!");
+        }
+        public void EndClearProjectil()
+        {
+            Console.WriteLine("a plus de projectiles");
+        }
 
 
         public List<Ennemy> Ennemy
         {
             get { return _ennemies; }
         }
+
 
         public Player Player => _player;
 
