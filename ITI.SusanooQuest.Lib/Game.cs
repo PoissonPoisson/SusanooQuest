@@ -9,13 +9,16 @@ namespace ITI.SusanooQuest.Lib
         readonly Player _player;
         readonly Random _random;
         Map _map;
+        uint _highScore;
+        uint _score;
 
-        public Game(ushort playerLife ,ushort bombes)
+        public Game(ushort playerLife ,ushort bombes, uint highScore)
         {
             _ennemies = new List<Ennemy>();
             _map = new Map(900, 1000);
             _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 5, bombes);
             _random = new Random();
+            _highScore = highScore;
         }
 
         internal void OnKill(Ennemy ennemy)
@@ -47,5 +50,9 @@ namespace ITI.SusanooQuest.Lib
         public Player Player => _player;
 
         public Map Map => _map;
+
+        public uint HighScore => _highScore;
+
+        public uint Score => _score;
     }
 }

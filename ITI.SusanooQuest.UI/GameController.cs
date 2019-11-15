@@ -22,10 +22,13 @@ namespace ITI.SusanooQuest.UI
         readonly Vector _size;
         readonly Game _game;
         readonly RectangleShape _bgMap;
-        readonly CircleShape _playerTexture;
+        readonly CircleShape _playerHitboxTexture;
         readonly RectangleShape _playerTexture2;
         readonly RenderTexture _drawMap;
         readonly Sprite _spriteMap;
+        readonly RenderTexture _drawStats;
+        readonly Sprite _spriteStates;
+        readonly RectangleShape _bgStates;
 
         #endregion
 
@@ -42,7 +45,7 @@ namespace ITI.SusanooQuest.UI
             _size = new Vector(1920, 1080);
             _window = window;
             _nextMenu = this;
-            _game = new Game(data.Item1, 3);
+            _game = new Game(data.Item1, 3, data.Item2);
 
             // window and view data
 
@@ -54,11 +57,24 @@ namespace ITI.SusanooQuest.UI
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.bg_MainMenu.png"))
             };
 
+            // states data
+
+            _drawStats = new RenderTexture(800, 600);
+            _spriteStates = new Sprite(_drawStats.Texture) { Position = new Vector2f(1010, 40) };
+            _bgStates = new RectangleShape(new Vector2f(800, 600))
+            {
+                Position = new Vector2f(0, 0),
+                FillColor = Color.Black
+            };
+            
             _font = new Font(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.THBiolinum.ttf"));
-            _texts = new Text[3];
-            _texts[0] = new Text($"Meilleur score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 100) };
-            _texts[1] = new Text($"Score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 200) };
-            _texts[2] = new Text($"Nombre de vie", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(1100, 300) };
+            _texts = new Text[6];
+            _texts[0] = new Text("Meilleur score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(0, 0) };
+            _texts[1] = new Text("Score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(0, 100) };
+            _texts[2] = new Text("Nombre de vie", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(0, 200) };
+            _texts[3] = new Text("Nombre de bombes", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(0, 300) };
+            _texts[4] = new Text((_game.HighScore).ToString(), _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(_drawStats.Size.X / 2, 0) };
+            _texts[5] = new Text(_game.Score.ToString(), _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(_drawStats.Size.X / 2, 100) };
 
             // map data
 
@@ -68,15 +84,15 @@ namespace ITI.SusanooQuest.UI
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.background_map.jpg"))
             };
 
-            _playerTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Green };
-            _playerTexture.Position = new Vector2f
+            _playerHitboxTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Green };
+            _playerHitboxTexture.Position = new Vector2f
             (
-                _game.Player.Position.X - _playerTexture.Radius,
-                _game.Player.Position.Y - _playerTexture.Radius
+                _game.Player.Position.X - _playerHitboxTexture.Radius,
+                _game.Player.Position.Y - _playerHitboxTexture.Radius
             );
             _playerTexture2 = new RectangleShape(new Vector2f(60, 60))
             {
-                Position = _playerTexture.Position,
+                Position = _playerHitboxTexture.Position,
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png"))
             };
             
@@ -132,10 +148,10 @@ namespace ITI.SusanooQuest.UI
             _window.Draw(_bg);
 
             CreateDrawMap();
-
             _window.Draw(_spriteMap);
-            
-            foreach (Text text in _texts) _window.Draw(text);
+
+            CreateDrawStates();
+            _window.Draw(_spriteStates);
 
             _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
 
@@ -168,6 +184,8 @@ namespace ITI.SusanooQuest.UI
             foreach (Text text in _texts) text.Dispose();
             _font.Dispose();
             _drawMap.Dispose();
+            _bgStates.Dispose();
+            _drawStats.Dispose();
         }
 
         void CreateDrawMap()
@@ -175,20 +193,30 @@ namespace ITI.SusanooQuest.UI
             _drawMap.Clear();
             _drawMap.Draw(_bgMap);
 
-            _playerTexture.Position = new Vector2f
+            _playerHitboxTexture.Position = new Vector2f
             (
-                _game.Player.Position.X - _playerTexture.Radius,
-                _game.Player.Position.Y - _playerTexture.Radius
+                _game.Player.Position.X - _playerHitboxTexture.Radius,
+                _game.Player.Position.Y - _playerHitboxTexture.Radius
             );
             _playerTexture2.Position = new Vector2f(
-                _playerTexture.Position.X - (_playerTexture2.Size.X / 2),
-                _playerTexture.Position.Y - (_playerTexture2.Size.Y / 2)
+                _playerHitboxTexture.Position.X - (_playerTexture2.Size.X / 2),
+                _playerHitboxTexture.Position.Y - (_playerTexture2.Size.Y / 2)
             );
 
             _drawMap.Draw(_playerTexture2);
-            _drawMap.Draw(_playerTexture);
+            _drawMap.Draw(_playerHitboxTexture);
 
             _drawMap.Display();
+        }
+
+        void CreateDrawStates()
+        {
+            _drawStats.Clear();
+            _drawStats.Draw(_bgStates);
+
+            foreach (Text text in _texts) _drawStats.Draw(text);
+
+            _drawStats.Display();
         }
 
         #endregion
