@@ -17,7 +17,7 @@ namespace ITI.SusanooQuest.UI
         float _ratio;
         readonly RectangleShape _bg;
         IController _nextMenu;
-        readonly Text[] _texts;
+        readonly Dictionary<string, Text> _texts;
         readonly Font _font;
         readonly Vector _size;
         readonly Game _game;
@@ -68,13 +68,17 @@ namespace ITI.SusanooQuest.UI
             };
             
             _font = new Font(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.THBiolinum.ttf"));
-            _texts = new Text[6];
-            _texts[0] = new Text("Meilleur score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(0, 0) };
-            _texts[1] = new Text("Score", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(0, 100) };
-            _texts[2] = new Text("Nombre de vie", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(0, 200) };
-            _texts[3] = new Text("Nombre de bombes", _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(0, 300) };
-            _texts[4] = new Text((_game.HighScore).ToString(), _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(_drawStats.Size.X / 2, 0) };
-            _texts[5] = new Text(_game.Score.ToString(), _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(_drawStats.Size.X / 2, 100) };
+            _texts = new Dictionary<string, Text>
+            {
+                { "MsgHighScore", new Text("Meilleur score", _font)                   { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(20, 0) } },
+                { "MsgScore",     new Text("Score", _font)                            { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(20, 100) } },
+                { "MsgNbLifes",   new Text("Nombre de vie", _font)                    { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(20, 200) } },
+                { "MsgNbBombs",   new Text("Nombre de bombes", _font)                 { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(20, 300) } },
+                { "HichScore",    new Text(ScoreToString(_game.HighScore, 10), _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(400, 0) } },
+                { "Score",        new Text(ScoreToString(_game.Score, 10), _font)     { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(400, 100) } },
+                { "Life",         new Text(_game.Player.Life.ToString(), _font)       { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(400, 200) } },
+                { "Bombs",        new Text(_game.Bombes.ToString(), _font)            { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(400, 300) } }
+            }; new Text(_game.Score.ToString(), _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(_drawStats.Size.X / 2, 100) };
 
             // map data
 
@@ -122,27 +126,68 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.LShift)  _game.Player.Slow = true;
-            if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(new Vector(-1, 0));
-            if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(new Vector(0, -1));
-            if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(new Vector(1, 0));
-            if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(new Vector(0, 1));
-            if (e.Code == Keyboard.Key.W)       _game.Player.StartShoot();
-            if (e.Code == Keyboard.Key.X)       _game.OnClearProjectil();
-            if (e.Code == Keyboard.Key.Escape) ;
-            
-            if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
+            switch(e.Code)
+            {
+                case Keyboard.Key.LShift:
+                    _game.Player.Slow = true;
+                    break;
+                case Keyboard.Key.Left:
+                    _game.Player.Deplacment["Right"] = false;
+                    _game.Player.Deplacment["Left"] = true;
+                    break;
+                case Keyboard.Key.Up:
+                    _game.Player.Deplacment["Down"] = false;
+                    _game.Player.Deplacment["Up"] = true;
+                    break;
+                case Keyboard.Key.Right:
+                    _game.Player.Deplacment["Left"] = false;
+                    _game.Player.Deplacment["Right"] = true;
+                    break;
+                case Keyboard.Key.Down:
+                    _game.Player.Deplacment["Up"] = false;
+                    _game.Player.Deplacment["Down"] = true;
+                    break;
+                case Keyboard.Key.W:
+                    _game.Player.StartShoot();
+                    break;
+                case Keyboard.Key.X:
+                    if (_game.Bombes > 0)
+                    {
+                        _game.OnClearProjectil();
+                        UpdateBomb();
+                    }
+                    break;
+                case Keyboard.Key.Escape:
+                    _nextMenu = new MainMenu(_window);
+                    break;
+            }
         }
 
         public void KeyReleased(KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.LShift) _game.Player.Slow = false;
-            if (e.Code == Keyboard.Key.Left) _game.Player.EndMove(new Vector(1, 0));
-            if (e.Code == Keyboard.Key.Up) _game.Player.EndMove(new Vector(0, 1));
-            if (e.Code == Keyboard.Key.Right) _game.Player.EndMove(new Vector(-1, 0));
-            if (e.Code == Keyboard.Key.Down) _game.Player.EndMove(new Vector(0, -1));
-            if (e.Code == Keyboard.Key.W) _game.Player.EndShoot();
-            if (e.Code == Keyboard.Key.X) _game.EndClearProjectil();
+            switch (e.Code)
+            {
+                case Keyboard.Key.LShift:
+                    _game.Player.Slow = false;
+                    break;
+                case Keyboard.Key.Left:
+                    _game.Player.Deplacment["Left"] = false;
+                    break;
+                case Keyboard.Key.Up:
+                    _game.Player.Deplacment["Up"] = false;
+                    break;
+                case Keyboard.Key.Right:
+                    _game.Player.Deplacment["Right"] = false;
+                    break;
+                case Keyboard.Key.Down:
+                    _game.Player.Deplacment["Down"] = false;
+                    break;
+                case Keyboard.Key.W:
+                    _game.Player.StartShoot();
+                    break;
+                case Keyboard.Key.X:
+                    break;
+            }
         }
 
         public void Render()
@@ -165,10 +210,6 @@ namespace ITI.SusanooQuest.UI
             );
 
             _window.SetView(_view);
-            
-            // en faire 2 => les states et la map
-            // créer le dessin de la map, des states et de la fenêtre globale
-            // créer une méthode qui s'occupe de desiner chaques view
         }
 
         public void Update()
@@ -183,7 +224,7 @@ namespace ITI.SusanooQuest.UI
             _bg.Texture.Dispose();
             _bg.Dispose();
             _view.Dispose();
-            foreach (Text text in _texts) text.Dispose();
+            foreach (Text text in _texts.Values) text.Dispose();
             _font.Dispose();
             _drawMap.Dispose();
             _bgStates.Dispose();
@@ -216,9 +257,29 @@ namespace ITI.SusanooQuest.UI
             _drawStats.Clear();
             _drawStats.Draw(_bgStates);
 
-            foreach (Text text in _texts) _drawStats.Draw(text);
+            foreach (Text text in _texts.Values) _drawStats.Draw(text);
 
             _drawStats.Display();
+        }
+
+        string ScoreToString(uint score, ushort length)
+        {
+            string strScore = score.ToString();
+            ushort i = 0;
+            string msg = "";
+            while (i < Math.Max(length, strScore.Length))
+            {
+                if (i < strScore.Length) msg = $"{strScore.Substring(strScore.Length - 1 - i, 1)}{msg}";
+                else msg = $"0{msg}";
+                i++;
+                if (i % 3 == 0) msg = $",{msg}";
+            }
+            return msg;
+        }
+
+        void UpdateBomb()
+        {
+            _texts["Bombs"].DisplayedString = _game.Bombes.ToString();
         }
 
         #endregion
