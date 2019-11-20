@@ -153,14 +153,6 @@ namespace ITI.SusanooQuest.UI
                     _nextMenu = new MainMenu(_window);
                     break;
             }
-            //if (e.Code == Keyboard.Key.LShift)  
-            //if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(new Vector(-1, 0));
-            //if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(new Vector(0, -1));
-            //if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(new Vector(1, 0));
-            //if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(new Vector(0, 1));
-            //if (e.Code == Keyboard.Key.W)       _game.Player.StartShoot();
-            //if (e.Code == Keyboard.Key.X)       _game.OnClearProjectil();
-            //if (e.Code == Keyboard.Key.Escape)  _nextMenu = new MainMenu(_window);
         }
 
         public void KeyReleased(KeyEventArgs e)
@@ -188,13 +180,6 @@ namespace ITI.SusanooQuest.UI
                 case Keyboard.Key.X:
                     break;
             }
-            //if (e.Code == Keyboard.Key.LShift) _game.Player.Slow = false;
-            //if (e.Code == Keyboard.Key.Left) _game.Player.EndMove(new Vector(1, 0));
-            //if (e.Code == Keyboard.Key.Up) _game.Player.EndMove(new Vector(0, 1));
-            //if (e.Code == Keyboard.Key.Right) _game.Player.EndMove(new Vector(-1, 0));
-            //if (e.Code == Keyboard.Key.Down) _game.Player.EndMove(new Vector(0, -1));
-            //if (e.Code == Keyboard.Key.W) _game.Player.EndShoot();
-            //if (e.Code == Keyboard.Key.X) _game.EndClearProjectil();
         }
 
         public void Render()
@@ -217,10 +202,6 @@ namespace ITI.SusanooQuest.UI
             );
 
             _window.SetView(_view);
-            
-            // en faire 2 => les states et la map
-            // créer le dessin de la map, des states et de la fenêtre globale
-            // créer une méthode qui s'occupe de desiner chaques view
         }
 
         public void Update()
