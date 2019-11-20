@@ -153,6 +153,14 @@ namespace ITI.SusanooQuest.UI
                     _nextMenu = new MainMenu(_window);
                     break;
             }
+            //if (e.Code == Keyboard.Key.LShift)  
+            //if (e.Code == Keyboard.Key.Left)    _game.Player.StartMove(new Vector(-1, 0));
+            //if (e.Code == Keyboard.Key.Up)      _game.Player.StartMove(new Vector(0, -1));
+            //if (e.Code == Keyboard.Key.Right)   _game.Player.StartMove(new Vector(1, 0));
+            //if (e.Code == Keyboard.Key.Down)    _game.Player.StartMove(new Vector(0, 1));
+            //if (e.Code == Keyboard.Key.W)       _game.Player.StartShoot();
+            //if (e.Code == Keyboard.Key.X)       _game.OnClearProjectil();
+            //if (e.Code == Keyboard.Key.Escape)  _nextMenu = new MainMenu(_window);
         }
 
         public void KeyReleased(KeyEventArgs e)

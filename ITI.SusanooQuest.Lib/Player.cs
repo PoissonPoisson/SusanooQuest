@@ -16,6 +16,10 @@ namespace ITI.SusanooQuest.Lib
         public Player (Vector pos, float length, Game game, ushort life, float speed)
             : base(pos, length, game, life,  speed)
         {
+<<<<<<< HEAD
+=======
+            //_delta = new Vector(0, 0);
+>>>>>>> 26b2f1c... nique ta mère
             _slow = false;
             _onShoot = false;
             _deplacement = new Dictionary<string, bool>
@@ -25,6 +29,11 @@ namespace ITI.SusanooQuest.Lib
                 { "Right", false },
                 { "Down" , false }
             };
+<<<<<<< HEAD
+        }
+
+        #region Properties
+=======
         }
 
         #region Properties
@@ -43,6 +52,33 @@ namespace ITI.SusanooQuest.Lib
 
         public Dictionary<string, bool> Deplacment => _deplacement;
 
+        //public Vector Delta => _delta;
+
+        #endregion
+
+        #region Methodes
+
+        internal override void Update()
+        {
+            Move();
+        }
+>>>>>>> 26b2f1c... nique ta mère
+
+        internal int Life => _life;
+
+        public float Length => _length;
+
+        public bool Slow
+        {
+            get { return _slow; }
+            set { _slow = value; }
+        }
+
+<<<<<<< HEAD
+        internal bool OnShoot => _onShoot;
+
+        public Dictionary<string, bool> Deplacment => _deplacement;
+
         #endregion
 
         #region Methodes
@@ -56,6 +92,25 @@ namespace ITI.SusanooQuest.Lib
         {
             throw new NotImplementedException();
         }
+=======
+        //public void StartMove (Vector deplacement)
+        //{
+        //    float x;
+        //    float y;
+        //    if (deplacement.X != 0 && _delta.X == 0) x = deplacement.X;
+        //    else x = 0;
+        //    if (deplacement.Y != 0 && _delta.Y == 0) y = deplacement.Y;
+        //    else y = 0;
+
+        //    _delta = _delta.Add(x * _speed, y * _speed);
+        //}
+
+        //public void EndMove(Vector direction)
+        //{
+        //    if (direction.X != 0) _delta = _delta.Add(-_delta.X, direction.Y);
+        //    if (direction.Y != 0) _delta = _delta.Add(direction.X, -_delta.Y);
+        //}
+>>>>>>> 26b2f1c... nique ta mère
 
         public void Move()
         {
@@ -69,6 +124,16 @@ namespace ITI.SusanooQuest.Lib
                 x = (float)Math.Cos(Math.Atan2(y, x));
                 y = (float)Math.Sin(Math.Atan2(y, x));
             }
+
+            //float movSpeedPerMs = 1;
+            //float x = _delta.X;
+            //float y = _delta.Y;
+
+            //if (Math.Sqrt(x * x + y * y) > 1)
+            //{
+            //    x = (float)Math.Cos(Math.Atan2(y, x));
+            //    y = (float)Math.Sin(Math.Atan2(y, x));
+            //}
 
             x = _pos.X + ((_slow) ? x * (_speed / 2) : x * _speed);
             if (x - _length < 0) x = 0 + _length;
