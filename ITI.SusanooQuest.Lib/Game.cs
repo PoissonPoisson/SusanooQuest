@@ -26,11 +26,7 @@ namespace ITI.SusanooQuest.Lib
             _random = new Random();
             _highScore = highScore;
             _projectiles = new List<IProjectile>();
-<<<<<<< HEAD
-
-=======
             _bombes = bombes;
->>>>>>> 1ef116a... newMvmt
         }
 
         #region Methodes
@@ -79,20 +75,16 @@ namespace ITI.SusanooQuest.Lib
 
         public Map Map => _map;
 
-<<<<<<< HEAD
         public uint HighScore => _highScore;
 
         public uint Score => _score;
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 1141896... create IProjectile ,  create bomb controll (OnClearProjectil , EndClearProjectil)
-=======
+
+        create IProjectile ,  create bomb controll (OnClearProjectil , EndClearProjectil)
 
         public ushort Bombes => _bombes;
 
         #endregion
->>>>>>> 1ef116a... newMvmt
     }
 }
