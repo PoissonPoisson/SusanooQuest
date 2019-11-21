@@ -10,6 +10,7 @@ namespace ITI.SusanooQuest.Lib
         bool _slow;
         bool _onShoot;
         readonly Dictionary<string, bool> _deplacement;
+        
 
         #endregion
 
@@ -25,6 +26,7 @@ namespace ITI.SusanooQuest.Lib
                 { "Right", false },
                 { "Down" , false }
             };
+            _strength = 10;
         }
 
         #region Properties
@@ -40,6 +42,8 @@ namespace ITI.SusanooQuest.Lib
         internal bool OnShoot => _onShoot;
 
         public Dictionary<string, bool> Deplacment => _deplacement;
+
+        
 
         #endregion
 

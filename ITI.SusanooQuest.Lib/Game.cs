@@ -25,12 +25,12 @@ namespace ITI.SusanooQuest.Lib
             _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 5);
             _random = new Random();
             _highScore = highScore;
-            _projectiles = new List<IProjectile>();
+            _projectiles = new List<Projectile>();
             _bombes = bombes;
             _score = 0;
         }
 
-        #region Methodes
+        
 
         internal void OnKill(Ennemy ennemy)
         {
@@ -63,7 +63,7 @@ namespace ITI.SusanooQuest.Lib
             Console.WriteLine("a plus de projectiles");
         }
 
-        #endregion
+        
 
         #region Properties
 
