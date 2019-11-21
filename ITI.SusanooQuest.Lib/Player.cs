@@ -29,8 +29,6 @@ namespace ITI.SusanooQuest.Lib
 
         #region Properties
 
-        
-
         public bool Slow
         {
             get { return _slow; }
@@ -42,8 +40,6 @@ namespace ITI.SusanooQuest.Lib
         public Dictionary<string, bool> Deplacment => _deplacement;
 
         #endregion
-
-        
 
         #region Methodes
 

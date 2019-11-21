@@ -59,9 +59,9 @@ namespace ITI.SusanooQuest.UI
 
             // states data
 
-            _drawStats = new RenderTexture(800, 600);
-            _spriteStates = new Sprite(_drawStats.Texture) { Position = new Vector2f(1010, 40) };
-            _bgStates = new RectangleShape(new Vector2f(800, 600))
+            _drawStats = new RenderTexture(720, 600);
+            _spriteStates = new Sprite(_drawStats.Texture) { Position = new Vector2f(1100, 40) };
+            _bgStates = new RectangleShape(new Vector2f(720, 600))
             {
                 Position = new Vector2f(0, 0),
                 FillColor = Color.Black

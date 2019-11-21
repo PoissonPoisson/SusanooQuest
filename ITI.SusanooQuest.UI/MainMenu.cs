@@ -102,9 +102,6 @@ namespace ITI.SusanooQuest.UI
                     (e.Y - (_window.Size.Y / 2 - (_size.Y / 2) * _ratio)) / _ratio
                 );
 
-                //Console.WriteLine($"X : {posInput.X}, Y : {posInput.Y}");
-                //Console.WriteLine($"Button :\n - X : {_buttons[2].Pos.X} - {_buttons[2].Pos.X + _buttons[2].Width}\n - Y : {_buttons[2].Pos.Y} - {_buttons[2].Pos.Y + _buttons[2].Height}");
-
                 if (_buttons[0].Selected(posInput)) _nextMenu = new GameController(_window);
                 if (_buttons[1].Selected(posInput)) ;// _nextMenu = new GameMulti();
                 if (_buttons[2].Selected(posInput)) _nextMenu = new OptionMenu(_window);
