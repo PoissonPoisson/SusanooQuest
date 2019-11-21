@@ -25,37 +25,18 @@ namespace ITI.SusanooQuest.Lib
                 { "Right", false },
                 { "Down" , false }
             };
-        #region Properties
-
-        internal int Life => _life;
-
-        public float Length => _length;
-
-        public bool Slow
-        {
-            get { return _slow; }
-            set { _slow = value; }
-        }
-
-        internal bool OnShoot => _onShoot;
-
-        public Dictionary<string, bool> Deplacment => _deplacement;
-
-        #endregion
-
-        #region Methodes
-
-            {
-                { "Left" , false },
-                { "Up"   , false },
-                { "Right", false },
-                { "Down" , false }
-            };
+<<<<<<< HEAD
         }
 
         #region Properties
 
         public int Life => _life;
+=======
+        }
+
+        #region Properties
+
+        internal int Life => _life;
 
         public float Length => _length;
 
@@ -78,10 +59,39 @@ namespace ITI.SusanooQuest.Lib
             Move();
         }
 
+        internal int Life => _life;
+>>>>>>> 22cd7aae37d7eca6327e4d12d9784fd9ccb18a3b
+
+        public float Length => _length;
+
+        public bool Slow
+        {
+            get { return _slow; }
+            set { _slow = value; }
+        }
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> 22cd7aae37d7eca6327e4d12d9784fd9ccb18a3b
+        internal bool OnShoot => _onShoot;
+
+        public Dictionary<string, bool> Deplacment => _deplacement;
+
+        #endregion
+
+        #region Methodes
+
+        internal override void Update()
+        {
+            Move();
+        }
+
         protected override void Kill()
         {
             throw new NotImplementedException();
         }
+
 
         public void Move()
         {
