@@ -13,8 +13,8 @@ namespace ITI.SusanooQuest.Lib
 
         #endregion
 
-        public Player (Vector pos, float length, Game game, ushort life, float speed)
-            : base(pos, length, game, life,  speed)
+        public Player(Vector pos, float length, Game game, ushort life, float speed)
+            : base(pos, length, game, life, speed)
         {
             _slow = false;
             _onShoot = false;
@@ -25,11 +25,11 @@ namespace ITI.SusanooQuest.Lib
                 { "Right", false },
                 { "Down" , false }
             };
+        }
+
         #region Properties
 
-        internal int Life => _life;
-
-        public float Length => _length;
+        
 
         public bool Slow
         {
@@ -43,33 +43,7 @@ namespace ITI.SusanooQuest.Lib
 
         #endregion
 
-        #region Methodes
-
-            {
-                { "Left" , false },
-                { "Up"   , false },
-                { "Right", false },
-                { "Down" , false }
-            };
-        }
-
-        #region Properties
-
-        public int Life => _life;
-
-        public float Length => _length;
-
-        public bool Slow
-        {
-            get { return _slow; }
-            set { _slow = value; }
-        }
-
-        internal bool OnShoot => _onShoot;
-
-        public Dictionary<string, bool> Deplacment => _deplacement;
-
-        #endregion
+        
 
         #region Methodes
 

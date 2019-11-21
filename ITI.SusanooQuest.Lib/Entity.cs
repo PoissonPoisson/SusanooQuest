@@ -6,11 +6,15 @@ namespace ITI.SusanooQuest.Lib
 {
     public abstract class Entity
     {
+        #region Fields
+
         protected readonly float _length;
         protected Game _game;
         protected float _speed;
         protected ushort _life;
         protected Vector _pos;
+
+        #endregion
 
         protected Entity(Vector pos, float length, Game game, ushort life, float speed)
         {
@@ -25,14 +29,22 @@ namespace ITI.SusanooQuest.Lib
             _speed = speed;
         }
 
-        public Vector Position
-        {
-            get { return _pos; }
-        }
+        #region Properties
+
+        public Vector Position => _pos;
+
+        public int Life => _life;
+
+        public float Length => _length;
+
+        #endregion
+
+        #region Methodes
 
         internal abstract void Update();
 
         protected abstract void Kill();
 
+        #endregion
     }
 }

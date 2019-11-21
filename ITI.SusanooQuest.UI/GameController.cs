@@ -110,10 +110,7 @@ namespace ITI.SusanooQuest.UI
 
         #region Properties
 
-        public IController GetNextMenu
-        {
-            get { return _nextMenu; }
-        }
+        public IController GetNextMenu => _nextMenu;
 
         #endregion
 
