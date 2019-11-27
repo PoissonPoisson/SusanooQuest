@@ -12,6 +12,8 @@ namespace ITI.SusanooQuest.UI
             {
                 IController currentMenu = new MainMenu(window);
 
+                // ===== Init SFML's events =====
+
                 window.Closed += (s, e) => window.Close();
 
                 window.KeyPressed += (s, e) =>
@@ -31,7 +33,10 @@ namespace ITI.SusanooQuest.UI
                     currentMenu.MouseButtonPressed(e);
                     Console.WriteLine(e);
                 };
+
+                // =====
                 
+                // game loop
                 while(window.IsOpen)
                 {
                     window.DispatchEvents();
