@@ -13,7 +13,7 @@ namespace ITI.SusanooQuest.Lib
         protected float _speed;
         protected ushort _life;
         protected Vector _pos;
-        ushort _strength;
+        protected ushort _strength;
 
         #endregion
 

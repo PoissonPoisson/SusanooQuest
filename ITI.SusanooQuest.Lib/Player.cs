@@ -29,10 +29,6 @@ namespace ITI.SusanooQuest.Lib
             _strength = 10;
         }
 
-        #region Properties
-
-        
-
         public bool Slow
         {
             get { return _slow; }
@@ -42,14 +38,6 @@ namespace ITI.SusanooQuest.Lib
         internal bool OnShoot => _onShoot;
 
         public Dictionary<string, bool> Deplacment => _deplacement;
-
-        
-
-        #endregion
-
-        
-
-        #region Methodes
 
         internal override void Update()
         {
@@ -88,15 +76,13 @@ namespace ITI.SusanooQuest.Lib
         public void StartShoot()
         {
             _onShoot = true;            
-            Console.WriteLine("je tire");
+            //Console.WriteLine("je tire");
         }
 
         public void EndShoot()
         {
             _onShoot = false;
-            Console.WriteLine("je ne tire plus");
+            //Console.WriteLine("je ne tire plus");
         }
-
-        #endregion
     }
 }
