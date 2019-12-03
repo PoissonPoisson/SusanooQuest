@@ -10,22 +10,24 @@ namespace ITI.SusanooQuest.Lib
     }
     public class Projectile
     {
-        Vector _origin;
-        Vector _pos;
-        double _speed;
-        Entity _shooter;
-        float _length;
-        int _damage;
-        string _tag;
         IMovement _movement;
+        Vector _pos;
+        readonly Vector _origin;
+        readonly Entity _shooter;
+        readonly double _speed;
+        readonly float _length;
+        readonly int _damage;
+        readonly string _tag;
+        
 
-        internal Projectile(double speed, int damage, Vector origin, string tag)
+        internal Projectile(double speed, int damage, Vector origin, Entity shooter, string tag)
         {
             _origin = origin;
             _pos = new Vector(0, 0);
             _speed = speed;
             _damage = damage;
             _tag = tag;
+            _shooter = shooter;
         }
 
         internal void Update()
@@ -46,6 +48,8 @@ namespace ITI.SusanooQuest.Lib
             get { return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y); }
         }
         public string Tag => _tag;
+
+        public Entity Shooter => _shooter;
     }
 
     public class Y : IMovement

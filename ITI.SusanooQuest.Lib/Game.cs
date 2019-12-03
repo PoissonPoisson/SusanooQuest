@@ -53,7 +53,7 @@ namespace ITI.SusanooQuest.Lib
             foreach (Ennemy ennemy in _ennemies) ennemy.Update();
             if (_player.OnShoot)
             {
-                CreateProjectile(3, _player.Strength, _player.Position, "CosY");
+                CreateProjectile(5, _player.Strength, new Vector(_player.Position.X + _player.Length, _player.Position.Y + _player.Length), _player, "Y");
                 _compteur++;
                 Console.WriteLine(_compteur);
             }
@@ -73,9 +73,9 @@ namespace ITI.SusanooQuest.Lib
             return _player.Life == 0;
         }
 
-        private void CreateProjectile(double speed, int damage, Vector origin, string type)
+        private void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
         {
-            Projectile projec = new Projectile(speed, damage, origin, type);
+            Projectile projec = new Projectile(speed, damage, origin, shooter, type);
 
             switch (type)
             {
@@ -92,7 +92,8 @@ namespace ITI.SusanooQuest.Lib
 
         public void OnClearProjectil()
         {
-            _projectiles.Clear();
+            for (int i = _projectiles.Count-1; i >= 0; i--) if (_projectiles[i].Shooter != _player) _projectiles.Remove(_projectiles[i]);
+            //foreach (Projectile projectile in _projectiles) if (projectile.Shooter != _player) _projectiles.Remove(projectile);
             _bombes--;
             Console.WriteLine("BOOOOOOOOOM!");
         }

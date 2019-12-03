@@ -89,7 +89,7 @@ namespace ITI.SusanooQuest.UI
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.background_map.jpg"))
             };
 
-            _playerHitboxTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Green };
+            _playerHitboxTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Transparent };
             _playerHitboxTexture.Position = new Vector2f
             (
                 _game.Player.Position.X - _playerHitboxTexture.Radius,
@@ -98,7 +98,8 @@ namespace ITI.SusanooQuest.UI
             _playerTexture2 = new RectangleShape(new Vector2f(60, 60))
             {
                 Position = _playerHitboxTexture.Position,
-                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png"))
+                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png")),
+                //FillColor = Color.Yellow
             };
             //Dictionary of bullets texture
             _projectilesTexture = new Dictionary<string, CircleShape>();
