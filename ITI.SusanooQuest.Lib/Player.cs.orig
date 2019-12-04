@@ -29,6 +29,11 @@ namespace ITI.SusanooQuest.Lib
             _strength = 10;
         }
 
+<<<<<<< HEAD
+        #region Properties
+
+=======
+>>>>>>> Projectile
         public bool Slow
         {
             get { return _slow; }
@@ -39,6 +44,13 @@ namespace ITI.SusanooQuest.Lib
 
         public Dictionary<string, bool> Deplacment => _deplacement;
 
+<<<<<<< HEAD
+        #endregion
+
+        #region Methodes
+
+=======
+>>>>>>> Projectile
         internal override void Update()
         {
             Move();

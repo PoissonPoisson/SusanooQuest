@@ -13,6 +13,7 @@ namespace ITI.SusanooQuest.Lib
         protected float _speed;
         protected ushort _life;
         protected Vector _pos;
+        protected ushort _strength;
 
         #endregion
 
@@ -36,6 +37,8 @@ namespace ITI.SusanooQuest.Lib
         public int Life => _life;
 
         public float Length => _length;
+
+        internal ushort Strength => _strength;
 
         #endregion
 

@@ -41,9 +41,13 @@ namespace ITI.SusanooQuest.Lib
             _ennemies.Remove(ennemy);
         }
 
+<<<<<<< HEAD
+        public Ennemy Create_Ennemy(int i ,Vector pos, float length, Game game, ushort live, float speed)
+=======
         public Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort live, float speed)
+>>>>>>> Projectile
         {
-            Ennemy ennemy = new Ennemy(pos, length, game, live, speed);
+            Ennemy ennemy = new Ennemy(i,pos, length, game, live, speed);
             _ennemies.Add(ennemy);
             return ennemy;
         }
