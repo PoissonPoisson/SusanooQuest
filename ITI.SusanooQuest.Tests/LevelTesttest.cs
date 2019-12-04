@@ -16,15 +16,23 @@ namespace ITI.SusanooQuest.Tests
         public void Serialize()
         {
             Game game = new Game(500, 3, 0) ;
-            Ennemy sut = new Ennemy(0,new Vector(0,0), 15,game , 20, 20);
-            Ennemy ennemy = new Ennemy(0, new Vector(0, 0), 15, game, 20, 20);
+            Ennemy sut = new Ennemy(new Vector(10,10), 15,game , 20, 20);
+            Ennemy ennemy = new Ennemy( new Vector(20,20), 15, game, 20, 20);
             List<Ennemy> ennemies = new List<Ennemy>();
             ennemies.Add(sut);
             ennemies.Add(ennemy);
 
-            LevelTest lvt = new LevelTest("level1", ennemies);
+            Player player = new Player(new Vector(0, 0), 50, game, 100, 10);
+            Projectile projectile = new Projectile(15, 100, ennemy.Position, player, "cosY");
+            Projectile projectile2 = new Projectile(20, 100, player.Position, player, "cosY");
+            List<Projectile> projectiles = new List<Projectile>();
+            projectiles.Add(projectile2);
+            projectiles.Add(projectile);
+
+            Level lvt = new Level("level1", ennemies, projectiles,player);
 
             lvt.Serialize(@"..\level.json");
         }
+
     }
 }

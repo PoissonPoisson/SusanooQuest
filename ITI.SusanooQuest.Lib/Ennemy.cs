@@ -10,7 +10,7 @@ namespace ITI.SusanooQuest.Lib
     public class Ennemy : Entity
     {
         string _pathtest = @"...\ITI.SusanooQuest.Lib\leveltest.json";
-        public Ennemy(int v, Vector pos, float length, Game game, ushort life, float speed)
+        public Ennemy( Vector pos, float length, Game game, ushort life, float speed)
             : base(pos, length, game, life, speed)
         {
         }

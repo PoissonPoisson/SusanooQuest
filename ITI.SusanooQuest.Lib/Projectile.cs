@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,7 +21,7 @@ namespace ITI.SusanooQuest.Lib
         readonly string _tag;
         
 
-        internal Projectile(double speed, int damage, Vector origin, Entity shooter, string tag)
+        public Projectile(double speed, int damage, Vector origin, Entity shooter, string tag)
         {
             _origin = origin;
             _pos = new Vector(0, 0);
@@ -50,6 +51,7 @@ namespace ITI.SusanooQuest.Lib
         public string Tag => _tag;
 
         public Entity Shooter => _shooter;
+
     }
 
     public class Y : IMovement
@@ -69,6 +71,7 @@ namespace ITI.SusanooQuest.Lib
 
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
+
 
         
     }
@@ -91,5 +94,6 @@ namespace ITI.SusanooQuest.Lib
 
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
+
     }
 }
