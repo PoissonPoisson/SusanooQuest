@@ -1,15 +1,21 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace ITI.SusanooQuest.Lib
 {
+  
     public class Ennemy : Entity
     {
-        public Ennemy(Vector pos, float length, Game game, ushort life, float speed)
+        string _pathtest = @"...\ITI.SusanooQuest.Lib\leveltest.json";
+        public Ennemy(int v, Vector pos, float length, Game game, ushort life, float speed)
             : base(pos, length, game, life, speed)
         {
         }
+
+
 
         protected override void Kill()
         {
@@ -27,6 +33,16 @@ namespace ITI.SusanooQuest.Lib
 
         protected void Move()
         {
+            
+        }
+
+        internal JToken Serialize()
+        {
+
+            return new JObject(
+                new JProperty("Life", _life),
+                new JProperty("Speed", _speed)
+                ) ;
             
         }
     }
