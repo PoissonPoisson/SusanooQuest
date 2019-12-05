@@ -81,6 +81,7 @@ namespace ITI.SusanooQuest.Lib
 
         public void EndShoot()
         {
+            _game.Cd = 1;
             _onShoot = false;
             //Console.WriteLine("je ne tire plus");
         }

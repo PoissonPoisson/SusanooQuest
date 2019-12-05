@@ -45,11 +45,17 @@ namespace ITI.SusanooQuest.Lib
 
         public Vector Position
         {
-            get { return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y); }
+            get 
+            { 
+                if (_tag == "CosY") return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y + 79);
+                return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y); 
+            }
         }
         public string Tag => _tag;
 
         public Entity Shooter => _shooter;
+
+        internal Vector Origin => _origin;
     }
 
     public class Y : IMovement
@@ -76,19 +82,22 @@ namespace ITI.SusanooQuest.Lib
     class CosY : IMovement
     {
         double _step;
-        internal CosY(double step)
+        Vector _origin;
+        internal CosY(double step, Vector origin)
         {
             _step = step;
+            _origin = origin;
         }
 
         public Vector Move(Vector pos)
         {
+            
             double x = pos.X;
             double y = pos.Y;
-            
+            if (y == 0) y = -79;
             x = Convert.ToSingle(200*Math.Cos(Convert.ToDouble(y)/50));
+            //Console.WriteLine("x : "+x+" || y: "+y);
             y += _step;
-
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
     }
