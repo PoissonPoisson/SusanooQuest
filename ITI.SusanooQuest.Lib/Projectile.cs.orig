@@ -77,7 +77,6 @@ namespace ITI.SusanooQuest.Lib
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
 
-
         
     }
 

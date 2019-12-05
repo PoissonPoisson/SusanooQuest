@@ -6,7 +6,7 @@ namespace ITI.SusanooQuest.Lib
     public class Game
     {
         #region Fields
-
+        //readonly Dictionary<string,Dictionary<string,>>
         readonly List<Ennemy> _ennemies;
         readonly List<Projectile> _projectiles;
         readonly List<Projectile> _projectilesToDel;
@@ -16,7 +16,7 @@ namespace ITI.SusanooQuest.Lib
         uint _highScore;
         uint _score;
         ushort _bombes;
-        int _compteur;
+        ushort _cd;
 
         #endregion
 
@@ -31,33 +31,29 @@ namespace ITI.SusanooQuest.Lib
             _projectilesToDel = new List<Projectile>();
             _bombes = bombes;
             _score = 0;
-            _compteur = 0;
+            _cd = 1;
+
         }
 
         
 
-        internal void OnKill(Ennemy ennemy)
-        {
-            _ennemies.Remove(ennemy);
-        }
-
-        public Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort live, float speed)
-        {
-            Ennemy ennemy = new Ennemy(pos, length, game, live, speed);
-            _ennemies.Add(ennemy);
-            return ennemy;
-        }
+        
 
         public bool Update()
         {
+            if (_ennemies.Count < 1) CreateEnnemy(new Vector(100, 80), 8, this, 100, 5, "standard");
             foreach (Ennemy ennemy in _ennemies) ennemy.Update();
+            
             if (_player.OnShoot)
             {
-                CreateProjectile(5, _player.Strength, new Vector(_player.Position.X + _player.Length, _player.Position.Y + _player.Length), _player, "Y");
-                _compteur++;
-                Console.WriteLine(_compteur);
+                _cd--;
+                if (_cd == 0)
+                {
+                    _cd = 10;
+                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X + _player.Length, _player.Position.Y + _player.Length), _player, "Y");
+                }
             }
-            //Console.WriteLine("ta maman");
+
             foreach (Projectile projectile in _projectiles)
             {
                 projectile.Update();
@@ -73,7 +69,14 @@ namespace ITI.SusanooQuest.Lib
             return _player.Life == 0;
         }
 
-        private void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
+        private Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
+        {
+            Ennemy ennemy = new Ennemy(pos, length, game, life, speed, tag);
+            _ennemies.Add(ennemy);
+            return ennemy;
+        }
+
+        internal void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
         {
             Projectile projec = new Projectile(speed, damage, origin, shooter, type);
 
@@ -83,13 +86,17 @@ namespace ITI.SusanooQuest.Lib
                     projec.Movement = new Y(projec.Speed);
                     break;
                 case "CosY":
-                    projec.Movement = new CosY(projec.Speed);
+                    projec.Movement = new CosY(projec.Speed, projec.Origin);
                     break;
             }
 
             _projectiles.Add(projec);
         }
 
+        internal void OnKill(Ennemy ennemy)
+        {
+            _ennemies.Remove(ennemy);
+        }
         public void OnClearProjectil()
         {
             for (int i = _projectiles.Count-1; i >= 0; i--) if (_projectiles[i].Shooter != _player) _projectiles.Remove(_projectiles[i]);
@@ -123,6 +130,11 @@ namespace ITI.SusanooQuest.Lib
         public ushort Bombes => _bombes;
 
         public List<Projectile> Projectiles => _projectiles;
+
+        internal ushort Cd
+        {
+            set { _cd = value; }
+        }
 
         #endregion
     }
