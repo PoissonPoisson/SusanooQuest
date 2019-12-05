@@ -90,7 +90,7 @@ namespace ITI.SusanooQuest.UI
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.background_map.jpg"))
             };
 
-            _playerHitboxTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Transparent };
+            _playerHitboxTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Green };
             _playerHitboxTexture.Position = new Vector2f
             (
                 _game.Player.Position.X - _playerHitboxTexture.Radius,

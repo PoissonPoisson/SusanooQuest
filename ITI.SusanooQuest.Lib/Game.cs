@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ITI.SusanooQuest.Lib
 {
@@ -24,7 +25,7 @@ namespace ITI.SusanooQuest.Lib
         {
             _ennemies = new List<Ennemy>();
             _map = new Map(900, 1000);
-            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 5);
+            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 15, this, playerLife, 5);
             _random = new Random();
             _highScore = highScore;
             _projectiles = new List<Projectile>();
@@ -57,6 +58,17 @@ namespace ITI.SusanooQuest.Lib
             foreach (Projectile projectile in _projectiles)
             {
                 projectile.Update();
+
+                if (projectile.Shooter != _player)
+                {
+                    float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2)));
+                    float sumR = projectile.Length + _player.Length;
+                    if (sumR > distance) ProjectileExplode(projectile, _player);
+                }
+                //_animals.Values
+                //    .Select((a) => a as Bird)
+                //    .Where((a) => a != null)
+                //    .ToList();
                 if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
             }
             if (_projectilesToDel.Count != 0)
@@ -67,6 +79,13 @@ namespace ITI.SusanooQuest.Lib
             _player.Update();
             if (_highScore < _score) _highScore = _score;
             return _player.Life == 0;
+        }
+
+        private void ProjectileExplode(Projectile projectile, Entity target)
+        {
+            _player.Life -= projectile.Damage;
+            _projectilesToDel.Add(projectile);
+
         }
 
         private Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)

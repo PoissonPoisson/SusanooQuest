@@ -56,6 +56,10 @@ namespace ITI.SusanooQuest.Lib
         public Entity Shooter => _shooter;
 
         internal Vector Origin => _origin;
+
+        internal float Length => _length;
+
+        internal int Damage => _damage;
     }
 
     public class Y : IMovement
