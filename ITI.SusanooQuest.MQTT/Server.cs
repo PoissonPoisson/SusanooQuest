@@ -1,39 +1,56 @@
 ﻿using System;
-using MQTTnet;
-using MQTTnet.Server;
+using System.Collections.Generic;
+using CK.MQTT;
+using System.Net.NetworkInformation;
 
 namespace ITI.SusanooQuest.MQTT
 {
-    public class Server
+    public class Server : IDisposable
     {
-        readonly IMqttServer _mqttServer;
-        readonly MqttServerOptionsBuilder _optionsBuilder;
-        readonly string _userName1;
-        readonly string _userName2;
-        readonly string _password;
+        readonly IMqttServer _server;
+        readonly MqttConfiguration _configuration;
 
         public Server(ushort port)
         {
-            _optionsBuilder = new MqttServerOptionsBuilder()
-                .WithDefaultEndpointPort(port);
-            _mqttServer = new MqttFactory().CreateMqttServer();
-
-            _password = Guid.NewGuid().ToString();
+            _configuration = new MqttConfiguration()
+            {
+                Port = port,
+                MaximumQualityOfService = MqttQualityOfService.ExactlyOnce
+            };
+            
+            _server = MqttServer.Create(_configuration, null, null);
+            _server.Start();
+            
+            //MqttClientCredentials a = new MqttClientCredentials("myTopic", "username", "password");
+            // test credentials
         }
 
-        public async void Start()
+        public int Connections
         {
-            await _mqttServer.StartAsync(_optionsBuilder.Build());
+            get { return _server.ActiveConnections; }
         }
 
-        public async void Stop()
+        public void Dispose()
         {
-            await _mqttServer.StopAsync();
+            _server.Stop();
+            _server.Dispose();
         }
 
-        public void WhoIsConnected()
+        public static List<string[]> GetIPAddresses()
         {
-            Console.WriteLine(_mqttServer.ClientConnectedHandler.ToString());
+            List<string[]> portsData = new List<string[]>();
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+                {
+                    if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)  
+                    {
+                        //Console.WriteLine($"{ip.Address.ToString()} : {ni.Name}");
+                        portsData.Add(new string[2] { ni.Name, ip.Address.ToString() });
+                    }
+                }
+            }
+            return portsData;
         }
     }
 }

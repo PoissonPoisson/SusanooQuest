@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MQTTnet" Version="3.0.8" />
-    <PackageReference Include="System.Net.Mqtt" Version="0.6.0-beta" />
+    <PackageReference Include="CK.MQTT.Server.Ssl" Version="0.7.0" />
   </ItemGroup>
 
 </Project>

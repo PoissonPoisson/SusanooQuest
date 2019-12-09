@@ -78,7 +78,7 @@ namespace ITI.SusanooQuest.UI
                 { "Score",        new Text(ScoreToString(_game.Score, 10), _font)     { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(400, 100) } },
                 { "Life",         new Text(_game.Player.Life.ToString(), _font)       { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(400, 200) } },
                 { "Bombs",        new Text(_game.Bombes.ToString(), _font)            { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(400, 300) } }
-            }; new Text(_game.Score.ToString(), _font) { CharacterSize = 50, FillColor = Color.Red, Position = new Vector2f(_drawStats.Size.X / 2, 100) };
+            };
 
             // map data
 

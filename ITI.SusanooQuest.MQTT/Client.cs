@@ -1,71 +1,74 @@
 ﻿using System;
+using CK.MQTT;
 using System.Net;
-using System.Threading;
+using System.Text;
 using System.Text.RegularExpressions;
-using MQTTnet;
-using MQTTnet.Client;
-using MQTTnet.Client.Options;
-using MQTTnet.Client.Subscribing;
-using MQTTnet.Client.Connecting;
-using MQTTnet.Client.Disconnecting;
-using System.Threading.Tasks;
 
 namespace ITI.SusanooQuest.MQTT
 {
-    /// <summary>
-    /// class Client MQTT
-    /// </summary>
-    public class Client
+    public class Client : IDisposable
     {
-        readonly IMqttClient _mqttClient;
-        readonly IMqttClientOptions _options;
+        readonly IMqttClient _client;
+        readonly MqttClientCredentials _credential;
         string _topic;
 
-        /// <summary>
-        /// Create a MQTT client
-        /// </summary>
-        /// <param name="serverIP">IP in IPV4</param>
-        /// <param name="port">Server port</param>
         public Client(string serverIP, ushort port)
         {
             if (string.IsNullOrEmpty(serverIP)) throw new ArgumentException("Server IP address is null or empty", nameof(serverIP));
             if (!VerifyIfIPAddressIsValid(serverIP)) throw new ArgumentException("Server IP address is not valid", nameof(serverIP));
 
-            _mqttClient = new MqttFactory().CreateMqttClient();
-
-            _options = new MqttClientOptionsBuilder()
-                .WithClientId("J1")
-                .WithTcpServer(serverIP, port)
-                .WithTls()
-                .WithTopicAliasMaximum(2)
-                .Build();
+            _client = MqttClient.CreateAsync(serverIP, port).Result;
+            _credential = new MqttClientCredentials(Guid.NewGuid().ToString().Replace("-", ""), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            SessionState s = _client.ConnectAsync(_credential, null, true).Result;
         }
 
-        public void ConnectClient()
+        public void Subcribe(string topicName)
         {
-            //MqttClientAuthenticateResult result = await _mqttClient.ConnectAsync(_options, CancellationToken.None);
+            if (string.IsNullOrEmpty(topicName)) throw new ArgumentException("Topic name is null or empty", nameof(topicName));
+            if (topicName.Trim() == string.Empty) throw new ArgumentException("Topic name can't contain just space", nameof(topicName));
 
-            Task<MqttClientAuthenticateResult> result = _mqttClient.ConnectAsync(_options, CancellationToken.None);
+            _client.SubscribeAsync(topicName, MqttQualityOfService.ExactlyOnce);
         }
 
-        internal void Subscribing()
+        public void Publish(string topicName, string message)
         {
-            //MqttClientSubscribeOptions subcribingOption = new MqttClientSubscribeOptions();
+            if (string.IsNullOrEmpty(topicName)) throw new ArgumentException("Topic name is null or empty", nameof(topicName));
+            if (topicName.Trim() == string.Empty) throw new ArgumentException("Topic name can't contain just space", nameof(topicName));
+            if (string.IsNullOrEmpty(message)) throw new ArgumentException("Message is null or empty", nameof(message));
 
-            Task<MqttClientSubscribeResult> result = _mqttClient.SubscribeAsync("Public");
+            _client.PublishAsync(
+                new MqttApplicationMessage(topicName, Encoding.ASCII.GetBytes(message)),
+                MqttQualityOfService.ExactlyOnce
+            );
+
+            //byte[] msg = Encoding.ASCII.GetBytes("coucou");
+            //var m = new MqttApplicationMessage("coucou", msg);
+
+            //IObservable<MqttApplicationMessage> msg = _client.MessageStream;
+            //IDisposable  msg.Subscribe();
         }
 
-        public async void DisconectClient()
+        public string GetMessage()
         {
-            await _mqttClient.DisconnectAsync();
+            IObservable<MqttApplicationMessage> msg =_client.MessageStream;
+            IDisposable m = msg.Subscribe();
+            return m.ToString();
         }
 
-        async void SendEvent()
+        public bool IsConnected => _client.IsConnected;
+
+        public void Disconnect() 
         {
-            throw new NotImplementedException();
+            _client.DisconnectAsync();
         }
 
-        static bool VerifyIfIPAddressIsValid(string ipAddress)
+        public void Dispose()
+        {
+            Disconnect();
+            _client.Dispose();
+        }
+
+        public static bool VerifyIfIPAddressIsValid(string ipAddress)
         {
             if (Regex.IsMatch(ipAddress, @"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b"))
                 return IPAddress.TryParse(ipAddress, out IPAddress address);

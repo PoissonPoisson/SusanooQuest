@@ -15,7 +15,7 @@ namespace ITI.SusanooQuest.Tests
         [TestCase("255.255.255.255")]
         public void test_valid_IP_adress(string ipAddress)
         {
-            Assert.That(new Client(ipAddress, 1884), Is.Not.Null);
+            Assert.That(Client.VerifyIfIPAddressIsValid(ipAddress));
         }
 
         [TestCase("")]
@@ -29,7 +29,23 @@ namespace ITI.SusanooQuest.Tests
         [TestCase("1000.1000.1000.1000")]
         public void test_invalid_IP_adress(string ipAddress)
         {
-            Assert.Throws<ArgumentException>(() => new Client(ipAddress, 1884));
+            Assert.Throws<ArgumentException>(() => new Client(ipAddress, 20202));
+        }
+
+        [Test]
+        public void test_if_client_can_to_connect_at_server()
+        {
+            ushort port = 20202;
+            string serverIP = "127.0.0.1";
+
+            using (Server server = new Server(port))
+            {
+                using (Client client = new Client(serverIP, port))
+                {
+                    Assert.That(client.IsConnected, Is.True);
+                    client.Disconnect();
+                }
+            }
         }
     }
 }
