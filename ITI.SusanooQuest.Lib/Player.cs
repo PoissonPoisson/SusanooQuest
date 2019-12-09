@@ -10,6 +10,7 @@ namespace ITI.SusanooQuest.Lib
         bool _slow;
         bool _onShoot;
         readonly Dictionary<string, bool> _deplacement;
+        
 
         #endregion
 
@@ -25,11 +26,8 @@ namespace ITI.SusanooQuest.Lib
                 { "Right", false },
                 { "Down" , false }
             };
+            _strength = 10;
         }
-
-        #region Properties
-
-        
 
         public bool Slow
         {
@@ -40,12 +38,6 @@ namespace ITI.SusanooQuest.Lib
         internal bool OnShoot => _onShoot;
 
         public Dictionary<string, bool> Deplacment => _deplacement;
-
-        #endregion
-
-        
-
-        #region Methodes
 
         internal override void Update()
         {
@@ -84,15 +76,14 @@ namespace ITI.SusanooQuest.Lib
         public void StartShoot()
         {
             _onShoot = true;            
-            Console.WriteLine("je tire");
+            //Console.WriteLine("je tire");
         }
 
         public void EndShoot()
         {
+            _game.Cd = 1;
             _onShoot = false;
-            Console.WriteLine("je ne tire plus");
+            //Console.WriteLine("je ne tire plus");
         }
-
-        #endregion
     }
 }

@@ -11,8 +11,9 @@ namespace ITI.SusanooQuest.Lib
         protected readonly float _length;
         protected Game _game;
         protected float _speed;
-        protected ushort _life;
+        protected int _life;
         protected Vector _pos;
+        protected ushort _strength;
 
         #endregion
 
@@ -33,9 +34,14 @@ namespace ITI.SusanooQuest.Lib
 
         public Vector Position => _pos;
 
-        public int Life => _life;
-
+        public int Life
+        {
+            get { return _life; }
+            internal set { _life = value; }
+        }
         public float Length => _length;
+
+        internal ushort Strength => _strength;
 
         #endregion
 

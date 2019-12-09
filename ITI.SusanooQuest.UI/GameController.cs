@@ -29,6 +29,8 @@ namespace ITI.SusanooQuest.UI
         readonly RenderTexture _drawStats;
         readonly Sprite _spriteStates;
         readonly RectangleShape _bgStates;
+        readonly Dictionary<string, CircleShape> _projectilesTexture;
+        readonly Dictionary<string, CircleShape> _ennemiesTexture;
 
         #endregion
 
@@ -97,9 +99,17 @@ namespace ITI.SusanooQuest.UI
             _playerTexture2 = new RectangleShape(new Vector2f(60, 60))
             {
                 Position = _playerHitboxTexture.Position,
-                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png"))
+                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png")),
+                //FillColor = Color.Yellow
             };
-            
+            //Dictionary of projectiles texture
+            _projectilesTexture = new Dictionary<string, CircleShape>();
+            _projectilesTexture.Add("Y", new CircleShape(5) { FillColor = Color.Blue});
+            _projectilesTexture.Add("CosY", new CircleShape(5) { FillColor = Color.Red });
+
+            //Dictionary of ennemy texture
+            _ennemiesTexture = new Dictionary<string, CircleShape>();
+            _ennemiesTexture.Add("standard", new CircleShape(8));
 
             _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
             _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };
@@ -180,7 +190,7 @@ namespace ITI.SusanooQuest.UI
                     _game.Player.Deplacment["Down"] = false;
                     break;
                 case Keyboard.Key.W:
-                    _game.Player.StartShoot();
+                    _game.Player.EndShoot();
                     break;
                 case Keyboard.Key.X:
                     break;
@@ -196,6 +206,7 @@ namespace ITI.SusanooQuest.UI
 
             CreateDrawStates();
             _window.Draw(_spriteStates);
+
 
             _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
 
@@ -245,6 +256,20 @@ namespace ITI.SusanooQuest.UI
 
             _drawMap.Draw(_playerTexture2);
             _drawMap.Draw(_playerHitboxTexture);
+
+            foreach (Projectile p in _game.Projectiles)
+            {
+                _projectilesTexture.TryGetValue(p.Tag, out CircleShape value);
+                value.Position = new Vector2f(p.Position.X, p.Position.Y);
+                _drawMap.Draw(value);
+            }
+
+            foreach (Ennemy e in _game.Ennemy)
+            {
+                _ennemiesTexture.TryGetValue(e.Tag, out CircleShape value);
+                value.Position = new Vector2f(e.Position.X, e.Position.Y);
+                _drawMap.Draw(value);
+            }
 
             _drawMap.Display();
         }
