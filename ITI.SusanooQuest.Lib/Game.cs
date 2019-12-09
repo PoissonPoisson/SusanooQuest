@@ -65,10 +65,7 @@ namespace ITI.SusanooQuest.Lib
                     float sumR = projectile.Length + _player.Length;
                     if (sumR > distance) ProjectileExplode(projectile, _player);
                 }
-                //_animals.Values
-                //    .Select((a) => a as Bird)
-                //    .Where((a) => a != null)
-                //    .ToList();
+                
                 if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
             }
             if (_projectilesToDel.Count != 0)
