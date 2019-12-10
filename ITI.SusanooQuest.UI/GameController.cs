@@ -31,7 +31,7 @@ namespace ITI.SusanooQuest.UI
         readonly RectangleShape _bgStates;
         readonly Dictionary<string, CircleShape> _projectilesTexture;
         readonly Dictionary<string, CircleShape> _ennemiesTexture;
-
+        
         #endregion
 
         public GameController(RenderWindow window)
@@ -43,7 +43,7 @@ namespace ITI.SusanooQuest.UI
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
 
             // general data
-
+            
             _size = new Vector(1920, 1080);
             _window = window;
             _nextMenu = this;

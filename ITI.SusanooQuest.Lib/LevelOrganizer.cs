@@ -6,14 +6,17 @@ namespace ITI.SusanooQuest.Lib
 {
     public class LevelOrganizer
     {
-        public List<Ennemy> _ennemiesAlive;
-        public List<Ennemy> _ennemiesDeath;
+        readonly List<Ennemy> _ennemiesAlive;
+        readonly List<Ennemy> _ennemiesDeath;
         Player _player;
         Game _context;
         int _i = 0;
+        Ennemy _ennemy;
+
 
         public List<Ennemy> Alive => _ennemiesAlive;
         public List<Ennemy> Die => _ennemiesDeath;
+
         public LevelOrganizer(List<Ennemy> ennemiesAlive, List<Ennemy> ennemiesDeath, Player player, Game ctx)
         {
             _ennemiesAlive = ennemiesAlive;
@@ -25,24 +28,14 @@ namespace ITI.SusanooQuest.Lib
 
         public void LevelOne()
         {
-            Ennemy e = new Ennemy(new Vector(100, 100), 25, _context, 100, 25, "1");
-             
-           _ennemiesAlive.Add(e);
-           _ennemiesAlive.Add(e);
-           _ennemiesAlive.Add(e);
-           _ennemiesAlive.Add(e);
-           _ennemiesAlive.Add(e);
+            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 5, "standard"));
+            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(90, 70), 20, _context, 25, 5, "standard"));
+            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(80, 60), 20, _context, 25, 5, "standard"));
+            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(70, 50), 20, _context, 25, 5, "standard"));
+            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(60, 40), 20, _context, 25, 5, "standard"));
 
+            _context.Update();
 
-        while (_i == 5)
-            if (e.Life == 0 )
-            {
-              _ennemiesAlive.Remove(e);
-              _ennemiesDeath.Add(e);
-                    _i++;
-            }
-            _ennemiesDeath.Clear();
         }
-       
     }
 }

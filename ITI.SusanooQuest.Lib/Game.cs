@@ -13,6 +13,7 @@ namespace ITI.SusanooQuest.Lib
         readonly List<Projectile> _projectilesToDel;
         Player _player;
         readonly Random _random;
+        LevelOrganizer _Level;
         Map _map;
         uint _highScore;
         uint _score;
@@ -34,6 +35,7 @@ namespace ITI.SusanooQuest.Lib
             _bombes = bombes;
             _score = 0;
             _cd = 1;
+            _Level = new LevelOrganizer(_ennemies, _death, Player, this);
 
         }
 
@@ -43,7 +45,7 @@ namespace ITI.SusanooQuest.Lib
 
         public bool Update()
         {
-            if (_ennemies.Count < 1) CreateEnnemy(new Vector(100, 80), 8, this, 100, 5, "standard");
+            if (_ennemies.Count < 1) _Level.LevelOne();
             foreach (Ennemy ennemy in _ennemies) ennemy.Update();
             
             if (_player.OnShoot)
@@ -77,8 +79,7 @@ namespace ITI.SusanooQuest.Lib
             _ennemies.Add(ennemy);
             return ennemy;
         }
-
-
+        
 
         public LevelOrganizer CreateLevel()
         {
