@@ -35,7 +35,7 @@ namespace ITI.SusanooQuest.MQTT
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Server is down.");
+                    Console.WriteLine("Server is temporarily or definitively down.");
                     return -1;
                 }
             }
