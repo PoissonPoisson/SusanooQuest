@@ -7,10 +7,11 @@ namespace ITI.SusanooQuest.Lib
     {
         #region Fields
         //readonly Dictionary<string,Dictionary<string,>>
-        readonly List<Ennemy> _ennemies;
+        public List<Ennemy> _ennemies;
+        public List<Ennemy> _death;
         readonly List<Projectile> _projectiles;
         readonly List<Projectile> _projectilesToDel;
-        readonly Player _player;
+        Player _player;
         readonly Random _random;
         Map _map;
         uint _highScore;
@@ -23,6 +24,7 @@ namespace ITI.SusanooQuest.Lib
         public Game(ushort playerLife ,ushort bombes, uint highScore)
         {
             _ennemies = new List<Ennemy>();
+            _death = new List<Ennemy>();
             _map = new Map(900, 1000);
             _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 5);
             _random = new Random();
@@ -69,12 +71,22 @@ namespace ITI.SusanooQuest.Lib
             return _player.Life == 0;
         }
 
-        private Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
+        public Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
         {
             Ennemy ennemy = new Ennemy(pos, length, game, life, speed, tag);
             _ennemies.Add(ennemy);
             return ennemy;
         }
+
+
+
+        public LevelOrganizer CreateLevel()
+        {
+            LevelOrganizer levelone = new LevelOrganizer(_ennemies, _death, Player, this);
+            levelone.LevelOne();
+            return levelone;
+        }
+               
 
         internal void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
         {
@@ -109,8 +121,7 @@ namespace ITI.SusanooQuest.Lib
             Console.WriteLine("a plus de projectiles");
         }
 
-        
-
+       
         #region Properties
 
         public List<Ennemy> Ennemy
