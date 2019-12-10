@@ -1,6 +1,6 @@
-﻿using System;
+﻿using CK.MQTT;
+using System;
 using System.Collections.Generic;
-using CK.MQTT;
 using System.Net.NetworkInformation;
 
 namespace ITI.SusanooQuest.MQTT
@@ -9,25 +9,36 @@ namespace ITI.SusanooQuest.MQTT
     {
         readonly IMqttServer _server;
         readonly MqttConfiguration _configuration;
+        readonly Certificate _certificate;
 
-        public Server(ushort port)
+        public Server(ushort port = 20202)
         {
+            _certificate = new Certificate(2);
+
             _configuration = new MqttConfiguration()
             {
                 Port = port,
                 MaximumQualityOfService = MqttQualityOfService.ExactlyOnce
             };
             
-            _server = MqttServer.Create(_configuration, null, null);
+            _server = MqttServer.Create(_configuration, authenticationProvider: _certificate);
             _server.Start();
-            
-            //MqttClientCredentials a = new MqttClientCredentials("myTopic", "username", "password");
-            // test credentials
         }
 
         public int Connections
         {
-            get { return _server.ActiveConnections; }
+            get
+            {
+                try
+                {
+                    return _server.ActiveConnections;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Server is down.");
+                    return -1;
+                }
+            }
         }
 
         public void Dispose()

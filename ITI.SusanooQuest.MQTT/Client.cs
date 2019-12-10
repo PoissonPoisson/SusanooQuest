@@ -1,5 +1,5 @@
-﻿using System;
-using CK.MQTT;
+﻿using CK.MQTT;
+using System;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -8,18 +8,31 @@ namespace ITI.SusanooQuest.MQTT
 {
     public class Client : IDisposable
     {
+        readonly MqttConfiguration _configuration;
         readonly IMqttClient _client;
         readonly MqttClientCredentials _credential;
-        string _topic;
 
         public Client(string serverIP, ushort port)
         {
             if (string.IsNullOrEmpty(serverIP)) throw new ArgumentException("Server IP address is null or empty", nameof(serverIP));
             if (!VerifyIfIPAddressIsValid(serverIP)) throw new ArgumentException("Server IP address is not valid", nameof(serverIP));
 
-            _client = MqttClient.CreateAsync(serverIP, port).Result;
-            _credential = new MqttClientCredentials(Guid.NewGuid().ToString().Replace("-", ""), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-            SessionState s = _client.ConnectAsync(_credential, null, true).Result;
+            _configuration = new MqttConfiguration()
+            {
+                MaximumQualityOfService = MqttQualityOfService.ExactlyOnce,
+                Port = port,
+                WaitTimeoutSecs = 5
+            };
+
+            _client = MqttClient.CreateAsync(serverIP, _configuration).Result;
+
+            _credential = new MqttClientCredentials(
+                Guid.NewGuid().ToString().Replace("-", ""),
+                Guid.NewGuid().ToString(),
+                Guid.NewGuid().ToString()
+            );
+
+            SessionState s = _client.ConnectAsync(_credential, cleanSession: true).Result;
         }
 
         public void Subcribe(string topicName)
@@ -27,7 +40,7 @@ namespace ITI.SusanooQuest.MQTT
             if (string.IsNullOrEmpty(topicName)) throw new ArgumentException("Topic name is null or empty", nameof(topicName));
             if (topicName.Trim() == string.Empty) throw new ArgumentException("Topic name can't contain just space", nameof(topicName));
 
-            _client.SubscribeAsync(topicName, MqttQualityOfService.ExactlyOnce);
+            _client.SubscribeAsync(topicName, _configuration.MaximumQualityOfService);
         }
 
         public void Publish(string topicName, string message)
@@ -38,7 +51,7 @@ namespace ITI.SusanooQuest.MQTT
 
             _client.PublishAsync(
                 new MqttApplicationMessage(topicName, Encoding.ASCII.GetBytes(message)),
-                MqttQualityOfService.ExactlyOnce
+                _configuration.MaximumQualityOfService
             );
 
             //byte[] msg = Encoding.ASCII.GetBytes("coucou");
@@ -46,16 +59,26 @@ namespace ITI.SusanooQuest.MQTT
 
             //IObservable<MqttApplicationMessage> msg = _client.MessageStream;
             //IDisposable  msg.Subscribe();
+
+            //MqttClientCredentials a = new MqttClientCredentials("myTopic", "username", "password");
+            // test credentials
         }
 
-        public string GetMessage()
+        public string GetMessage(int a)
         {
             IObservable<MqttApplicationMessage> msg =_client.MessageStream;
             IDisposable m = msg.Subscribe();
             return m.ToString();
         }
 
+        public void GetMessage()
+        {
+            _client.MessageStream.Subscribe(msg => Console.WriteLine($"Message recevied in the topic : {msg.Topic}\n  -> {Encoding.ASCII.GetString(msg.Payload)}"));
+        }
+
         public bool IsConnected => _client.IsConnected;
+
+        public string ID => _client.Id;
 
         public void Disconnect() 
         {

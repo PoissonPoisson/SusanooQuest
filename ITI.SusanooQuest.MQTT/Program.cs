@@ -1,6 +1,6 @@
-﻿using System;
+﻿using CK.MQTT;
+using System;
 using System.Collections.Generic;
-using CK.MQTT;
 using System.Threading.Tasks;
 
 namespace ITI.SusanooQuest.MQTT
@@ -59,18 +59,15 @@ namespace ITI.SusanooQuest.MQTT
 
             using (Server server = new Server(port))
             {
+                int nbCLientConnected = -1;
                 while (true)
                 {
-                    Console.WriteLine($"Number of connections : {server.Connections}");
+                    if (server.Connections != nbCLientConnected)
+                    {
+                        nbCLientConnected = server.Connections;
+                        Console.WriteLine($"Number of connections : {server.Connections}");
+                    }
                 }
-                //using (Client client = new Client(serverIP, port))
-                //{
-                //    while (!client.IsConnected) { }
-                //    Console.WriteLine("Connected !");
-                //    string topicName = "Public";
-                //    client.Subcribe(topicName);
-                //    client.Publish(topicName, "coucou");
-                //}
             }
         }
 
@@ -87,8 +84,7 @@ namespace ITI.SusanooQuest.MQTT
             string topic;
             using (Client client = new Client(serverIP, 20202))
             {
-                Console.Write("\nEnter an topic name : ");
-                topic = Console.ReadLine();
+                topic = client.ID;
                 client.Subcribe(topic);
 
                 Console.Write("\nEnter your message : ");
@@ -96,7 +92,8 @@ namespace ITI.SusanooQuest.MQTT
 
                 while (true)
                 {
-                    Console.WriteLine($"\n{client.GetMessage()}");
+                    //Console.WriteLine($"{client.GetMessage()}");
+                    client.GetMessage();
                 }
             }
         }
