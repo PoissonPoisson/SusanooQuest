@@ -51,7 +51,7 @@ namespace ITI.SusanooQuest.Lib
                 if (_cd == 0)
                 {
                     _cd = 10;
-                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X + _player.Length, _player.Position.Y + _player.Length), _player, "Y");
+                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X + _player.Length/2, _player.Position.Y + _player.Length/2), _player, "Y");
                 }
             }
 
@@ -81,6 +81,7 @@ namespace ITI.SusanooQuest.Lib
         private void ProjectileExplode(Projectile projectile, Entity target)
         {
             _player.Life -= projectile.Damage;
+            Console.WriteLine(_player.Life);
             _projectilesToDel.Add(projectile);
 
         }
