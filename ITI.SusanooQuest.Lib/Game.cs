@@ -64,8 +64,16 @@ namespace ITI.SusanooQuest.Lib
                     float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2)));
                     float sumR = projectile.Length + _player.Length;
                     if (sumR > distance) ProjectileExplode(projectile, _player);
+                } else
+                {
+                    foreach (Ennemy e in _ennemies)
+                    {
+                        float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(e.Position.X - projectile.Position.X, 2) + Math.Pow(e.Position.Y - projectile.Position.Y, 2)));
+                        float sumR = projectile.Length + e.Length;
+                        if (sumR > distance) ProjectileExplode(projectile, e);
+                    }
                 }
-                
+
                 if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
             }
             if (_projectilesToDel.Count != 0)
