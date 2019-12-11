@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 
 namespace ITI.SusanooQuest.Lib
@@ -84,6 +85,16 @@ namespace ITI.SusanooQuest.Lib
             _game.Cd = 1;
             _onShoot = false;
             //Console.WriteLine("je ne tire plus");
+        }
+
+        internal JToken SerializePlayer()
+        {
+
+            return new JObject(
+                new JProperty("life", _life ),
+                new JProperty("Speed", _speed )
+                );
+
         }
     }
 }

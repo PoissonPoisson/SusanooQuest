@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\*" />
+    <EmbeddedResource Include="GameProcess\*" />
   </ItemGroup>
 
 </Project>
