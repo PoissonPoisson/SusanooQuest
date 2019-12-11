@@ -8,11 +8,11 @@ namespace ITI.SusanooQuest.Lib
     {
         #region Fields
         //readonly Dictionary<string,Dictionary<string,>>
-        public List<Ennemy> _ennemies;
-        public List<Ennemy> _death;
+        List<Ennemy> _ennemies;
+        List<Ennemy> _death;
         readonly List<Projectile> _projectiles;
         readonly List<Projectile> _projectilesToDel;
-        Player _player;
+        readonly Player _player;
         readonly Random _random;
         LevelOrganizer _Level;
         Map _map;
@@ -28,7 +28,7 @@ namespace ITI.SusanooQuest.Lib
             _ennemies = new List<Ennemy>();
             _death = new List<Ennemy>();
             _map = new Map(900, 1000);
-            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 15, this, playerLife, 5);
+            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 5);
             _random = new Random();
             _highScore = highScore;
             _projectiles = new List<Projectile>();
@@ -55,7 +55,7 @@ namespace ITI.SusanooQuest.Lib
                 if (_cd == 0)
                 {
                     _cd = 10;
-                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X + _player.Length, _player.Position.Y + _player.Length), _player, "Y");
+                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X + _player.Length/2, _player.Position.Y + _player.Length/2), _player, "Y");
                 }
             }
 
@@ -85,6 +85,7 @@ namespace ITI.SusanooQuest.Lib
         private void ProjectileExplode(Projectile projectile, Entity target)
         {
             _player.Life -= projectile.Damage;
+            Console.WriteLine(_player.Life);
             _projectilesToDel.Add(projectile);
 
         }

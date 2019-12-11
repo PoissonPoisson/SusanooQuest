@@ -30,10 +30,23 @@ namespace ITI.SusanooQuest.Lib
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5d34631503fdb75874d72e1d43856277e0576be9
 =======
         #region Properties
 
 >>>>>>> 7bd32b574907d4b1a98015dca8982ddb1c75112b
+<<<<<<< HEAD
+=======
+        #region Properties
+
+=======
+>>>>>>> Projectile
+>>>>>>> level_organization
+=======
+>>>>>>> 5d34631503fdb75874d72e1d43856277e0576be9
         public bool Slow
         {
             get { return _slow; }
@@ -45,12 +58,28 @@ namespace ITI.SusanooQuest.Lib
         public Dictionary<string, bool> Deplacment => _deplacement;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> level_organization
+=======
+=======
+>>>>>>> 5d34631503fdb75874d72e1d43856277e0576be9
         #endregion
 
         #region Methodes
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 7bd32b574907d4b1a98015dca8982ddb1c75112b
+=======
+=======
+>>>>>>> Projectile
+>>>>>>> level_organization
+=======
+>>>>>>> 7bd32b574907d4b1a98015dca8982ddb1c75112b
+>>>>>>> 5d34631503fdb75874d72e1d43856277e0576be9
         internal override void Update()
         {
             Move();
@@ -93,7 +122,14 @@ namespace ITI.SusanooQuest.Lib
 
         public void EndShoot()
         {
+<<<<<<< HEAD
+<<<<<<< HEAD
             _game.Cd = 1;
+=======
+>>>>>>> level_organization
+=======
+            _game.Cd = 1;
+>>>>>>> 5d34631503fdb75874d72e1d43856277e0576be9
             _onShoot = false;
             //Console.WriteLine("je ne tire plus");
         }
