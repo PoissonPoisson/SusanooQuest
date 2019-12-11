@@ -212,6 +212,7 @@ namespace ITI.SusanooQuest.UI
         public void Update()
         {
             _game.Update();
+            UpdateLife();
         }
 
         public void Dispose()
@@ -277,6 +278,11 @@ namespace ITI.SusanooQuest.UI
         void UpdateBomb()
         {
             _texts["Bombs"].DisplayedString = _game.Bombes.ToString();
+        }
+
+        void UpdateLife()
+        {
+            _texts["Life"].DisplayedString = _game.Player.Life.ToString();
         }
 
         #endregion
