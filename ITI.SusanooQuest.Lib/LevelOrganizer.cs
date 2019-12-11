@@ -29,7 +29,7 @@ namespace ITI.SusanooQuest.Lib
 
         public void LevelOne()
         {
-            if (_context._ennemies.Count() == 0) VagueOne() ;           
+            if (_context.Ennemy.Count() == 0) VagueOne() ;           
         }
 
         private void VagueOne()
