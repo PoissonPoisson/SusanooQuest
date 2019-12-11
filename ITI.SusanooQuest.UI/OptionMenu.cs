@@ -172,20 +172,6 @@ namespace ITI.SusanooQuest.UI
             }
         }
 
-        void SaveData()
-
-        {
-            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/SusanooQuest"))
-            {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/SusanooQuest");
-            }
-            using (BinaryWriter writer = new BinaryWriter(File.Open(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/SusanooQuest/data.sq", FileMode.Create)))
-            {
-                writer.Write(_maxLive);
-                writer.Write(_highScore);
-            }
-        }
-
         #endregion
     }
 }
