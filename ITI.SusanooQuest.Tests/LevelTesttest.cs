@@ -29,7 +29,7 @@ namespace ITI.SusanooQuest.Tests
             projectiles.Add(projectile2);
             projectiles.Add(projectile);
 
-            Level lvt = new Level("level1", ennemies, projectiles,player);
+            SerializeLevel lvt = new SerializeLevel("level1", ennemies, projectiles,player);
 
             lvt.Serialize(@"..\level.json");
         }

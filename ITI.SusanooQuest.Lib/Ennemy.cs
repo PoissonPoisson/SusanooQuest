@@ -9,7 +9,7 @@ namespace ITI.SusanooQuest.Lib
   
     public class Ennemy : Entity
     {
-        string _pathtest = @"...\ITI.SusanooQuest.Lib\leveltest.json";
+        string _path = @"...\ITI.SusanooQuest.Lib\leveltest.json";
         string _tag;
         ushort _cd;
         public Ennemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
@@ -25,6 +25,7 @@ namespace ITI.SusanooQuest.Lib
         {
             _game.OnKill(this);
             _game = null;
+            
         }
 
         internal override void Update()

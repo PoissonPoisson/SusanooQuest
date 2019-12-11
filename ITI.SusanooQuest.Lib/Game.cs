@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ITI.SusanooQuest.Lib
 {
@@ -8,11 +7,13 @@ namespace ITI.SusanooQuest.Lib
     {
         #region Fields
         //readonly Dictionary<string,Dictionary<string,>>
-        readonly List<Ennemy> _ennemies;
+        List<Ennemy> _ennemies;
+        List<Ennemy> _death;
         readonly List<Projectile> _projectiles;
         readonly List<Projectile> _projectilesToDel;
         readonly Player _player;
         readonly Random _random;
+        LevelOrganizer _Level;
         Map _map;
         uint _highScore;
         uint _score;
@@ -24,8 +25,9 @@ namespace ITI.SusanooQuest.Lib
         public Game(ushort playerLife ,ushort bombes, uint highScore)
         {
             _ennemies = new List<Ennemy>();
+            _death = new List<Ennemy>();
             _map = new Map(900, 1000);
-            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 15, this, playerLife, 5);
+            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 5);
             _random = new Random();
             _highScore = highScore;
             _projectiles = new List<Projectile>();
@@ -33,6 +35,7 @@ namespace ITI.SusanooQuest.Lib
             _bombes = bombes;
             _score = 0;
             _cd = 1;
+            _Level = new LevelOrganizer(_ennemies, _death, Player, this);
 
         }
 
@@ -42,7 +45,7 @@ namespace ITI.SusanooQuest.Lib
 
         public bool Update()
         {
-            if (_ennemies.Count < 1) CreateEnnemy(new Vector(100, 80), 8, this, 100, 5, "standard");
+            if (_ennemies.Count < 1) _Level.LevelOne();
             foreach (Ennemy ennemy in _ennemies) ennemy.Update();
             
             if (_player.OnShoot)
@@ -86,12 +89,21 @@ namespace ITI.SusanooQuest.Lib
 
         }
 
-        private Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
+        public Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
         {
             Ennemy ennemy = new Ennemy(pos, length, game, life, speed, tag);
             _ennemies.Add(ennemy);
             return ennemy;
         }
+        
+
+        public LevelOrganizer CreateLevel()
+        {
+            LevelOrganizer levelone = new LevelOrganizer(_ennemies, _death, Player, this);
+            levelone.LevelOne();
+            return levelone;
+        }
+               
 
         internal void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
         {
@@ -126,8 +138,7 @@ namespace ITI.SusanooQuest.Lib
             Console.WriteLine("a plus de projectiles");
         }
 
-        
-
+       
         #region Properties
 
         public List<Ennemy> Ennemy
