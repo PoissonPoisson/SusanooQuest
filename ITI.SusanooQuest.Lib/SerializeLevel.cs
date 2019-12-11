@@ -13,8 +13,8 @@ namespace ITI.SusanooQuest.Lib
         public List<Ennemy> _enemies;
         readonly string _name;
         public List<Projectile> _projectile;
-        Player _player; 
-        
+        Player _player;
+
         public List<Ennemy> EnemyList => _enemies;
         public List<Projectile> ProjectileList => _projectile;
 
@@ -26,7 +26,7 @@ namespace ITI.SusanooQuest.Lib
             _player = player;
         }
 
-        public void  Serialize(string path)
+        public void Serialize(string path)
         {
 
             JObject j = new JObject(
@@ -39,14 +39,14 @@ namespace ITI.SusanooQuest.Lib
                 new JProperty("Player", _player.SerializePlayer()));
 
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate,
-      FileAccess.ReadWrite, FileShare.None))
+            FileAccess.ReadWrite, FileShare.None))
             using (StreamWriter sw = new StreamWriter(fs))
             using (JsonTextWriter jw = new JsonTextWriter(sw))
 
 
             {
                 j.WriteTo(jw);
-           
+
                 p.WriteTo(jw);
             }
 

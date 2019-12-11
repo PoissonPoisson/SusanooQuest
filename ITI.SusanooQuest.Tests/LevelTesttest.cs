@@ -16,8 +16,8 @@ namespace ITI.SusanooQuest.Tests
         public void Serialize()
         {
             Game game = new Game(500, 3, 0) ;
-            Ennemy sut = new Ennemy(new Vector(10,10), 15,game , 20, 20);
-            Ennemy ennemy = new Ennemy( new Vector(20,20), 15, game, 20, 20);
+            Ennemy sut = new Ennemy(new Vector(10,10), 15,game , 20, 20,"");
+            Ennemy ennemy = new Ennemy( new Vector(20,20), 15, game, 20, 20,"");
             List<Ennemy> ennemies = new List<Ennemy>();
             ennemies.Add(sut);
             ennemies.Add(ennemy);
