@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITI.SusanooQuest.Lib", "ITI.SusanooQuest.Lib\ITI.SusanooQuest.Lib.csproj", "{72FEB9CC-50C0-43BF-BE83-D5421CF3CBF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITI.SusanooQuest.Lib", "ITI.SusanooQuest.Lib\ITI.SusanooQuest.Lib.csproj", "{72FEB9CC-50C0-43BF-BE83-D5421CF3CBF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITI.SusanooQuest.Tests", "ITI.SusanooQuest.Tests\ITI.SusanooQuest.Tests.csproj", "{5186C4CB-FC4E-4F58-9457-7822A5E63E42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITI.SusanooQuest.Tests", "ITI.SusanooQuest.Tests\ITI.SusanooQuest.Tests.csproj", "{5186C4CB-FC4E-4F58-9457-7822A5E63E42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITI.SusanooQuest.UI", "ITI.SusanooQuest.UI\ITI.SusanooQuest.UI.csproj", "{1908843D-B0FA-42BE-8EB0-98AEA52B6B4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITI.SusanooQuest.UI", "ITI.SusanooQuest.UI\ITI.SusanooQuest.UI.csproj", "{1908843D-B0FA-42BE-8EB0-98AEA52B6B4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITI.SusanooQuest.MQTT", "ITI.SusanooQuest.MQTT\ITI.SusanooQuest.MQTT.csproj", "{9070C858-300D-403A-A089-DA3095F9596E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{1908843D-B0FA-42BE-8EB0-98AEA52B6B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1908843D-B0FA-42BE-8EB0-98AEA52B6B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1908843D-B0FA-42BE-8EB0-98AEA52B6B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9070C858-300D-403A-A089-DA3095F9596E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9070C858-300D-403A-A089-DA3095F9596E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9070C858-300D-403A-A089-DA3095F9596E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9070C858-300D-403A-A089-DA3095F9596E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

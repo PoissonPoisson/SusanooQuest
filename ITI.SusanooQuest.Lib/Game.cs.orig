@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ITI.SusanooQuest.Lib
 {
@@ -68,16 +67,8 @@ namespace ITI.SusanooQuest.Lib
                     float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2)));
                     float sumR = projectile.Length + _player.Length;
                     if (sumR > distance) ProjectileExplode(projectile, _player);
-                } else
-                {
-                    foreach (Ennemy e in _ennemies)
-                    {
-                        float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(e.Position.X - projectile.Position.X, 2) + Math.Pow(e.Position.Y - projectile.Position.Y, 2)));
-                        float sumR = projectile.Length + e.Length;
-                        if (sumR > distance) ProjectileExplode(projectile, e);
-                    }
                 }
-
+                
                 if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
             }
             if (_projectilesToDel.Count != 0)
@@ -98,10 +89,14 @@ namespace ITI.SusanooQuest.Lib
 
         }
 
+<<<<<<< HEAD
 
 
         public Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
 
+=======
+        public Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
+>>>>>>> 5d34631503fdb75874d72e1d43856277e0576be9
         {
             Ennemy ennemy = new Ennemy(pos, length, game, life, speed, tag);
             _ennemies.Add(ennemy);

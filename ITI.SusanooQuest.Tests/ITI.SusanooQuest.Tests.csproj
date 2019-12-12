@@ -12,7 +12,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ITI.SusanooQuest.Lib\ITI.SusanooQuest.Lib.csproj" />
+    <ProjectReference Include="..\ITI.SusanooQuest.MQTT\ITI.SusanooQuest.MQTT.csproj" />
     <ProjectReference Include="..\ITI.SusanooQuest.UI\ITI.SusanooQuest.UI.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Content Include ="leveltest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+    </Content>
+  </ItemGroup>
 </Project>
