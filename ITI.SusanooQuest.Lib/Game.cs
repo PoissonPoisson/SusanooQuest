@@ -46,7 +46,7 @@ namespace ITI.SusanooQuest.Lib
 
         public bool Update()
         {
-            if (_ennemies.Count < 1) _Level.LevelOne();
+            if (_ennemies.Count < 1) _Level.Level();
             foreach (Ennemy ennemy in _ennemies) ennemy.Update();
             
             if (_player.OnShoot)
@@ -104,7 +104,7 @@ namespace ITI.SusanooQuest.Lib
         public LevelOrganizer CreateLevel()
         {
             LevelOrganizer levelone = new LevelOrganizer(_ennemies, _death, Player, this);
-            levelone.LevelOne();
+            levelone.Level();
             return levelone;
         }
                
