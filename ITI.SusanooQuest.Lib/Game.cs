@@ -9,6 +9,7 @@ namespace ITI.SusanooQuest.Lib
         #region Fields
         //readonly Dictionary<string,Dictionary<string,>>
         List<Ennemy> _ennemies;
+        List<Ennemy> _ennemiesToDel;
         List<Ennemy> _death;
         readonly List<Projectile> _projectiles;
         readonly List<Projectile> _projectilesToDel;
@@ -26,6 +27,7 @@ namespace ITI.SusanooQuest.Lib
         public Game(ushort playerLife ,ushort bombes, uint highScore)
         {
             _ennemies = new List<Ennemy>();
+            _ennemiesToDel = new List<Ennemy>();
             _death = new List<Ennemy>();
             _map = new Map(900, 1000);
             _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 5);
@@ -40,15 +42,15 @@ namespace ITI.SusanooQuest.Lib
 
         }
 
-        
-
-        
-
         public bool Update()
         {
-            if (_ennemies.Count < 1) _Level.LevelOne();
-            foreach (Ennemy ennemy in _ennemies) ennemy.Update();
-            
+            if (_ennemies.Count < 1 )_Level.LevelOne();
+
+            for (int i = _ennemies.Count() - 1; i >= 0; i--)
+            {
+                _ennemies[i].Update();
+            }
+
             if (_player.OnShoot)
             {
                 _cd--;
@@ -59,16 +61,20 @@ namespace ITI.SusanooQuest.Lib
                 }
             }
 
+            //Update all the projectiles
             foreach (Projectile projectile in _projectiles)
             {
+                //Make teh projectile move
                 projectile.Update();
 
+                //If the projectiles belong to an ennemy, compare the position with the player and explode if collision
                 if (projectile.Shooter != _player)
                 {
                     float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2)));
                     float sumR = projectile.Length + _player.Length;
                     if (sumR > distance) ProjectileExplode(projectile, _player);
                 } else
+                //Else, compare the projectile to all the ennemies and explode 
                 {
                     foreach (Ennemy e in _ennemies)
                     {
@@ -78,6 +84,7 @@ namespace ITI.SusanooQuest.Lib
                     }
                 }
 
+                //Del projectile if out of bond
                 if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
             }
             if (_projectilesToDel.Count != 0)
@@ -92,8 +99,8 @@ namespace ITI.SusanooQuest.Lib
 
         private void ProjectileExplode(Projectile projectile, Entity target)
         {
-            _player.Life -= projectile.Damage;
-            Console.WriteLine(_player.Life);
+            target.Life -= projectile.Damage;
+            //Console.WriteLine(_player.Life);
             _projectilesToDel.Add(projectile);
 
         }
@@ -137,6 +144,7 @@ namespace ITI.SusanooQuest.Lib
         internal void OnKill(Ennemy ennemy)
         {
             _ennemies.Remove(ennemy);
+            //Console.WriteLine( _ennemies.Count());
         }
         
         public void OnClearProjectil()

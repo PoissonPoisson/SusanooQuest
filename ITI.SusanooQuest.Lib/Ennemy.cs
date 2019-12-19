@@ -19,8 +19,6 @@ namespace ITI.SusanooQuest.Lib
             _cd = 10;
         }
 
-
-
         protected override void Kill()
         {
             _game.OnKill(this);
@@ -31,7 +29,10 @@ namespace ITI.SusanooQuest.Lib
         internal override void Update()
         {
 
-            if (_life == 0) Kill();
+            if (_life <= 0)
+            {
+                Kill();
+            }
             else Move();
             
         }
@@ -50,8 +51,6 @@ namespace ITI.SusanooQuest.Lib
             //Console.WriteLine(_pos);
         }
 
-        public string Tag => _tag;
-
         internal JToken Serialize()
         {
 
@@ -61,5 +60,7 @@ namespace ITI.SusanooQuest.Lib
                 );
 
         }
+
+        public string Tag => _tag;
     }
 }
