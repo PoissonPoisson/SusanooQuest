@@ -19,7 +19,7 @@ namespace ITI.SusanooQuest.Lib
             _cd = 10;
         }
 
-        protected override void Kill()
+        private void Kill()
         {
             _game.OnKill(this);
             _game = null;
@@ -29,23 +29,25 @@ namespace ITI.SusanooQuest.Lib
         internal override void Update()
         {
 
-            if (_life <= 0)
-            {
-                Kill();
-            }
+            if (_life <= 0) Kill();
             else Move();
             
         }
 
         protected void Move()
         {
+            //Same as the player, make the ennemy shoot evry 10 updates
             _cd--;
             if (_cd == 0)
             {
                 _game.CreateProjectile(2, 1, new Vector(_pos.X + _length, _pos.Y + _length), this, "CosY");
                 _cd = 10;
             }
+
+            //Make the ennemy go the other way when it bumps against the edge of the map
             if (_pos.X < 0 || _pos.X > _game.Map.Width) _speed = -(_speed);
+
+            //Move the ennemy
             Vector newpos = new Vector(_pos.X + _speed, _pos.Y);
             _pos = newpos;
             //Console.WriteLine(_pos);

@@ -49,8 +49,6 @@ namespace ITI.SusanooQuest.Lib
 
         internal abstract void Update();
 
-        protected abstract void Kill();
-
         #endregion
     }
 }

@@ -44,8 +44,12 @@ namespace ITI.SusanooQuest.Lib
 
         public bool Update()
         {
-            if (_ennemies.Count < 1 )_Level.LevelOne();
+            if (_ennemies.Count < 1)
+            {
+                _Level.LevelOne();
+            }
 
+            //Update all the ennemies
             for (int i = _ennemies.Count() - 1; i >= 0; i--)
             {
                 _ennemies[i].Update();
@@ -53,6 +57,8 @@ namespace ITI.SusanooQuest.Lib
 
             if (_player.OnShoot)
             {
+                //Is here to make the player shoot evry 10 turn
+                //cd is reset to 1 evry time the key is released
                 _cd--;
                 if (_cd == 0)
                 {
@@ -64,7 +70,7 @@ namespace ITI.SusanooQuest.Lib
             //Update all the projectiles
             foreach (Projectile projectile in _projectiles)
             {
-                //Make teh projectile move
+                //Make the projectile move
                 projectile.Update();
 
                 //If the projectiles belong to an ennemy, compare the position with the player and explode if collision
@@ -87,16 +93,20 @@ namespace ITI.SusanooQuest.Lib
                 //Del projectile if out of bond
                 if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
             }
+            //Del all the projectile that expload or went out of bond 
             if (_projectilesToDel.Count != 0)
             {
                 foreach (Projectile projectile in _projectilesToDel) _projectiles.Remove(projectile);
                 _projectilesToDel.Clear();
             }
+
             _player.Update();
+
             if (_highScore < _score) _highScore = _score;
             return _player.Life == 0;
         }
 
+        //Inflict the damage of a projectile to the target
         private void ProjectileExplode(Projectile projectile, Entity target)
         {
             target.Life -= projectile.Damage;
@@ -126,8 +136,10 @@ namespace ITI.SusanooQuest.Lib
 
         internal void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
         {
+            //Creat the incomplete projectile
             Projectile projec = new Projectile(speed, damage, origin, shooter, type);
 
+            //Complete it with hi movement methode (designe pattern strategy)
             switch (type)
             {
                 case "Y":
@@ -147,6 +159,7 @@ namespace ITI.SusanooQuest.Lib
             //Console.WriteLine( _ennemies.Count());
         }
         
+        //Clear all projectile when a bomb is used
         public void OnClearProjectil()
         {
             for (int i = _projectiles.Count-1; i >= 0; i--) if (_projectiles[i].Shooter != _player) _projectiles.Remove(_projectiles[i]);
@@ -154,6 +167,7 @@ namespace ITI.SusanooQuest.Lib
             _bombes--;
             Console.WriteLine("BOOOOOOOOOM!");
         }
+
         public void EndClearProjectil()
         {
             Console.WriteLine("a plus de projectiles");

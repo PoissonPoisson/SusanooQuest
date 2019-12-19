@@ -34,12 +34,11 @@ namespace ITI.SusanooQuest.Lib
 
         private void VagueOne()
         {
-            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 3, "standard"));
-            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(90, 70), 20, _context, 25, 3, "standard"));
-            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(80, 60), 20, _context, 25, 3, "standard"));
-            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(70, 50), 20, _context, 25, 3, "standard"));
-            _ennemiesAlive.Add(_context.CreateEnnemy(new Vector(60, 40), 20, _context, 25, 3, "standard"));
-            _context.Update();
+            _context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 3, "standard");
+            _context.CreateEnnemy(new Vector(90, 70), 20, _context, 25, 3, "standard");
+            _context.CreateEnnemy(new Vector(80, 60), 20, _context, 25, 3, "standard");
+            _context.CreateEnnemy(new Vector(70, 50), 20, _context, 25, 3, "standard");
+            _context.CreateEnnemy(new Vector(60, 40), 20, _context, 25, 3, "standard");
         }
     }
 }
