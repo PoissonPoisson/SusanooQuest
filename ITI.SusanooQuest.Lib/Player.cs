@@ -45,13 +45,9 @@ namespace ITI.SusanooQuest.Lib
             Move();
         }
 
-        protected override void Kill()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Move()
         {
+            //Decide wich motion vector to apply tho the player depending on what key is pressed
             float x = (_deplacement["Left"]) ? -1 : 0;
             x += (_deplacement["Right"]) ? 1 : 0;
             float y = (_deplacement["Up"]) ? -1 : 0;
@@ -82,9 +78,10 @@ namespace ITI.SusanooQuest.Lib
 
         public void EndShoot()
         {
+            //Refresh the cd so that the player will shoot directly when the key is pressed again
             _game.Cd = 1;
+
             _onShoot = false;
-            //Console.WriteLine("je ne tire plus");
         }
 
         internal JToken SerializePlayer()
