@@ -8,7 +8,7 @@ namespace ITI.SusanooQuest.Lib
     {
         #region Fields
         //readonly Dictionary<string,Dictionary<string,>>
-        List<Ennemy> _ennemies;
+        readonly List<Ennemy> _ennemies;
         List<Ennemy> _ennemiesToDel;
         List<Ennemy> _death;
         readonly List<Projectile> _projectiles;
@@ -114,25 +114,31 @@ namespace ITI.SusanooQuest.Lib
             _projectilesToDel.Add(projectile);
 
         }
-
-
-
-        public Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
-
-        {
-            Ennemy ennemy = new Ennemy(pos, length, game, life, speed, tag);
-            _ennemies.Add(ennemy);
-            return ennemy;
-        }
         
-
         public LevelOrganizer CreateLevel()
         {
             LevelOrganizer levelone = new LevelOrganizer(_ennemies, _death, Player, this);
             levelone.LevelOne();
             return levelone;
         }
-               
+
+        internal Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
+        {
+
+            //Creat the incomplete ennemy
+            Ennemy ennemy = new Ennemy(pos, length, game, life, speed, tag);
+
+            //Complete it with his movement methode (designe pattern strategy)
+            switch (tag)
+            {
+                case "standard":
+                    ennemy.Movement = new Standard(ennemy.Speed, this);
+                    break;
+            }
+
+            _ennemies.Add(ennemy);
+            return ennemy;
+        }
 
         internal void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
         {
@@ -146,7 +152,7 @@ namespace ITI.SusanooQuest.Lib
                     projec.Movement = new Y(projec.Speed);
                     break;
                 case "CosY":
-                    projec.Movement = new CosY(projec.Speed, projec.Origin);
+                    projec.Movement = new CosY(projec.Speed);
                     break;
             }
 
