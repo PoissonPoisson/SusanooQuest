@@ -11,6 +11,7 @@ namespace ITI.SusanooQuest.Lib
     }
     public class Projectile
     {
+        #region fields
         IMovement _movement;
         Vector _pos;
         readonly Vector _origin;
@@ -19,7 +20,7 @@ namespace ITI.SusanooQuest.Lib
         readonly float _length;
         readonly int _damage;
         readonly string _tag;
-        
+        #endregion
 
         public Projectile(double speed, int damage, Vector origin, Entity shooter, string tag)
         {
@@ -66,10 +67,12 @@ namespace ITI.SusanooQuest.Lib
     public class Y : IMovement
     {
         double _step;
+
         internal Y (double step)
         {
             _step = step;
         }
+
         public Vector Move(Vector pos)
         {
             double x = pos.X;
@@ -80,19 +83,15 @@ namespace ITI.SusanooQuest.Lib
 
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
-
-
-        
     }
 
     class CosY : IMovement
     {
         double _step;
-        Vector _origin;
-        internal CosY(double step, Vector origin)
+
+        internal CosY(double step)
         {
             _step = step;
-            _origin = origin;
         }
 
         public Vector Move(Vector pos)
@@ -100,9 +99,9 @@ namespace ITI.SusanooQuest.Lib
             
             double x = pos.X;
             double y = pos.Y;
+            //Décalage pour que le projectile apparaisse bien devant le tireur
             if (y == 0) y = -79;
             x = Convert.ToSingle(200*Math.Cos(Convert.ToDouble(y)/50));
-            //Console.WriteLine("x : "+x+" || y: "+y);
             y += _step;
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
