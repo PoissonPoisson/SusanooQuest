@@ -124,6 +124,11 @@ namespace ITI.SusanooQuest.Lib
 
         internal Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
         {
+            if (pos.X < 0 || pos.Y < 0) throw new ArgumentOutOfRangeException("out of bond", nameof(pos));
+            if (length <= 0) throw new ArgumentException("Length must be positive", nameof(length));
+            if (life <= 0) throw new ArgumentException("Life must be positive", nameof(life));
+            if (speed < 0) throw new ArgumentException("Speed must be positive", nameof(speed));
+            if (game == null) throw new ArgumentNullException(nameof(game));
 
             //Creat the incomplete ennemy
             Ennemy ennemy = new Ennemy(pos, length, game, life, speed, tag);
@@ -134,6 +139,11 @@ namespace ITI.SusanooQuest.Lib
                 case "standard":
                     ennemy.Movement = new Standard(ennemy.Speed, this);
                     break;
+                case "diagonal":
+                    ennemy.Movement = new Diagonal(ennemy.Speed, this);
+                    break;
+                default:
+                    throw new ArgumentException("Does not match any ennemy type", nameof(tag));
             }
 
             _ennemies.Add(ennemy);
@@ -142,10 +152,14 @@ namespace ITI.SusanooQuest.Lib
 
         internal void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
         {
+            if (speed < 0 || damage < 0) throw new ArgumentException("Must be superior to 0");
+            if (shooter == null) throw new ArgumentNullException();
+            if (origin.X <= 0 || origin.Y <= 0) throw new ArgumentOutOfRangeException("out of Bound");
+
             //Creat the incomplete projectile
             Projectile projec = new Projectile(speed, damage, origin, shooter, type);
 
-            //Complete it with hi movement methode (designe pattern strategy)
+            //Complete it with his movement methode (designe pattern strategy)
             switch (type)
             {
                 case "Y":
