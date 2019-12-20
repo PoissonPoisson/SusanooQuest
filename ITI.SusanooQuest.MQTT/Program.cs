@@ -7,9 +7,9 @@ namespace ITI.SusanooQuest.MQTT
 {
     class Program
     {
-    static void Main(string[] args)
+    static void Main()
         {
-            switch (RequestMenu().ToUpper())
+            switch (RequestMenu())
             {
                 case "S":
                     RunServer();
@@ -45,7 +45,7 @@ namespace ITI.SusanooQuest.MQTT
             while (true)
             {
                 Console.WriteLine("What do you want to be ?\n S : Server\n C : Client\n");
-                request = Console.ReadKey().KeyChar.ToString();
+                request = Console.ReadKey().KeyChar.ToString().ToUpper();
                 if (request == "S" || request == "C") return request;
             }
         }
@@ -73,28 +73,23 @@ namespace ITI.SusanooQuest.MQTT
 
         static void RunClient()
         {
-            string serverIP = "";
-            while (!Client.VerifyIfIPAddressIsValid(serverIP))
+            string serverIP;
+            do
             {
                 Console.Write("\nEnter an server IP address : ");
                 serverIP = Console.ReadLine();
-            }
+            } while (!Client.VerifyIfIPAddressIsValid(serverIP));
 
-            string message;
             string topic;
             using (Client client = new Client(serverIP, 20202))
             {
                 topic = client.ID;
                 client.Subcribe(topic);
 
-                Console.Write("\nEnter your message : ");
-                client.Publish(topic, Console.ReadLine());
+                //Console.Write("\nEnter your message : ");
+                //client.Publish(topic, Console.ReadLine());
 
-                while (true)
-                {
-                    //Console.WriteLine($"{client.GetMessage()}");
-                    client.GetMessage();
-                }
+                while (true) { }
             }
         }
     }

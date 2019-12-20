@@ -11,7 +11,7 @@ namespace ITI.SusanooQuest.MQTT
     internal class Certificate : IMqttAuthenticationProvider
     {
         readonly Dictionary<string, Dictionary<string, string>> _autentificate;
-        // the key is client id, value contains  a dictionary with the client's user name and password
+        // the key is client id, value contains a dictionary with the client's user name and password
         readonly uint _maxClient;
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace ITI.SusanooQuest.MQTT
 
             if (!_autentificate.ContainsKey(clientID))
             {
-                if (_autentificate.Count >= 2) return false;
+                if (_autentificate.Count >= _maxClient) return false;
                 else
                 {
                     _autentificate.Add(

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using System.Text;
 
 namespace ITI.SusanooQuest.MQTT
 {
@@ -13,7 +14,7 @@ namespace ITI.SusanooQuest.MQTT
 
         public Server(ushort port = 20202)
         {
-            _certificate = new Certificate(2);
+            _certificate = new Certificate(3);
 
             _configuration = new MqttConfiguration()
             {
@@ -22,6 +23,13 @@ namespace ITI.SusanooQuest.MQTT
             };
             
             _server = MqttServer.Create(_configuration, authenticationProvider: _certificate);
+
+            _server.ClientConnected += (a, e) =>
+            {
+                Console.WriteLine("1");
+                if (Connections == 2) SendTopicsName();
+            };
+
             _server.Start();
         }
 
@@ -29,15 +37,51 @@ namespace ITI.SusanooQuest.MQTT
         {
             get
             {
-                try
-                {
-                    return _server.ActiveConnections;
-                }
+                try { return _server.ActiveConnections; }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Server is temporarily or definitively down.");
+                    Console.WriteLine($"Error : {e.GetType()}\nMessage : {e.Message}");
                     return -1;
                 }
+            }
+        }
+
+        void SendTopicsName()
+        {
+            Console.WriteLine("2");
+            using (IMqttClient client = MqttClient.CreateAsync("127.0.0.1", _configuration).Result)
+            {
+                SessionState session = client.ConnectAsync(
+                    new MqttClientCredentials(
+                        Guid.NewGuid().ToString().Replace("-", ""),
+                        Guid.NewGuid().ToString(),
+                        Guid.NewGuid().ToString()
+                    ),
+                    cleanSession: true
+                ).Result;
+                Console.WriteLine($"My ID is : {client.Id}");
+
+                List<string> clientsID = new List<string>();
+                foreach (string clientID in _server.ActiveClients)
+                {
+                    Console.WriteLine(clientID);
+                    clientsID.Add(clientID);
+                }
+                clientsID.Remove(client.Id);
+
+                for (ushort i = 0; i < 2; i++)
+                {
+                    client.SubscribeAsync(clientsID[i], MqttQualityOfService.ExactlyOnce);
+                    client.PublishAsync(
+                        new MqttApplicationMessage(
+                            clientsID[i],
+                            Encoding.ASCII.GetBytes(clientsID[(i + 1) % 2])
+                        ),
+                        MqttQualityOfService.ExactlyOnce
+                    );
+                    client.UnsubscribeAsync(clientsID[i]);
+                }
+                client.DisconnectAsync();
             }
         }
 

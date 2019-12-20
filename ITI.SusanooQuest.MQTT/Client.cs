@@ -32,8 +32,12 @@ namespace ITI.SusanooQuest.MQTT
                 Guid.NewGuid().ToString()
             );
 
-            SessionState s = _client.ConnectAsync(_credential, cleanSession: true).Result;
+            SessionState session = _client.ConnectAsync(_credential, cleanSession: true).Result;
         }
+
+        public bool IsConnected => _client.IsConnected;
+
+        public string ID => _client.Id;
 
         public void Subcribe(string topicName)
         {
@@ -41,6 +45,8 @@ namespace ITI.SusanooQuest.MQTT
             if (topicName.Trim() == string.Empty) throw new ArgumentException("Topic name can't contain just space", nameof(topicName));
 
             _client.SubscribeAsync(topicName, _configuration.MaximumQualityOfService);
+
+            _client.MessageStream.Subscribe(msg => Console.WriteLine($"Message on topic : {msg.Topic}, Message : {Encoding.ASCII.GetString(msg.Payload)}") );
         }
 
         public void Publish(string topicName, string message)
@@ -53,32 +59,7 @@ namespace ITI.SusanooQuest.MQTT
                 new MqttApplicationMessage(topicName, Encoding.ASCII.GetBytes(message)),
                 _configuration.MaximumQualityOfService
             );
-
-            //byte[] msg = Encoding.ASCII.GetBytes("coucou");
-            //var m = new MqttApplicationMessage("coucou", msg);
-
-            //IObservable<MqttApplicationMessage> msg = _client.MessageStream;
-            //IDisposable  msg.Subscribe();
-
-            //MqttClientCredentials a = new MqttClientCredentials("myTopic", "username", "password");
-            // test credentials
         }
-
-        public string GetMessage(int a)
-        {
-            IObservable<MqttApplicationMessage> msg =_client.MessageStream;
-            IDisposable m = msg.Subscribe();
-            return m.ToString();
-        }
-
-        public void GetMessage()
-        {
-            _client.MessageStream.Subscribe(msg => Console.WriteLine($"Message recevied in the topic : {msg.Topic}\n  -> {Encoding.ASCII.GetString(msg.Payload)}"));
-        }
-
-        public bool IsConnected => _client.IsConnected;
-
-        public string ID => _client.Id;
 
         public void Disconnect() 
         {
