@@ -23,7 +23,6 @@ namespace ITI.SusanooQuest.Lib
             _ennemiesDeath = ennemiesDeath;            
             _context = ctx;
         }
-            
 
 
         public void NextVague()
@@ -146,10 +145,11 @@ namespace ITI.SusanooQuest.Lib
                 }
         }
        
-       public bool NextLevel()
-        {
-            return _nextLevel == true;
-        }
+       public void NextLevel()
+       {
+            /*new LevelTwo levelTwo */
+
+       }
 
         public void FirstBoss()
         {

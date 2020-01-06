@@ -34,10 +34,7 @@ namespace ITI.SusanooQuest.Lib
         {
             LevelOne levelone = new LevelOne(_ennemiesAlive, _ennemiesDeath, _context);
             levelone.NextVague();
-            if (levelone.NextLevel() == true)
-            {
-                
-            }
+           
         }
     }
 }
