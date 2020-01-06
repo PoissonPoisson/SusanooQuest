@@ -226,7 +226,7 @@ namespace ITI.SusanooQuest.UI
             _game.Update();
             UpdateLife();
 
-            //if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
+            if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
         }
 
         public void Dispose()
