@@ -110,6 +110,7 @@ namespace ITI.SusanooQuest.UI
             //Dictionary of ennemy texture
             _ennemiesTexture = new Dictionary<string, CircleShape>();
             _ennemiesTexture.Add("standard", new CircleShape(8));
+            _ennemiesTexture.Add("diagonal", new CircleShape(8) { FillColor = Color.Cyan});
 
             _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
             _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };

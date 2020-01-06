@@ -24,6 +24,10 @@ namespace ITI.SusanooQuest.Lib
 
         public Projectile(double speed, int damage, Vector origin, Entity shooter, string tag)
         {
+            if (speed < 0 || damage < 0) throw new ArgumentException("Must be superior to 0");
+            if (shooter == null) throw new ArgumentNullException();
+            if (origin.X <= 0 || origin.Y <= 0) throw new ArgumentOutOfRangeException("out of Bound");
+
             _origin = origin;
             _pos = new Vector(0, 0);
             _speed = speed;
@@ -47,10 +51,10 @@ namespace ITI.SusanooQuest.Lib
 
         public Vector Position
         {
-            get 
-            { 
+            get
+            {
                 if (_tag == "CosY") return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y + 79);
-                return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y); 
+                return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y);
             }
         }
         public string Tag => _tag;
@@ -68,7 +72,7 @@ namespace ITI.SusanooQuest.Lib
     {
         double _step;
 
-        internal Y (double step)
+        internal Y(double step)
         {
             _step = step;
         }
@@ -96,12 +100,12 @@ namespace ITI.SusanooQuest.Lib
 
         public Vector Move(Vector pos)
         {
-            
+
             double x = pos.X;
             double y = pos.Y;
             //Décalage pour que le projectile apparaisse bien devant le tireur
             if (y == 0) y = -79;
-            x = Convert.ToSingle(200*Math.Cos(Convert.ToDouble(y)/50));
+            x = Convert.ToSingle(200 * Math.Cos(Convert.ToDouble(y) / 50));
             y += _step;
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }

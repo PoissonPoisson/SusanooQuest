@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+
 
 namespace ITI.SusanooQuest.Lib
 {
@@ -86,6 +84,25 @@ namespace ITI.SusanooQuest.Lib
         }
     }
 
-    
+    public class Diagonal : IMovement
+    {
+        float _speed;
+        Game _game;
+
+        internal Diagonal(double speed, Game game)
+        {
+            _speed = Convert.ToSingle(speed);
+            _game = game;
+        }
+
+        public Vector Move(Vector pos)
+        {
+            //Make the ennemy go the other way when it bumps against the edge of the map
+            if (pos.X < 0 || pos.X > _game.Map.Width) _speed = -(_speed);
+            return new Vector(pos.X + _speed, pos.Y + _speed); ;
+        }
+    }
+
+
     
 }
