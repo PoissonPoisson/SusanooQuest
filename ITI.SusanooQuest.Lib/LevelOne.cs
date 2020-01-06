@@ -11,8 +11,7 @@ namespace ITI.SusanooQuest.Lib
         readonly List<Ennemy> _ennemiesDeath;
 
         Game _context;
-        int _i = 0;
-        bool _nextLevel = false;
+        int _i = 8;        
         public List<Ennemy> Alive => _ennemiesAlive ;
 
         public List<Ennemy> Dead => _ennemiesDeath;
