@@ -39,9 +39,9 @@ namespace ITI.SusanooQuest.Lib
                         _context.Update();
                     };
                     _i++;
+                    Update();
                     break;
                 case 1:
-                    if (_context.Ennemy.Count() == 0)
                     {
                          _context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 5, "standard");
                          _context.CreateEnnemy(new Vector(90, 70), 20, _context, 25, 5, "standard");
@@ -51,9 +51,10 @@ namespace ITI.SusanooQuest.Lib
                         _context.Update();
                     };
                         _i++;
+                    if (_context.Ennemy.Count() == 0)
+                        Update();
                         break;
                     case 2:
-                        if (_context.Ennemy.Count() == 0)
                         {
                              _context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 5, "standard");
                              _context.CreateEnnemy(new Vector(90, 70), 20, _context, 25, 5, "standard");
@@ -68,9 +69,10 @@ namespace ITI.SusanooQuest.Lib
                             _context.Update();
                         };                            
                         _i++;
+                    if (_context.Ennemy.Count() == 0)
+                        Update();
                         break;
                     case 3:
-                        if (_context.Ennemy.Count() == 0)
                         {
                              _context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 5, "standard");
                              _context.CreateEnnemy(new Vector(90, 70), 20, _context, 25, 5, "standard");
@@ -85,13 +87,16 @@ namespace ITI.SusanooQuest.Lib
                             _context.Update();
                         };
                         _i++;
+                    if (_context.Ennemy.Count() == 0)
+                        Update();
                         break;
                     case 4:
-                        if (_context.Ennemy.Count() == 0) FirstBoss();
+                         FirstBoss();
                         _i++;
+                    if (_context.Ennemy.Count() == 0)
+                        Update();
                         break;
                     case 5:
-                        if (_context.Ennemy.Count() == 0)
                         {
                              _context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 5, "standard");
                              _context.CreateEnnemy(new Vector(90, 70), 20, _context, 25, 5, "standard");
@@ -106,9 +111,10 @@ namespace ITI.SusanooQuest.Lib
                             _context.Update();
                         };
                         _i++;
+                    if (_context.Ennemy.Count() == 0)
+                        Update();
                         break;
                     case 6:
-                        if (_context.Ennemy.Count() == 0)
                         {
                              _context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 5, "standard");
                              _context.CreateEnnemy(new Vector(100, 70), 20, _context, 25, 5, "standard");
@@ -133,10 +139,14 @@ namespace ITI.SusanooQuest.Lib
                             _context.Update();
                         };
                         _i++;
+                    if (_context.Ennemy.Count() == 0)
+                        Update();
                         break;
                     case 7:
-                        if (_context.Ennemy.Count() == 0) Boss();
+                        Boss();
                         _i++;
+                    if (_context.Ennemy.Count() == 0)
+                        Update();
                         break;
                 case 8:
                     if (_context.Ennemy.Count() == 0) NextLevel() ;
@@ -148,7 +158,6 @@ namespace ITI.SusanooQuest.Lib
        {
             LevelTwo leveltwo = new LevelTwo(_ennemiesAlive, _ennemiesDeath, _context);
             leveltwo.NextVague();
-
        }
 
         public void FirstBoss()
@@ -161,6 +170,11 @@ namespace ITI.SusanooQuest.Lib
         {
              _context.CreateEnnemy(new Vector(100, 100), 75, _context, 500, 8, "boss");
             _context.Update();
+        }
+
+        public void Update()
+        {
+            this.NextLevel();
         }
     }
 }

@@ -15,5 +15,7 @@ namespace ITI.SusanooQuest.Lib
  
         public void NextLevel();
 
+        public void Update();
+
     }
 }
