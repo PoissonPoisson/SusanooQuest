@@ -13,8 +13,7 @@ namespace ITI.SusanooQuest.Lib
         Game _context;
         int _i = 0;
 
-        public List<Ennemy> Alive => _ennemiesAlive;
-         
+        public List<Ennemy> Alive => _ennemiesAlive;         
 
         public List<Ennemy> Dead => _ennemiesDeath;
        
@@ -26,49 +25,51 @@ namespace ITI.SusanooQuest.Lib
             _ennemiesDeath = ennemiesDeath;
             _context = ctx;
         }
-        DateTime _startExecutionDate = DateTime.Now;
 
+
+        DateTime _comparaison = DateTime.Now;
+        DateTime _LaunchNewVague = DateTime.Now.AddSeconds(10);
         public void Chronometer()
-        {
-            DateTime _startNewVague = _startExecutionDate.AddSeconds(10);
-            DateTime _comparaison =  DateTime.Now;
-            while (_comparaison < _startNewVague)
-            {
-                _comparaison =  DateTime.Now;
-            }
-            Update();
+        {            
+            if (_comparaison < _LaunchNewVague) ReStartChronometer();
+            else Update();         
         }
-             
-        public void Update()
+
+        public void ReStartChronometer()
         {
+            System.Threading.Thread.Sleep(1000);
+            _comparaison = DateTime.Now;
+            Chronometer();
+        }
+
+
+        public void Update()
+        {            
             NextVague();
         }
-        
+         
 
         public void NextVague()
         {
-            switch (_i)
+          switch (_i)
             {
-                case 0:
-                    if (_context.Ennemy.Count() == 0)
-                    {
+                case 0:                    
                         _context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 5, "standard");
                         _context.CreateEnnemy(new Vector(90, 70), 20, _context, 25, 5, "standard");
                         _context.CreateEnnemy(new Vector(80, 60), 20, _context, 25, 5, "standard");
                         _context.CreateEnnemy(new Vector(70, 50), 20, _context, 25, 5, "standard");
                         _context.CreateEnnemy(new Vector(60, 40), 20, _context, 25, 5, "standard");
-                        _context.Update();
-                    };
+                        _context.Update();                    
                     _i++;
                     Chronometer();
                     break;                   
-                case 1:                   
+                case 1:
                         _context.CreateEnnemy(new Vector(100, 80), 20, _context, 25, 5, "standard");
                         _context.CreateEnnemy(new Vector(90, 70), 20, _context, 25, 5, "standard");
                         _context.CreateEnnemy(new Vector(80, 60), 20, _context, 25, 5, "standard");
                         _context.CreateEnnemy(new Vector(70, 50), 20, _context, 25, 5, "standard");
                         _context.CreateEnnemy(new Vector(5, 100), 20, _context, 25, 5, "standard");
-                        _context.Update();                    
+                        _context.Update();                                       
                     _i++;
                     if (_context.Ennemy.Count() == 0)
                         Update();

@@ -22,6 +22,10 @@ namespace ITI.SusanooQuest.Lib
             _ennemiesDeath = ennemiesDeath;            
             _context = ctx;
         }
+        public void Update()
+        {
+            NextVague();
+        }
 
 
         public void NextVague()
@@ -148,7 +152,7 @@ namespace ITI.SusanooQuest.Lib
                     if (_context.Ennemy.Count() == 0)
                         Update();
                         break;
-                case 8:
+                    case 8:
                     if (_context.Ennemy.Count() == 0) NextLevel() ;
                     break;
                 }
@@ -172,9 +176,5 @@ namespace ITI.SusanooQuest.Lib
             _context.Update();
         }
 
-        public void Update()
-        {
-            this.NextLevel();
-        }
     }
 }

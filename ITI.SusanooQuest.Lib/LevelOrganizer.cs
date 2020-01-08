@@ -12,7 +12,7 @@ namespace ITI.SusanooQuest.Lib
         Player _player;
         ILevels _level;
         Game _context;
-        int _i = 0;
+        
 
 
 
@@ -29,12 +29,10 @@ namespace ITI.SusanooQuest.Lib
             _context = ctx;
 
         }
-
         public void Level()
         {
-            LevelOne levelone = new LevelOne(_ennemiesAlive, _ennemiesDeath, _context);
-            levelone.NextVague();
-           
+            LevelOne levelOne = new LevelOne(_ennemiesAlive, _ennemiesDeath, _context);
+            levelOne.NextVague();
         }
     }
 }

@@ -5,8 +5,7 @@ using System.Text;
 namespace ITI.SusanooQuest.Lib
 {
     public interface ILevels
-    {
-       
+    {       
         public void NextVague();
 
         public void FirstBoss();
