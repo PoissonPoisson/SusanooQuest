@@ -26,8 +26,8 @@ namespace ITI.SusanooQuest.MQTT
 
             _server.ClientConnected += (a, e) =>
             {
-                Console.WriteLine("1");
-                if (Connections == 2) SendTopicsName();
+                Console.WriteLine("Connexion...");
+                //if (Connections == 2) SendTopicsName();
             };
 
             _server.Start();
@@ -71,6 +71,7 @@ namespace ITI.SusanooQuest.MQTT
 
                 for (ushort i = 0; i < 2; i++)
                 {
+                    Console.WriteLine($"Client {i}");
                     client.SubscribeAsync(clientsID[i], MqttQualityOfService.ExactlyOnce);
                     client.PublishAsync(
                         new MqttApplicationMessage(

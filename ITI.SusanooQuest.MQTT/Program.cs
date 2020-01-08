@@ -17,6 +17,9 @@ namespace ITI.SusanooQuest.MQTT
                 case "C":
                     RunClient();
                     break;
+                case "U":
+                    RunClientSender();
+                    break;
                 default:
                     Console.WriteLine("\nNo menu selected.");
                     break;
@@ -44,9 +47,9 @@ namespace ITI.SusanooQuest.MQTT
             string request;
             while (true)
             {
-                Console.WriteLine("What do you want to be ?\n S : Server\n C : Client\n");
+                Console.WriteLine("What do you want to be ?\n S : Server\n C : Client\n U : Cliend Sender\n");
                 request = Console.ReadKey().KeyChar.ToString().ToUpper();
-                if (request == "S" || request == "C") return request;
+                if (request == "S" || request == "C" || request == "U") return request;
             }
         }
 
@@ -80,16 +83,41 @@ namespace ITI.SusanooQuest.MQTT
                 serverIP = Console.ReadLine();
             } while (!Client.VerifyIfIPAddressIsValid(serverIP));
 
-            string topic;
+            //string topic;
             using (Client client = new Client(serverIP, 20202))
             {
-                topic = client.ID;
-                client.Subcribe(topic);
+                Console.WriteLine($"I'm {client.ID}");
+                //topic = client.ID;
+                client.Subcribe("Public");
 
                 //Console.Write("\nEnter your message : ");
                 //client.Publish(topic, Console.ReadLine());
 
                 while (true) { }
+            }
+        }
+
+        static void RunClientSender()
+        {
+            string serverIP;
+            do
+            {
+                Console.Write("\nEnter an server IP address : ");
+                serverIP = Console.ReadLine();
+            } while (!Client.VerifyIfIPAddressIsValid(serverIP));
+
+            using (Client client = new Client(serverIP, 20202))
+            {
+                Console.WriteLine($"I'm {client.ID}");
+                client.Subcribe("Public");
+
+
+                while (true)
+                {
+                    Console.Write("\nEnter your message : ");
+                    string msg = Console.ReadLine();
+                    client.Publish("Public", msg);
+                }
             }
         }
     }
