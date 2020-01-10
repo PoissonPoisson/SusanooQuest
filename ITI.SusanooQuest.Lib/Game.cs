@@ -46,7 +46,7 @@ namespace ITI.SusanooQuest.Lib
         {
             if (_ennemies.Count < 1)
             {
-                _Level.LevelOne();
+                _Level.Level();
             }
 
             //Update all the ennemies
