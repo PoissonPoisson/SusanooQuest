@@ -117,9 +117,9 @@ namespace ITI.SusanooQuest.Lib
         
         public LevelOrganizer CreateLevel()
         {
-            LevelOrganizer levelone = new LevelOrganizer(_ennemies, _death, Player, this);
-            levelone.LevelOne();
-            return levelone;
+            LevelOrganizer level = new LevelOrganizer(_ennemies, _death, Player, this);
+            level.Level();
+            return level;
         }
 
         internal Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)

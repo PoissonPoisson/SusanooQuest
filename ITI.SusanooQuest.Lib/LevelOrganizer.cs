@@ -10,29 +10,26 @@ namespace ITI.SusanooQuest.Lib
         readonly List<Ennemy> _ennemiesAlive;
         readonly List<Ennemy> _ennemiesDeath;
         Player _player;
+        ILevels _level;
         Game _context;
-        int _i = 0;
-        Ennemy _ennemy;
+        
+
 
 
         public List<Ennemy> Alive => _ennemiesAlive;
         public List<Ennemy> Die => _ennemiesDeath;
 
+   
         public LevelOrganizer(List<Ennemy> ennemiesAlive, List<Ennemy> ennemiesDeath, Player player, Game ctx)
         {
             _ennemiesAlive = ennemiesAlive;
             _ennemiesDeath = ennemiesDeath;
+  
             _player = player;
             _context = ctx;
 
         }
-
-        public void LevelOne()
-        {
-            if (_context.Ennemy.Count() == 0) VagueOne() ;           
-        }
-
-        private void VagueOne()
+        public void Level()
         {
             _context.CreateEnnemy(new Vector(100, 80), 8, _context, 25, 3, "standard");
             _context.CreateEnnemy(new Vector(90, 70), 8, _context, 25, 3, "diagonal");
@@ -42,3 +39,4 @@ namespace ITI.SusanooQuest.Lib
         }
     }
 }
+
