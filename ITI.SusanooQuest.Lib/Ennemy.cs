@@ -4,16 +4,22 @@ using System;
 
 namespace ITI.SusanooQuest.Lib
 {
-    
+    interface IMovementEn
+    {
+        Vector Move(Vector pos);
+    }
+
     public class Ennemy : Entity
     {
         #region fields
-        IMovement _movement;
+        IMovementEn _movement;
         readonly string _tag;
         string _path = @"...\ITI.SusanooQuest.Lib\leveltest.json";
         ushort _cd;
         #endregion
 
+
+        
 
         public Ennemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
             : base(pos, length, game, life, speed)
@@ -28,7 +34,7 @@ namespace ITI.SusanooQuest.Lib
             _cd--;
             if (_cd == 0)
             {
-                _game.CreateProjectile(2, 1, new Vector(_pos.X + _length, _pos.Y + _length), this, "CosY");
+                if (_pos.X >= 0 && _pos.X <= _game.Map.Width && _pos.Y >= 0 && _pos.Y <= _game.Map.Height) _game.CreateProjectile(2, 1, new Vector(_pos.X, _pos.Y), this, "CosY");
                 _cd = 10;
             }
 
@@ -54,7 +60,7 @@ namespace ITI.SusanooQuest.Lib
 
         }
 
-        internal IMovement Movement
+        internal IMovementEn Movement
         {
             set { _movement = value; }
             get { return _movement; }
@@ -65,7 +71,7 @@ namespace ITI.SusanooQuest.Lib
         public string Tag => _tag;
     }
 
-    public class Standard : IMovement
+    public class Standard : IMovementEn
     {
         float _speed;
         Game _game;
@@ -84,7 +90,7 @@ namespace ITI.SusanooQuest.Lib
         }
     }
 
-    public class Diagonal : IMovement
+    public class Diagonal : IMovementEn
     {
         float _speed;
         Game _game;
@@ -98,7 +104,7 @@ namespace ITI.SusanooQuest.Lib
         public Vector Move(Vector pos)
         {
             //Make the ennemy go the other way when it bumps against the edge of the map
-            if (pos.X < 0 || pos.X > _game.Map.Width) _speed = -(_speed);
+            if (pos.X < 0 || pos.X > _game.Map.Width || pos.Y < 0 || pos.Y > _game.Map.Height) _speed = -(_speed);
             return new Vector(pos.X + _speed, pos.Y + _speed); ;
         }
     }

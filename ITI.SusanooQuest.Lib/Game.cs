@@ -63,7 +63,7 @@ namespace ITI.SusanooQuest.Lib
                 if (_cd == 0)
                 {
                     _cd = 10;
-                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X + _player.Length/2, _player.Position.Y + _player.Length/2), _player, "Y");
+                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X - 5, _player.Position.Y - 5), _player, "Y");
                 }
             }
 
@@ -76,8 +76,8 @@ namespace ITI.SusanooQuest.Lib
                 //If the projectiles belong to an ennemy, compare the position with the player and explode if collision
                 if (projectile.Shooter != _player)
                 {
-                    float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2)));
-                    float sumR = projectile.Length + _player.Length;
+                    double distance = Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2));
+                    float sumR = projectile.Movement.Length + _player.Length;
                     if (sumR > distance) ProjectileExplode(projectile, _player);
                 } else
                 //Else, compare the projectile to all the ennemies and explode 
@@ -85,7 +85,7 @@ namespace ITI.SusanooQuest.Lib
                     foreach (Ennemy e in _ennemies)
                     {
                         float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(e.Position.X - projectile.Position.X, 2) + Math.Pow(e.Position.Y - projectile.Position.Y, 2)));
-                        float sumR = projectile.Length + e.Length;
+                        float sumR = projectile.Movement.Length + e.Length;
                         if (sumR > distance) ProjectileExplode(projectile, e);
                     }
                 }
@@ -154,7 +154,7 @@ namespace ITI.SusanooQuest.Lib
         {
             if (speed < 0 || damage < 0) throw new ArgumentException("Must be superior to 0");
             if (shooter == null) throw new ArgumentNullException();
-            if (origin.X <= 0 || origin.Y <= 0) throw new ArgumentOutOfRangeException("out of Bound");
+            if (origin.X < 0 || origin.Y < 0) throw new ArgumentOutOfRangeException("out of Bound");
 
             //Creat the incomplete projectile
             Projectile projec = new Projectile(speed, damage, origin, shooter, type);
