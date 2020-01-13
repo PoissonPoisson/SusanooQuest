@@ -78,7 +78,11 @@ namespace ITI.SusanooQuest.Lib
                 {
                     double distance = Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2));
                     float sumR = projectile.Movement.Length + _player.Length;
-                    if (sumR > distance) ProjectileExplode(projectile, _player);
+                    if (sumR > distance)
+                    {
+                        ProjectileExplode(projectile, _player);
+                        break;
+                    } 
                 } else
                 //Else, compare the projectile to all the ennemies and explode 
                 {
@@ -109,6 +113,12 @@ namespace ITI.SusanooQuest.Lib
         //Inflict the damage of a projectile to the target
         private void ProjectileExplode(Projectile projectile, Entity target)
         {
+            if (target is Ennemy) _score += 100;
+            if (target is Player) 
+            {
+                OnClearProjectil();
+                _bombes++;
+            } 
             target.Life -= projectile.Damage;
             //Console.WriteLine(_player.Life);
             _projectilesToDel.Add(projectile);
@@ -176,6 +186,7 @@ namespace ITI.SusanooQuest.Lib
         internal void OnKill(Ennemy ennemy)
         {
             _ennemies.Remove(ennemy);
+            _score += ennemy.Movement.Type;
             //Console.WriteLine( _ennemies.Count());
         }
         
@@ -186,11 +197,6 @@ namespace ITI.SusanooQuest.Lib
             //foreach (Projectile projectile in _projectiles) if (projectile.Shooter != _player) _projectiles.Remove(projectile);
             _bombes--;
             Console.WriteLine("BOOOOOOOOOM!");
-        }
-
-        public void EndClearProjectil()
-        {
-            Console.WriteLine("a plus de projectiles");
         }
 
        
