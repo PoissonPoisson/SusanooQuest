@@ -20,7 +20,8 @@ namespace ITI.SusanooQuest.Lib
         uint _highScore;
         uint _score;
         ushort _bombes;
-        ushort _cd;
+        double _cd;
+        DateTime _lastShot;
 
         #endregion
 
@@ -37,8 +38,8 @@ namespace ITI.SusanooQuest.Lib
             _projectilesToDel = new List<Projectile>();
             _bombes = bombes;
             _score = 0;
-            _cd = 1;
             _Level = new LevelOrganizer(_ennemies, _death, Player, this);
+            _cd = 0.1;
 
         }
 
@@ -57,16 +58,13 @@ namespace ITI.SusanooQuest.Lib
 
             if (_player.OnShoot)
             {
-                //Is here to make the player shoot evry 10 turn
-                //cd is reset to 1 evry time the key is released
-                _cd--;
-                if (_cd == 0)
+                //Is here to make the player shoot evry 0.5 seconds
+                if (DateTime.Now >= _lastShot.AddSeconds(_cd))
                 {
-                    _cd = 10;
                     CreateProjectile(10, _player.Strength, new Vector(_player.Position.X - 5, _player.Position.Y - 5), _player, "Y");
+                    _lastShot = DateTime.Now;
                 }
             }
-
             //Update all the projectiles
             foreach (Projectile projectile in _projectiles)
             {
@@ -219,11 +217,6 @@ namespace ITI.SusanooQuest.Lib
         public ushort Bombes => _bombes;
 
         public List<Projectile> Projectiles => _projectiles;
-
-        internal ushort Cd
-        {
-            set { _cd = value; }
-        }
 
         #endregion
     }
