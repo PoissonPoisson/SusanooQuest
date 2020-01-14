@@ -53,9 +53,12 @@ namespace ITI.SusanooQuest.UI
             _buttons[3] = new Button(new Vector(1200, 615), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_quit.png"));
             _buttons[4] = new Button(new Vector(1200, 715), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
-
-            //_music = new Music(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.Lullaby_of_Deserted_Hell.wav"));
-            //_music.Play();
+            _music = new Music(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.Lullaby_of_Deserted_Hell.wav"));
+            _music.Play();
+            _music.Loop = true;
+            
+            
+            
         }
 
         #region Properties
@@ -90,8 +93,7 @@ namespace ITI.SusanooQuest.UI
                 ((_window.Size.Y / 2 + (_size.Y / 2) * _ratio) / _window.Size.Y) - ((_window.Size.Y / 2 - (_size.Y / 2) * _ratio) / _window.Size.Y)
             );
 
-            _window.SetView(_view);
-        }
+            _window.SetView(_view);        }
 
         public void MouseButtonPressed(MouseButtonEventArgs e)
         {
@@ -124,9 +126,7 @@ namespace ITI.SusanooQuest.UI
         }
 
         public void Dispose()
-        {
-            //_music.Stop();
-            //_music.Dispose();
+        {          
 
             _view.Dispose();
             _bg.Texture.Dispose();
@@ -135,7 +135,11 @@ namespace ITI.SusanooQuest.UI
             {
                 button.Image.Dispose();
             }
-        }
+            _music.Stop();
+            
+        }       
+            
+        
 
         #endregion
     }

@@ -7,10 +7,11 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SoapFormatter" Version="1.0.11" />
+    <PackageReference Include="TimePeriodLibrary.NET" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include ="leveltest.json">
+    <Content Include="leveltest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       
     </Content>

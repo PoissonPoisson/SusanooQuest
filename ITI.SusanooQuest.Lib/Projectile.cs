@@ -5,24 +5,29 @@ using System.Text;
 
 namespace ITI.SusanooQuest.Lib
 {
-    interface IMovement
+    public interface IMovement
     {
         Vector Move(Vector pos);
+        public float Length { get; }
     }
     public class Projectile
     {
+        #region fields
         IMovement _movement;
         Vector _pos;
         readonly Vector _origin;
         readonly Entity _shooter;
         readonly double _speed;
-        readonly float _length;
         readonly int _damage;
         readonly string _tag;
-        
+        #endregion
 
         public Projectile(double speed, int damage, Vector origin, Entity shooter, string tag)
         {
+            if (speed < 0 || damage < 0) throw new ArgumentException("Must be superior to 0");
+            if (shooter == null) throw new ArgumentNullException();
+            if (origin.X < 0 || origin.Y < 0) throw new ArgumentOutOfRangeException("out of Bound");
+
             _origin = origin;
             _pos = new Vector(0, 0);
             _speed = speed;
@@ -36,9 +41,9 @@ namespace ITI.SusanooQuest.Lib
             _pos = _movement.Move(_pos);
         }
 
-        internal IMovement Movement
+        public IMovement Movement
         {
-            set { _movement = value; }
+            internal set { _movement = value; }
             get { return _movement; }
         }
 
@@ -46,10 +51,10 @@ namespace ITI.SusanooQuest.Lib
 
         public Vector Position
         {
-            get 
-            { 
+            get
+            {
                 if (_tag == "CosY") return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y + 79);
-                return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y); 
+                return new Vector(_pos.X + _origin.X, _pos.Y + _origin.Y);
             }
         }
         public string Tag => _tag;
@@ -58,18 +63,20 @@ namespace ITI.SusanooQuest.Lib
 
         internal Vector Origin => _origin;
 
-        internal float Length => _length;
-
         internal int Damage => _damage;
     }
 
     public class Y : IMovement
     {
+        readonly float _length;
         double _step;
-        internal Y (double step)
+
+        internal Y(double step)
         {
+            _length = 5;
             _step = step;
         }
+
         public Vector Move(Vector pos)
         {
             double x = pos.X;
@@ -81,31 +88,32 @@ namespace ITI.SusanooQuest.Lib
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
 
-
-        
+        float IMovement.Length => _length;
     }
 
     class CosY : IMovement
     {
+        readonly float _length;
         double _step;
-        Vector _origin;
-        internal CosY(double step, Vector origin)
+
+        internal CosY(double step)
         {
+            _length = 5;
             _step = step;
-            _origin = origin;
         }
 
-        public Vector Move(Vector pos)
+        Vector IMovement.Move(Vector pos)
         {
-            
+
             double x = pos.X;
             double y = pos.Y;
+            //Décalage pour que le projectile apparaisse bien devant le tireur
             if (y == 0) y = -79;
-            x = Convert.ToSingle(200*Math.Cos(Convert.ToDouble(y)/50));
-            //Console.WriteLine("x : "+x+" || y: "+y);
+            x = Convert.ToSingle(200 * Math.Cos(Convert.ToDouble(y) / 50));
             y += _step;
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
 
+        float IMovement.Length => _length;
     }
 }
