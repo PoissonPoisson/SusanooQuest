@@ -7,8 +7,9 @@ namespace ITI.SusanooQuest.Lib
     public class Game
     {
         #region Fields
+
         //readonly Dictionary<string,Dictionary<string,>>
-        readonly List<Ennemy> _ennemies;
+        readonly List<IEnnemy> _ennemies;
         List<Ennemy> _ennemiesToDel;
         List<Ennemy> _death;
         readonly List<Projectile> _projectiles;
@@ -22,11 +23,15 @@ namespace ITI.SusanooQuest.Lib
         double _cd;
         DateTime _lastShot;
 
+        // game_structure part
+        ILevel _level;
+        readonly List<IProjectile> _projectiles2;
+
         #endregion
 
         public Game(ushort playerLife ,ushort bombes, uint highScore)
         {
-            _ennemies = new List<Ennemy>();
+            _ennemies = new List<IEnnemy>();
             _ennemiesToDel = new List<Ennemy>();
             _death = new List<Ennemy>();
             _map = new Map(900, 1000);
@@ -39,14 +44,14 @@ namespace ITI.SusanooQuest.Lib
             _score = 0;
             _cd = 0.1;
 
+            _level = new LevelOne(this);
+            _projectiles2 = new List<IProjectile>();
         }
 
         public bool Update()
         {
-            if (_ennemies.Count < 1)
-            {
-                CreateEnnemy(new Vector(100, 100), 8, this, 40, 8, "standard");
-            }
+            _level = _level.NextLevel;
+            _level.Update();
 
             //Update all the ennemies
             for (int i = _ennemies.Count() - 1; i >= 0; i--)
@@ -121,32 +126,13 @@ namespace ITI.SusanooQuest.Lib
 
         }
 
-        internal Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
+        internal void AddEnnemy(IEnnemy ennemy)
         {
-            if (pos.X < 0 || pos.Y < 0) throw new ArgumentOutOfRangeException("out of bond", nameof(pos));
-            if (length <= 0) throw new ArgumentException("Length must be positive", nameof(length));
-            if (life <= 0) throw new ArgumentException("Life must be positive", nameof(life));
-            if (speed < 0) throw new ArgumentException("Speed must be positive", nameof(speed));
-            if (game == null) throw new ArgumentNullException(nameof(game));
-
-            //Creat the incomplete ennemy
-            Ennemy ennemy = new Ennemy(pos, length, game, life, speed, tag);
-
-            //Complete it with his movement methode (designe pattern strategy)
-            switch (tag)
-            {
-                case "standard":
-                    ennemy.Movement = new Standard(ennemy.Speed, this);
-                    break;
-                case "diagonal":
-                    ennemy.Movement = new Diagonal(ennemy.Speed, this);
-                    break;
-                default:
-                    throw new ArgumentException("Does not match any ennemy type", nameof(tag));
-            }
+            if (ennemy == null) throw new NullReferenceException("Ennemy is null.");
+            if (ennemy.Context != this) throw new ArgumentException("Context is an another game.");
+            if (_ennemies.Contains(ennemy)) throw new ArgumentException("This ennemy is already in the game.");
 
             _ennemies.Add(ennemy);
-            return ennemy;
         }
 
         internal void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
@@ -172,7 +158,7 @@ namespace ITI.SusanooQuest.Lib
             _projectiles.Add(projec);
         }
 
-        internal void OnKill(Ennemy ennemy)
+        internal void OnKill(IEnnemy ennemy)
         {
             _ennemies.Remove(ennemy);
             _score += ennemy.Movement.Type;
@@ -183,7 +169,6 @@ namespace ITI.SusanooQuest.Lib
         public void OnClearProjectil()
         {
             for (int i = _projectiles.Count-1; i >= 0; i--) if (_projectiles[i].Shooter != _player) _projectiles.Remove(_projectiles[i]);
-            //foreach (Projectile projectile in _projectiles) if (projectile.Shooter != _player) _projectiles.Remove(projectile);
             _bombes--;
             Console.WriteLine("BOOOOOOOOOM!");
         }
@@ -191,7 +176,7 @@ namespace ITI.SusanooQuest.Lib
        
         #region Properties
 
-        public List<Ennemy> Ennemy
+        public List<IEnnemy> Ennemy
         {
             get { return _ennemies; }
         }

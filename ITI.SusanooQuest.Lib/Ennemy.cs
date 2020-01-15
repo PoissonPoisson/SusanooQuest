@@ -10,7 +10,7 @@ namespace ITI.SusanooQuest.Lib
         internal UInt16 Type { get; }
     }
 
-    public class Ennemy : Entity
+    public class Ennemy : Entity, IEnnemy
     {
         #region fields
         IMovementEn _movement;
@@ -29,7 +29,7 @@ namespace ITI.SusanooQuest.Lib
             _cd = 10;
         }
 
-        internal override void Update()
+        void IEnnemy.Update()
         {
             //Same as the player, make the ennemy shoot evry 10 updates
             _cd--;
@@ -67,9 +67,14 @@ namespace ITI.SusanooQuest.Lib
             get { return _movement; }
         }
 
-        internal double Speed => _speed;
-
+        float IEnnemy.Speed
+        {
+            get { return _speed; }
+            set { _speed = value; }
+        }
         public string Tag => _tag;
+
+        public Game Context => _game;
     }
 
     public class Standard : IMovementEn
@@ -78,7 +83,7 @@ namespace ITI.SusanooQuest.Lib
         Game _game;
         UInt16 _type;
 
-        internal Standard(double speed, Game game)
+        internal Standard(float speed, Game game)
         {
             _speed = Convert.ToSingle(speed);
             _game = game;
