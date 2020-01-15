@@ -15,7 +15,6 @@ namespace ITI.SusanooQuest.Lib
         readonly List<Projectile> _projectilesToDel;
         readonly Player _player;
         readonly Random _random;
-        LevelOrganizer _Level;
         Map _map;
         uint _highScore;
         uint _score;
@@ -38,7 +37,6 @@ namespace ITI.SusanooQuest.Lib
             _projectilesToDel = new List<Projectile>();
             _bombes = bombes;
             _score = 0;
-            _Level = new LevelOrganizer(_ennemies, _death, Player, this);
             _cd = 0.1;
 
         }
@@ -47,7 +45,7 @@ namespace ITI.SusanooQuest.Lib
         {
             if (_ennemies.Count < 1)
             {
-                _Level.Level();
+                CreateEnnemy(new Vector(100, 100), 8, this, 40, 8, "standard");
             }
 
             //Update all the ennemies
@@ -121,13 +119,6 @@ namespace ITI.SusanooQuest.Lib
             //Console.WriteLine(_player.Life);
             _projectilesToDel.Add(projectile);
 
-        }
-        
-        public LevelOrganizer CreateLevel()
-        {
-            LevelOrganizer level = new LevelOrganizer(_ennemies, _death, Player, this);
-            level.Level();
-            return level;
         }
 
         internal Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
