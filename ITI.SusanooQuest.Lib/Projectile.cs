@@ -5,9 +5,10 @@ using System.Text;
 
 namespace ITI.SusanooQuest.Lib
 {
-    interface IMovement
+    public interface IMovement
     {
         Vector Move(Vector pos);
+        public float Length { get; }
     }
     public class Projectile
     {
@@ -17,7 +18,6 @@ namespace ITI.SusanooQuest.Lib
         readonly Vector _origin;
         readonly Entity _shooter;
         readonly double _speed;
-        readonly float _length;
         readonly int _damage;
         readonly string _tag;
         #endregion
@@ -26,7 +26,7 @@ namespace ITI.SusanooQuest.Lib
         {
             if (speed < 0 || damage < 0) throw new ArgumentException("Must be superior to 0");
             if (shooter == null) throw new ArgumentNullException();
-            if (origin.X <= 0 || origin.Y <= 0) throw new ArgumentOutOfRangeException("out of Bound");
+            if (origin.X < 0 || origin.Y < 0) throw new ArgumentOutOfRangeException("out of Bound");
 
             _origin = origin;
             _pos = new Vector(0, 0);
@@ -41,9 +41,9 @@ namespace ITI.SusanooQuest.Lib
             _pos = _movement.Move(_pos);
         }
 
-        internal IMovement Movement
+        public IMovement Movement
         {
-            set { _movement = value; }
+            internal set { _movement = value; }
             get { return _movement; }
         }
 
@@ -63,17 +63,17 @@ namespace ITI.SusanooQuest.Lib
 
         internal Vector Origin => _origin;
 
-        internal float Length => _length;
-
         internal int Damage => _damage;
     }
 
     public class Y : IMovement
     {
+        readonly float _length;
         double _step;
 
         internal Y(double step)
         {
+            _length = 5;
             _step = step;
         }
 
@@ -87,18 +87,22 @@ namespace ITI.SusanooQuest.Lib
 
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
+
+        float IMovement.Length => _length;
     }
 
     class CosY : IMovement
     {
+        readonly float _length;
         double _step;
 
         internal CosY(double step)
         {
+            _length = 5;
             _step = step;
         }
 
-        public Vector Move(Vector pos)
+        Vector IMovement.Move(Vector pos)
         {
 
             double x = pos.X;
@@ -110,5 +114,6 @@ namespace ITI.SusanooQuest.Lib
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
         }
 
+        float IMovement.Length => _length;
     }
 }

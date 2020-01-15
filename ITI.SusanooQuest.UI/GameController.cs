@@ -93,15 +93,15 @@ namespace ITI.SusanooQuest.UI
             _playerHitboxTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Green };
             _playerHitboxTexture.Position = new Vector2f
             (
-                _game.Player.Position.X - _playerHitboxTexture.Radius,
-                _game.Player.Position.Y - _playerHitboxTexture.Radius
+                _game.Player.Position.X + _playerHitboxTexture.Radius,
+                _game.Player.Position.Y + _playerHitboxTexture.Radius
             );
-            _playerTexture2 = new RectangleShape(new Vector2f(60, 60))
-            {
-                Position = _playerHitboxTexture.Position,
-                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png")),
-                //FillColor = Color.Yellow
-            };
+            //_playerTexture2 = new RectangleShape(new Vector2f(60, 60))
+            //{
+            //    Position = _playerHitboxTexture.Position,
+            //    Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png")),
+            //    //FillColor = Color.Yellow
+            //};
             //Dictionary of projectiles texture
             _projectilesTexture = new Dictionary<string, CircleShape>();
             _projectilesTexture.Add("Y", new CircleShape(5) { FillColor = Color.Blue});
@@ -225,7 +225,8 @@ namespace ITI.SusanooQuest.UI
         {
             _game.Update();
             UpdateLife();
-
+            _texts["Score"].DisplayedString = ScoreToString(_game.Score, 10);
+            _texts["HichScore"].DisplayedString = ScoreToString(_game.HighScore, 10);
             if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
         }
 
@@ -253,25 +254,25 @@ namespace ITI.SusanooQuest.UI
                 _game.Player.Position.X - _playerHitboxTexture.Radius,
                 _game.Player.Position.Y - _playerHitboxTexture.Radius
             );
-            _playerTexture2.Position = new Vector2f(
-                _playerHitboxTexture.Position.X - (_playerTexture2.Size.X / 2),
-                _playerHitboxTexture.Position.Y - (_playerTexture2.Size.Y / 2)
-            );
+            //_playerTexture2.Position = new Vector2f(
+            //    _playerHitboxTexture.Position.X - (_playerTexture2.Size.X / 2),
+            //    _playerHitboxTexture.Position.Y - (_playerTexture2.Size.Y / 2)
+            //);
 
-            _drawMap.Draw(_playerTexture2);
+            //_drawMap.Draw(_playerTexture2);
             _drawMap.Draw(_playerHitboxTexture);
 
             foreach (Projectile p in _game.Projectiles)
             {
                 _projectilesTexture.TryGetValue(p.Tag, out CircleShape value);
-                value.Position = new Vector2f(p.Position.X, p.Position.Y);
+                value.Position = new Vector2f(p.Position.X - p.Movement.Length, p.Position.Y - p.Movement.Length);
                 _drawMap.Draw(value);
             }
 
             foreach (IEnnemy e in _game.Ennemy)
             {
                 _ennemiesTexture.TryGetValue(e.Tag, out CircleShape value);
-                value.Position = new Vector2f(e.Position.X, e.Position.Y);
+                value.Position = new Vector2f(e.Position.X - e.Length, e.Position.Y - e.Length);
                 _drawMap.Draw(value);
             }
 

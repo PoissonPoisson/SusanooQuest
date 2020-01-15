@@ -4,18 +4,25 @@ using System;
 
 namespace ITI.SusanooQuest.Lib
 {
-    
+    interface IMovementEn
+    {
+        Vector Move(Vector pos);
+        internal UInt16 Type { get; }
+    }
+
     public class Ennemy : Entity, IEnnemy
     {
         #region fields
-        IMovement _movement;
+        IMovementEn _movement;
         readonly string _tag;
         string _path = @"...\ITI.SusanooQuest.Lib\leveltest.json";
         ushort _cd;
         #endregion
 
 
-        public Ennemy(Vector pos, float length, Game game, int life, float speed, string tag)
+        
+
+        public Ennemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
             : base(pos, length, game, life, speed)
         {
             _tag = tag;
@@ -28,7 +35,7 @@ namespace ITI.SusanooQuest.Lib
             _cd--;
             if (_cd == 0)
             {
-                _game.CreateProjectile(2, 1, new Vector(_pos.X + _length, _pos.Y + _length), this, "CosY");
+                if (_pos.X >= 0 && _pos.X <= _game.Map.Width && _pos.Y >= 0 && _pos.Y <= _game.Map.Height) _game.CreateProjectile(2, 1, new Vector(_pos.X, _pos.Y), this, "CosY");
                 _cd = 10;
             }
 
@@ -54,7 +61,7 @@ namespace ITI.SusanooQuest.Lib
 
         }
 
-        internal IMovement Movement
+        internal IMovementEn Movement
         {
             set { _movement = value; }
             get { return _movement; }
@@ -70,41 +77,63 @@ namespace ITI.SusanooQuest.Lib
         public Game Context => _game;
     }
 
-    public class Standard : IMovement
+    public class Standard : IMovementEn
     {
         float _speed;
         Game _game;
+        UInt16 _type;
 
         internal Standard(float speed, Game game)
         {
             _speed = Convert.ToSingle(speed);
             _game = game;
+            _type = 1000;
         }
 
-        public Vector Move(Vector pos)
+        //public Vector Move(Vector pos)
+        //{
+        //    //Make the ennemy go the other way when it bumps against the edge of the map
+        //    if (pos.X < 0 || pos.X > _game.Map.Width) _speed = -(_speed);
+        //    return new Vector(pos.X + _speed, pos.Y);
+        //}
+
+        Vector IMovementEn.Move(Vector pos)
         {
             //Make the ennemy go the other way when it bumps against the edge of the map
             if (pos.X < 0 || pos.X > _game.Map.Width) _speed = -(_speed);
-            return new Vector(pos.X + _speed, pos.Y); ;
+            return new Vector(pos.X + _speed, pos.Y);
         }
+
+        ushort IMovementEn.Type => _type;
     }
 
-    public class Diagonal : IMovement
+    public class Diagonal : IMovementEn
     {
         float _speed;
         Game _game;
+        UInt16 _type;
 
         internal Diagonal(double speed, Game game)
         {
             _speed = Convert.ToSingle(speed);
             _game = game;
+            _type = 1000;
         }
 
-        public Vector Move(Vector pos)
+        ushort IMovementEn.Type => _type;
+
+        //public Vector Move(Vector pos)
+        //{
+        //    //Make the ennemy go the other way when it bumps against the edge of the map
+        //    if (pos.X < 0 || pos.X > _game.Map.Width || pos.Y < 0 || pos.Y > _game.Map.Height) _speed = -(_speed);
+        //    return new Vector(pos.X + _speed, pos.Y + _speed);
+        //}
+
+        Vector IMovementEn.Move(Vector pos)
         {
             //Make the ennemy go the other way when it bumps against the edge of the map
-            if (pos.X < 0 || pos.X > _game.Map.Width) _speed = -(_speed);
-            return new Vector(pos.X + _speed, pos.Y + _speed); ;
+            if (pos.X < 0 || pos.X > _game.Map.Width || pos.Y < 0 || pos.Y > _game.Map.Height) _speed = -(_speed);
+            return new Vector(pos.X + _speed, pos.Y + _speed);
         }
     }
 

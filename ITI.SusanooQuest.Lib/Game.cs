@@ -20,7 +20,8 @@ namespace ITI.SusanooQuest.Lib
         uint _highScore;
         uint _score;
         ushort _bombes;
-        ushort _cd;
+        double _cd;
+        DateTime _lastShot;
 
         // game_structure part
         ILevel _level;
@@ -41,7 +42,7 @@ namespace ITI.SusanooQuest.Lib
             _projectilesToDel = new List<Projectile>();
             _bombes = bombes;
             _score = 0;
-            _cd = 1;
+            _cd = 0.1;
 
             _level = new LevelOne(this);
             _projectiles2 = new List<IProjectile>();
@@ -60,16 +61,13 @@ namespace ITI.SusanooQuest.Lib
 
             if (_player.OnShoot)
             {
-                //Is here to make the player shoot evry 10 turn
-                //cd is reset to 1 evry time the key is released
-                _cd--;
-                if (_cd == 0)
+                //Is here to make the player shoot evry 0.5 seconds
+                if (DateTime.Now >= _lastShot.AddSeconds(_cd))
                 {
-                    _cd = 5;
-                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X + _player.Length/2, _player.Position.Y + _player.Length/2), _player, "Y");
+                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X - 5, _player.Position.Y - 5), _player, "Y");
+                    _lastShot = DateTime.Now;
                 }
             }
-
             //Update all the projectiles
             foreach (Projectile projectile in _projectiles)
             {
@@ -79,16 +77,20 @@ namespace ITI.SusanooQuest.Lib
                 //If the projectiles belong to an ennemy, compare the position with the player and explode if collision
                 if (projectile.Shooter != _player)
                 {
-                    float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2)));
-                    float sumR = projectile.Length + _player.Length;
-                    if (sumR > distance) ProjectileExplode(projectile, _player);
+                    double distance = Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2));
+                    float sumR = projectile.Movement.Length + _player.Length;
+                    if (sumR > distance)
+                    {
+                        ProjectileExplode(projectile, _player);
+                        break;
+                    } 
                 } else
                 //Else, compare the projectile to all the ennemies and explode 
                 {
                     foreach (Ennemy e in _ennemies)
                     {
                         float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(e.Position.X - projectile.Position.X, 2) + Math.Pow(e.Position.Y - projectile.Position.Y, 2)));
-                        float sumR = projectile.Length + e.Length;
+                        float sumR = projectile.Movement.Length + e.Length;
                         if (sumR > distance) ProjectileExplode(projectile, e);
                     }
                 }
@@ -112,6 +114,12 @@ namespace ITI.SusanooQuest.Lib
         //Inflict the damage of a projectile to the target
         private void ProjectileExplode(Projectile projectile, Entity target)
         {
+            if (target is Ennemy) _score += 100;
+            if (target is Player) 
+            {
+                OnClearProjectil();
+                _bombes++;
+            } 
             target.Life -= projectile.Damage;
             //Console.WriteLine(_player.Life);
             _projectilesToDel.Add(projectile);
@@ -131,7 +139,7 @@ namespace ITI.SusanooQuest.Lib
         {
             if (speed < 0 || damage < 0) throw new ArgumentException("Must be superior to 0");
             if (shooter == null) throw new ArgumentNullException();
-            if (origin.X <= 0 || origin.Y <= 0) throw new ArgumentOutOfRangeException("out of Bound");
+            if (origin.X < 0 || origin.Y < 0) throw new ArgumentOutOfRangeException("out of Bound");
 
             //Creat the incomplete projectile
             Projectile projec = new Projectile(speed, damage, origin, shooter, type);
@@ -153,6 +161,7 @@ namespace ITI.SusanooQuest.Lib
         internal void OnKill(IEnnemy ennemy)
         {
             _ennemies.Remove(ennemy);
+            _score += ennemy.Movement.Type;
             //Console.WriteLine( _ennemies.Count());
         }
         
@@ -162,11 +171,6 @@ namespace ITI.SusanooQuest.Lib
             for (int i = _projectiles.Count-1; i >= 0; i--) if (_projectiles[i].Shooter != _player) _projectiles.Remove(_projectiles[i]);
             _bombes--;
             Console.WriteLine("BOOOOOOOOOM!");
-        }
-
-        public void EndClearProjectil()
-        {
-            Console.WriteLine("a plus de projectiles");
         }
 
        
@@ -189,11 +193,6 @@ namespace ITI.SusanooQuest.Lib
         public ushort Bombes => _bombes;
 
         public List<Projectile> Projectiles => _projectiles;
-
-        internal ushort Cd
-        {
-            set { _cd = value; }
-        }
 
         #endregion
     }
