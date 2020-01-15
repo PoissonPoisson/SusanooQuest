@@ -9,7 +9,7 @@ namespace ITI.SusanooQuest.Lib
         #region Fields
 
         //readonly Dictionary<string,Dictionary<string,>>
-        readonly List<IEnnemy> _ennemies;
+        readonly List<Ennemy> _ennemies;
         List<Ennemy> _ennemiesToDel;
         List<Ennemy> _death;
         readonly List<Projectile> _projectiles;
@@ -31,7 +31,7 @@ namespace ITI.SusanooQuest.Lib
 
         public Game(ushort playerLife ,ushort bombes, uint highScore)
         {
-            _ennemies = new List<IEnnemy>();
+            _ennemies = new List<Ennemy>();
             _ennemiesToDel = new List<Ennemy>();
             _death = new List<Ennemy>();
             _map = new Map(900, 1000);
@@ -126,7 +126,7 @@ namespace ITI.SusanooQuest.Lib
 
         }
 
-        internal void AddEnnemy(IEnnemy ennemy)
+        internal void AddEnnemy(Ennemy ennemy)
         {
             if (ennemy == null) throw new NullReferenceException("Ennemy is null.");
             if (ennemy.Context != this) throw new ArgumentException("Context is an another game.");
@@ -158,7 +158,7 @@ namespace ITI.SusanooQuest.Lib
             _projectiles.Add(projec);
         }
 
-        internal void OnKill(IEnnemy ennemy)
+        internal void OnKill(Ennemy ennemy)
         {
             _ennemies.Remove(ennemy);
             _score += ennemy.Movement.Type;
@@ -176,7 +176,7 @@ namespace ITI.SusanooQuest.Lib
        
         #region Properties
 
-        public List<IEnnemy> Ennemy
+        public List<Ennemy> Ennemy
         {
             get { return _ennemies; }
         }
