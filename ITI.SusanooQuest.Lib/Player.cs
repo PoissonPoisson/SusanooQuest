@@ -73,14 +73,10 @@ namespace ITI.SusanooQuest.Lib
         public void StartShoot()
         {
             _onShoot = true;            
-            //Console.WriteLine("je tire");
         }
 
         public void EndShoot()
         {
-            //Refresh the cd so that the player will shoot directly when the key is pressed again
-            _game.Cd = 1;
-
             _onShoot = false;
         }
 

@@ -15,12 +15,12 @@ namespace ITI.SusanooQuest.Lib
         readonly List<Projectile> _projectilesToDel;
         readonly Player _player;
         readonly Random _random;
-        LevelOrganizer _Level;
         Map _map;
         uint _highScore;
         uint _score;
         ushort _bombes;
-        ushort _cd;
+        double _cd;
+        DateTime _lastShot;
 
         #endregion
 
@@ -37,8 +37,7 @@ namespace ITI.SusanooQuest.Lib
             _projectilesToDel = new List<Projectile>();
             _bombes = bombes;
             _score = 0;
-            _cd = 1;
-            _Level = new LevelOrganizer(_ennemies, _death, Player, this);
+            _cd = 0.1;
 
         }
 
@@ -46,7 +45,7 @@ namespace ITI.SusanooQuest.Lib
         {
             if (_ennemies.Count < 1)
             {
-                _Level.LevelOne();
+                CreateEnnemy(new Vector(100, 100), 8, this, 40, 8, "standard");
             }
 
             //Update all the ennemies
@@ -57,16 +56,13 @@ namespace ITI.SusanooQuest.Lib
 
             if (_player.OnShoot)
             {
-                //Is here to make the player shoot evry 10 turn
-                //cd is reset to 1 evry time the key is released
-                _cd--;
-                if (_cd == 0)
+                //Is here to make the player shoot evry 0.5 seconds
+                if (DateTime.Now >= _lastShot.AddSeconds(_cd))
                 {
-                    _cd = 10;
                     CreateProjectile(10, _player.Strength, new Vector(_player.Position.X - 5, _player.Position.Y - 5), _player, "Y");
+                    _lastShot = DateTime.Now;
                 }
             }
-
             //Update all the projectiles
             foreach (Projectile projectile in _projectiles)
             {
@@ -78,7 +74,11 @@ namespace ITI.SusanooQuest.Lib
                 {
                     double distance = Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2));
                     float sumR = projectile.Movement.Length + _player.Length;
-                    if (sumR > distance) ProjectileExplode(projectile, _player);
+                    if (sumR > distance)
+                    {
+                        ProjectileExplode(projectile, _player);
+                        break;
+                    } 
                 } else
                 //Else, compare the projectile to all the ennemies and explode 
                 {
@@ -109,17 +109,16 @@ namespace ITI.SusanooQuest.Lib
         //Inflict the damage of a projectile to the target
         private void ProjectileExplode(Projectile projectile, Entity target)
         {
+            if (target is Ennemy) _score += 100;
+            if (target is Player) 
+            {
+                OnClearProjectil();
+                _bombes++;
+            } 
             target.Life -= projectile.Damage;
             //Console.WriteLine(_player.Life);
             _projectilesToDel.Add(projectile);
 
-        }
-        
-        public LevelOrganizer CreateLevel()
-        {
-            LevelOrganizer levelone = new LevelOrganizer(_ennemies, _death, Player, this);
-            levelone.LevelOne();
-            return levelone;
         }
 
         internal Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
@@ -176,6 +175,7 @@ namespace ITI.SusanooQuest.Lib
         internal void OnKill(Ennemy ennemy)
         {
             _ennemies.Remove(ennemy);
+            _score += ennemy.Movement.Type;
             //Console.WriteLine( _ennemies.Count());
         }
         
@@ -186,11 +186,6 @@ namespace ITI.SusanooQuest.Lib
             //foreach (Projectile projectile in _projectiles) if (projectile.Shooter != _player) _projectiles.Remove(projectile);
             _bombes--;
             Console.WriteLine("BOOOOOOOOOM!");
-        }
-
-        public void EndClearProjectil()
-        {
-            Console.WriteLine("a plus de projectiles");
         }
 
        
@@ -213,11 +208,6 @@ namespace ITI.SusanooQuest.Lib
         public ushort Bombes => _bombes;
 
         public List<Projectile> Projectiles => _projectiles;
-
-        internal ushort Cd
-        {
-            set { _cd = value; }
-        }
 
         #endregion
     }

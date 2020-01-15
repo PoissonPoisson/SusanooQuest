@@ -225,7 +225,8 @@ namespace ITI.SusanooQuest.UI
         {
             _game.Update();
             UpdateLife();
-
+            _texts["Score"].DisplayedString = ScoreToString(_game.Score, 10);
+            _texts["HichScore"].DisplayedString = ScoreToString(_game.HighScore, 10);
             if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
         }
 

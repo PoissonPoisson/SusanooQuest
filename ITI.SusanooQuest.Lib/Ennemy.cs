@@ -7,6 +7,7 @@ namespace ITI.SusanooQuest.Lib
     interface IMovementEn
     {
         Vector Move(Vector pos);
+        internal UInt16 Type { get; }
     }
 
     public class Ennemy : Entity
@@ -75,37 +76,59 @@ namespace ITI.SusanooQuest.Lib
     {
         float _speed;
         Game _game;
+        UInt16 _type;
 
         internal Standard(double speed, Game game)
         {
             _speed = Convert.ToSingle(speed);
             _game = game;
+            _type = 1000;
         }
 
-        public Vector Move(Vector pos)
+        //public Vector Move(Vector pos)
+        //{
+        //    //Make the ennemy go the other way when it bumps against the edge of the map
+        //    if (pos.X < 0 || pos.X > _game.Map.Width) _speed = -(_speed);
+        //    return new Vector(pos.X + _speed, pos.Y);
+        //}
+
+        Vector IMovementEn.Move(Vector pos)
         {
             //Make the ennemy go the other way when it bumps against the edge of the map
             if (pos.X < 0 || pos.X > _game.Map.Width) _speed = -(_speed);
-            return new Vector(pos.X + _speed, pos.Y); ;
+            return new Vector(pos.X + _speed, pos.Y);
         }
+
+        ushort IMovementEn.Type => _type;
     }
 
     public class Diagonal : IMovementEn
     {
         float _speed;
         Game _game;
+        UInt16 _type;
 
         internal Diagonal(double speed, Game game)
         {
             _speed = Convert.ToSingle(speed);
             _game = game;
+            _type = 1000;
         }
 
-        public Vector Move(Vector pos)
+        ushort IMovementEn.Type => _type;
+
+        //public Vector Move(Vector pos)
+        //{
+        //    //Make the ennemy go the other way when it bumps against the edge of the map
+        //    if (pos.X < 0 || pos.X > _game.Map.Width || pos.Y < 0 || pos.Y > _game.Map.Height) _speed = -(_speed);
+        //    return new Vector(pos.X + _speed, pos.Y + _speed);
+        //}
+
+        Vector IMovementEn.Move(Vector pos)
         {
             //Make the ennemy go the other way when it bumps against the edge of the map
             if (pos.X < 0 || pos.X > _game.Map.Width || pos.Y < 0 || pos.Y > _game.Map.Height) _speed = -(_speed);
-            return new Vector(pos.X + _speed, pos.Y + _speed); ;
+            return new Vector(pos.X + _speed, pos.Y + _speed);
         }
     }
 
