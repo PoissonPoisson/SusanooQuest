@@ -129,7 +129,7 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.Escape) _nextMenu = new MainMenu(_window);
+            if (e.Code == Keyboard.Key.Escape || e.Code == Keyboard.Key.Space) _nextMenu = new MainMenu(_window);
         }
 
         public void KeyReleased(KeyEventArgs e)

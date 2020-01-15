@@ -5,7 +5,7 @@ using System;
 namespace ITI.SusanooQuest.Lib
 {
     
-    public class Ennemy : Entity
+    public class Ennemy : Entity, IEnnemy
     {
         #region fields
         IMovement _movement;
@@ -15,14 +15,14 @@ namespace ITI.SusanooQuest.Lib
         #endregion
 
 
-        public Ennemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
+        public Ennemy(Vector pos, float length, Game game, int life, float speed, string tag)
             : base(pos, length, game, life, speed)
         {
             _tag = tag;
             _cd = 10;
         }
 
-        internal override void Update()
+        void IEnnemy.Update()
         {
             //Same as the player, make the ennemy shoot evry 10 updates
             _cd--;
@@ -60,9 +60,14 @@ namespace ITI.SusanooQuest.Lib
             get { return _movement; }
         }
 
-        internal double Speed => _speed;
-
+        float IEnnemy.Speed
+        {
+            get { return _speed; }
+            set { _speed = value; }
+        }
         public string Tag => _tag;
+
+        public Game Context => _game;
     }
 
     public class Standard : IMovement
@@ -70,7 +75,7 @@ namespace ITI.SusanooQuest.Lib
         float _speed;
         Game _game;
 
-        internal Standard(double speed, Game game)
+        internal Standard(float speed, Game game)
         {
             _speed = Convert.ToSingle(speed);
             _game = game;

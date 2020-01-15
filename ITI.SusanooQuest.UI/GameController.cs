@@ -268,7 +268,7 @@ namespace ITI.SusanooQuest.UI
                 _drawMap.Draw(value);
             }
 
-            foreach (Ennemy e in _game.Ennemy)
+            foreach (IEnnemy e in _game.Ennemy)
             {
                 _ennemiesTexture.TryGetValue(e.Tag, out CircleShape value);
                 value.Position = new Vector2f(e.Position.X, e.Position.Y);

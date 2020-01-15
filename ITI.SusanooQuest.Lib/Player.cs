@@ -40,7 +40,7 @@ namespace ITI.SusanooQuest.Lib
 
         public Dictionary<string, bool> Deplacment => _deplacement;
 
-        internal override void Update()
+        internal void Update()
         {
             Move();
         }

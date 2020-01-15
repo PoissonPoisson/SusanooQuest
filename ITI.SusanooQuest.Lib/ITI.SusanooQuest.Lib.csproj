@@ -9,11 +9,4 @@
     <PackageReference Include="SoapFormatter" Version="1.0.11" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include ="leveltest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      
-    </Content>
-  </ItemGroup>
-
 </Project>
