@@ -19,7 +19,7 @@ namespace ITI.SusanooQuest.UI
         float _report;
         readonly RectangleShape _bg;
         IController _nextMenu;
-        readonly Music _music;
+
         #endregion
 
         public Credit(RenderWindow window)
@@ -41,10 +41,9 @@ namespace ITI.SusanooQuest.UI
             _buttons = new Button[1];
             Texture buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_return.png"));
             _buttons[0] = new Button(new Vector(760, 515), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
-            _music = new Music(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.warriyo-mortals-feat-laura-brehm-ncs-release.wav"));
-            _music.Play();
-            _music.Loop = true;
-            
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.LaunchMusic(nbMusic: 2);
+
         }
 
         #region Properties
@@ -118,7 +117,7 @@ namespace ITI.SusanooQuest.UI
             {
                 button.Image.Dispose();
             }
-            _music.Stop();
+
         }
 
         #endregion

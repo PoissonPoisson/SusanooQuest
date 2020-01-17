@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace ITI.SusanooQuest.Lib
 {
     public class Player : Entity
@@ -11,6 +12,7 @@ namespace ITI.SusanooQuest.Lib
         bool _slow;
         bool _onShoot;
         readonly Dictionary<string, bool> _deplacement;
+        
         
 
         #endregion
@@ -71,9 +73,10 @@ namespace ITI.SusanooQuest.Lib
         }
 
         public void StartShoot()
-        {
-            _onShoot = true;            
-            //Console.WriteLine("je tire");
+        {            
+            _onShoot = true;
+            //Console.WriteLine("je tire");           
+            
         }
 
         public void EndShoot()

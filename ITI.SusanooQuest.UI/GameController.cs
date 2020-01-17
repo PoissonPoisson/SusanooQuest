@@ -5,6 +5,7 @@ using ITI.SusanooQuest.Lib;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using SFML.Audio;
 
 namespace ITI.SusanooQuest.UI
 {
@@ -15,6 +16,7 @@ namespace ITI.SusanooQuest.UI
         readonly RenderWindow _window;
         readonly View _view;
         float _ratio;
+        bool _isFirering;
         readonly RectangleShape _bg;
         IController _nextMenu;
         readonly Dictionary<string, Text> _texts;
@@ -31,6 +33,7 @@ namespace ITI.SusanooQuest.UI
         readonly RectangleShape _bgStates;
         readonly Dictionary<string, CircleShape> _projectilesTexture;
         readonly Dictionary<string, CircleShape> _ennemiesTexture;
+        readonly Sound _soundOfPlayerProjectil;  
         
         #endregion
 
@@ -114,7 +117,9 @@ namespace ITI.SusanooQuest.UI
 
             _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
             _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };
-            
+
+            SoundBuffer buffer = new SoundBuffer(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.piiiou.wav"));
+            _soundOfPlayerProjectil = new Sound (buffer);
 
             _window.SetFramerateLimit(60);
         }
@@ -134,6 +139,7 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e)
         {
+            Console.WriteLine("KeyPressed({0})", e);
             switch(e.Code)
             {
                 case Keyboard.Key.LShift:
@@ -157,6 +163,7 @@ namespace ITI.SusanooQuest.UI
                     break;
                 case Keyboard.Key.W:
                     _game.Player.StartShoot();
+                    StartFire();
                     break;
                 case Keyboard.Key.X:
                     if (_game.Bombes > 0)
@@ -173,6 +180,7 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyReleased(KeyEventArgs e)
         {
+            Console.WriteLine("KeyReleased({0})", e);
             switch (e.Code)
             {
                 case Keyboard.Key.LShift:
@@ -192,10 +200,29 @@ namespace ITI.SusanooQuest.UI
                     break;
                 case Keyboard.Key.W:
                     _game.Player.EndShoot();
+                    StopFire();
                     break;
                 case Keyboard.Key.X:
                     break;
             }
+        }        
+
+        public void StartFire()
+        {
+            if (_isFirering) return;
+
+            _isFirering = true;
+            _game.Player.StartShoot();
+            _soundOfPlayerProjectil.Loop = true;
+            _soundOfPlayerProjectil.Play();          
+
+        }
+        public void StopFire()
+        {
+            if (!_isFirering) return;
+            _isFirering = false;
+            _game.Player.EndShoot();
+            _soundOfPlayerProjectil.Stop();
         }
 
         public void Render()
@@ -226,7 +253,7 @@ namespace ITI.SusanooQuest.UI
             _game.Update();
             UpdateLife();
 
-            if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
+           if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
         }
 
         public void Dispose()
