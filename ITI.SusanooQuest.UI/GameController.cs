@@ -17,6 +17,7 @@ namespace ITI.SusanooQuest.UI
         readonly View _view;
         float _ratio;
         bool _isFirering;
+        bool _isBombing;
         readonly RectangleShape _bg;
         IController _nextMenu;
         readonly Dictionary<string, Text> _texts;
@@ -116,10 +117,8 @@ namespace ITI.SusanooQuest.UI
             _ennemiesTexture.Add("diagonal", new CircleShape(8) { FillColor = Color.Cyan});
 
             _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
-            _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };
-
-            SoundBuffer buffer = new SoundBuffer(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.piiiou.wav"));
-            _soundOfPlayerProjectil = new Sound (buffer);
+            _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };           
+            
 
             _window.SetFramerateLimit(60);
         }
@@ -163,13 +162,14 @@ namespace ITI.SusanooQuest.UI
                     break;
                 case Keyboard.Key.W:
                     _game.Player.StartShoot();
-                    StartFire();
+                    StartSoundFire();
                     break;
                 case Keyboard.Key.X:
                     if (_game.Bombes > 0)
                     {
                         _game.OnClearProjectil();
                         UpdateBomb();
+                        BomberSoundStart();
                     }
                     break;
                 case Keyboard.Key.Escape:
@@ -200,29 +200,43 @@ namespace ITI.SusanooQuest.UI
                     break;
                 case Keyboard.Key.W:
                     _game.Player.EndShoot();
-                    StopFire();
+                    StopSoundFire();
                     break;
                 case Keyboard.Key.X:
+                    BomberSoundStop();
                     break;
             }
-        }        
+        }
+        public void BomberSoundStart()
+        {
+            if (_isBombing) return;
+            _isBombing = true;
+           // _game.OnClearProjectil();
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.Explode();
+        }
+        public void BomberSoundStop()
+        {
+            _isBombing = false;
+        }
 
-        public void StartFire()
+        public void StartSoundFire()
         {
             if (_isFirering) return;
 
             _isFirering = true;
-            _game.Player.StartShoot();
-            _soundOfPlayerProjectil.Loop = true;
-            _soundOfPlayerProjectil.Play();          
+            //_game.Player.StartShoot();
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.Shoot();
 
         }
-        public void StopFire()
+        public void StopSoundFire()
         {
             if (!_isFirering) return;
             _isFirering = false;
             _game.Player.EndShoot();
-            _soundOfPlayerProjectil.Stop();
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.StopShoot();
         }
 
         public void Render()

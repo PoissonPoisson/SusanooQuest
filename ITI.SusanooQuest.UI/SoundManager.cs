@@ -32,10 +32,10 @@ namespace ITI.SusanooQuest.UI
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             SoundBuffer soundOfplayerProjectil = new SoundBuffer(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.piiiou.wav"));
             _soundOfPlayerProjectil = new Sound(soundOfplayerProjectil);
-            /*SoundBuffer soundOfExplosion = new SoundBuffer(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources..wav"));
+            SoundBuffer soundOfExplosion = new SoundBuffer(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.Bomb+2.wav"));
             _soundOfExplosion = new Sound(soundOfExplosion);
-            SoundBuffer soundOfTheCreationOfAnEnnemy = new SoundBuffer(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources..wav"));
-            _soundOfTheCreationOfAnEnnemy = new Sound(soundOfTheCreationOfAnEnnemy);*/
+            SoundBuffer soundOfTheCreationOfAnEnnemy = new SoundBuffer(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.apparition.wav"));
+            _soundOfTheCreationOfAnEnnemy = new Sound(soundOfTheCreationOfAnEnnemy);
             SoundBuffer soundOfAHit = new SoundBuffer(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.steve-old-hurt-sound.wav"));
             _soundOfAHit = new Sound(soundOfAHit);
 
@@ -46,7 +46,7 @@ namespace ITI.SusanooQuest.UI
                 GetMusic("ITI.SusanooQuest.UI.Resources.warriyo-mortals-feat-laura-brehm-ncs-release.wav"),               // 2 : CreditMenu
                 GetMusic("ITI.SusanooQuest.UI.Resources.sad-piano-ncs-uncopyright-music.wav"),                            // 3 : GameOverPage
                 GetMusic("ITI.SusanooQuest.UI.Resources.y2mate.com-neo_tokyo_cyberpunk_mix_7JqKRqOmzi0.wav")             // 4 : LevelOneMenu
-               /* "ITI.SusanooQuest.UI.Resources..wav"     */                                                   // 5 : LevelTwo Menu
+               /* "ITI.SusanooQuest.UI.Resources..wav"     */                                                              // 5 : LevelTwo Menu
             };        
         }
 
