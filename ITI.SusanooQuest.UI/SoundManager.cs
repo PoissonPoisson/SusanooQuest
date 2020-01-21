@@ -46,7 +46,7 @@ namespace ITI.SusanooQuest.UI
                 GetMusic("ITI.SusanooQuest.UI.Resources.warriyo-mortals-feat-laura-brehm-ncs-release.wav"),               // 2 : CreditMenu
                 GetMusic("ITI.SusanooQuest.UI.Resources.sad-piano-ncs-uncopyright-music.wav"),                            // 3 : GameOverPage
                 GetMusic("ITI.SusanooQuest.UI.Resources.y2mate.com-neo_tokyo_cyberpunk_mix_7JqKRqOmzi0.wav")             // 4 : LevelOneMenu
-               /* "ITI.SusanooQuest.UI.Resources..wav"     */                                                              // 5 : LevelTwo Menu
+             /* GetMusic("ITI.SusanooQuest.UI.Resources..wav")     */                                                 // 5 : LevelTwo Menu
             };        
         }
 
@@ -58,12 +58,13 @@ namespace ITI.SusanooQuest.UI
         }
 
         public void Shoot()
-        {            
+        {
+            _soundOfPlayerProjectil.Volume = 20;
             _soundOfPlayerProjectil.Loop = true;
             _soundOfPlayerProjectil.Play();
         }
         public void StopShoot()
-        {
+        { 
             _soundOfPlayerProjectil.Stop();
         }
 
@@ -100,7 +101,7 @@ namespace ITI.SusanooQuest.UI
         }
         public void StopMusic()
         {
-            // _currentmusic.Volume = 80;
+           
             _musiclist[_currentmusic].Stop();
             _isPlayingMusic = false;
             

@@ -121,6 +121,9 @@ namespace ITI.SusanooQuest.UI
             
 
             _window.SetFramerateLimit(60);
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.LaunchMusic(nbMusic: 4);
+
         }
 
         #region Properties
@@ -265,9 +268,8 @@ namespace ITI.SusanooQuest.UI
         public void Update()
         {
             _game.Update();
-            UpdateLife();
-
-           if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
+            UpdateLife();            
+            if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
         }
 
         public void Dispose()
@@ -351,9 +353,13 @@ namespace ITI.SusanooQuest.UI
 
         void UpdateLife()
         {
-            _texts["Life"].DisplayedString = _game.Player.Life.ToString();
-        }
+            if (_texts["Life"].DisplayedString != _game.Player.Life.ToString()) 
+            {
+                SoundManager.GetInstance().HitSound();
+                _texts["Life"].DisplayedString = _game.Player.Life.ToString(); 
+            }                      
 
+        }
         #endregion
     }
 }
