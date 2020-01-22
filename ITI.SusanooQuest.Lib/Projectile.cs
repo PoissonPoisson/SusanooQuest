@@ -136,6 +136,7 @@ namespace ITI.SusanooQuest.Lib
 
         Vector IMovement.Move(Vector pos)
         {
+            //if (!_dir) _u.Multiply(-1);
             return pos.Add(_u);
         }
 

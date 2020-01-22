@@ -35,7 +35,7 @@ namespace ITI.SusanooQuest.Lib
             Attack.Update();
 
             if (_life <= 0) Kill();
-            //else _pos = _movement.Move(_pos);
+            else _pos = _movement.Move(_pos);
 
         }
 
@@ -76,8 +76,6 @@ namespace ITI.SusanooQuest.Lib
             set { _attack = value; }
         }
         public string Tag => _tag;
-
-        public Vector Pos => _pos;
         public Game Context => _game;
     }
 
