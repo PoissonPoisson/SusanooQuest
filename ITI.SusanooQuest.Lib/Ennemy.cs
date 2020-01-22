@@ -73,8 +73,6 @@ namespace ITI.SusanooQuest.Lib
             set { _attack = value; }
         }
         public string Tag => _tag;
-
-        public Vector Pos => _pos;
         public Game Context => _game;
     }
 
