@@ -25,8 +25,8 @@ namespace ITI.SusanooQuest.Lib
 
             if (_step == 0 && now >= _startPattern.AddSeconds(5))
             {
-                _context.Context.AddEnnemy(new Ennemy(new Vector(100, 80), 20, _context.Context, 25, 3, "standard") { Movement = new Standard(3, _context.Context) });
-                _context.Context.AddEnnemy(new Ennemy(new Vector(100, 80), 20, _context.Context, 25, 3, "standard") { Movement = new Diagonal(3, _context.Context) });
+                _context.Context.AddEnnemy(new Ennemy(new Vector(100, 100), 20, _context.Context, 25, 3, "standard") { Movement = new Standard(3, _context.Context) });
+                //_context.Context.AddEnnemy(new Ennemy(new Vector(100, 80), 20, _context.Context, 25, 3, "standard") { Movement = new Diagonal(3, _context.Context) });
                 _step++;
             }
             else if (_step == 1 && now >= _startPattern.AddSeconds(10))

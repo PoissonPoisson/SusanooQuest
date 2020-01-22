@@ -14,13 +14,14 @@ namespace ITI.SusanooQuest.Lib
     {
         #region fields
         IMovementEn _movement;
+        IAttackPattern _attack;
         readonly string _tag;
         string _path = @"...\ITI.SusanooQuest.Lib\leveltest.json";
         ushort _cd;
         #endregion
 
 
-        
+
 
         public Ennemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
             : base(pos, length, game, life, speed)
@@ -31,17 +32,11 @@ namespace ITI.SusanooQuest.Lib
 
         internal void Update()
         {
-            //Same as the player, make the ennemy shoot evry 10 updates
-            _cd--;
-            if (_cd == 0)
-            {
-                if (_pos.X >= 0 && _pos.X <= _game.Map.Width && _pos.Y >= 0 && _pos.Y <= _game.Map.Height) _game.CreateProjectile(2, 1, new Vector(_pos.X, _pos.Y), this, "CosY");
-                _cd = 10;
-            }
+            Attack.Update();
 
             if (_life <= 0) Kill();
-            else _pos = _movement.Move(_pos);
-            
+            //else _pos = _movement.Move(_pos);
+
         }
 
         private void Kill()
@@ -50,6 +45,8 @@ namespace ITI.SusanooQuest.Lib
             _game = null;
 
         }
+
+
 
         internal JToken Serialize()
         {
@@ -72,8 +69,15 @@ namespace ITI.SusanooQuest.Lib
             get { return _speed; }
             set { _speed = value; }
         }
+
+        internal IAttackPattern Attack
+        {
+            get { return _attack; }
+            set { _attack = value; }
+        }
         public string Tag => _tag;
 
+        public Vector Pos => _pos;
         public Game Context => _game;
     }
 
