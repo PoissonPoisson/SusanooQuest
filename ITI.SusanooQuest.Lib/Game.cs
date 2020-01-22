@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ITI.SusanooQuest.Lib.AttackPatternFolder;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -59,39 +60,45 @@ namespace ITI.SusanooQuest.Lib
                 //Is here to make the player shoot evry 0.5 seconds
                 if (DateTime.Now >= _lastShot.AddSeconds(_cd))
                 {
-                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X - 5, _player.Position.Y - 5), _player, "Y");
+                    AddProjectile(new Projectile(10, _player.Strength, new Vector(_player.Position.X, _player.Position.Y), _player, "Y") { Movement = new Y(10) });
                     _lastShot = DateTime.Now;
                 }
             }
             //Update all the projectiles
             foreach (Projectile projectile in _projectiles)
             {
+                ushort a;
                 //Make the projectile move
-                projectile.Update();
+                if (projectile.Tag == "Homing") a = 5;
+                else a = 1;
 
-                //If the projectiles belong to an ennemy, compare the position with the player and explode if collision
-                if (projectile.Shooter != _player)
+                for (ushort i = 0; i != a; i++)
                 {
-                    double distance = Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2));
-                    float sumR = projectile.Movement.Length + _player.Length;
-                    if (sumR > distance)
+                    projectile.Update();
+                    //If the projectiles belong to an ennemy, compare the position with the player and explode if collision
+                    if (projectile.Shooter != _player)
                     {
-                        ProjectileExplode(projectile, _player);
-                        break;
-                    } 
-                } else
-                //Else, compare the projectile to all the ennemies and explode 
-                {
-                    foreach (Ennemy e in _ennemies)
-                    {
-                        float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(e.Position.X - projectile.Position.X, 2) + Math.Pow(e.Position.Y - projectile.Position.Y, 2)));
-                        float sumR = projectile.Movement.Length + e.Length;
-                        if (sumR > distance) ProjectileExplode(projectile, e);
+                        double distance = Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2));
+                        float sumR = projectile.Movement.Length + _player.Length;
+                        if (sumR > distance)
+                        {
+                            ProjectileExplode(projectile, _player);
+                            break;
+                        }
                     }
+                    else
+                    //Else, compare the projectile to all the ennemies and explode 
+                    {
+                        foreach (Ennemy e in _ennemies)
+                        {
+                            float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(e.Position.X - projectile.Position.X, 2) + Math.Pow(e.Position.Y - projectile.Position.Y, 2)));
+                            float sumR = projectile.Movement.Length + e.Length;
+                            if (sumR > distance) ProjectileExplode(projectile, e);
+                        }
+                    }
+                    //Del projectile if out of bond
+                    if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
                 }
-
-                //Del projectile if out of bond
-                if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
             }
             //Del all the projectile that expload or went out of bond 
             if (_projectilesToDel.Count != 0)
@@ -126,15 +133,19 @@ namespace ITI.SusanooQuest.Lib
             if (ennemy == null) throw new NullReferenceException("Ennemy is null.");
             if (ennemy.Context != this) throw new ArgumentException("Context is an another game.");
             if (_ennemies.Contains(ennemy)) throw new ArgumentException("This ennemy is already in the game.");
-
+            ennemy.Attack = new Triple(ennemy);
             _ennemies.Add(ennemy);
+        }
+
+        internal void AddProjectile(Projectile projectile)
+        {
+            _projectiles.Add(projectile);
         }
 
         internal void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
         {
             if (speed < 0 || damage < 0) throw new ArgumentException("Must be superior to 0");
             if (shooter == null) throw new ArgumentNullException();
-            if (origin.X < 0 || origin.Y < 0) throw new ArgumentOutOfRangeException("out of Bound");
 
             //Creat the incomplete projectile
             Projectile projec = new Projectile(speed, damage, origin, shooter, type);
@@ -163,7 +174,7 @@ namespace ITI.SusanooQuest.Lib
         //Clear all projectile when a bomb is used
         public void OnClearProjectil()
         {
-            for (int i = _projectiles.Count-1; i >= 0; i--) if (_projectiles[i].Shooter != _player) _projectiles.Remove(_projectiles[i]);
+            for (int i = _projectiles.Count-1; i >= 0; i--) if (_projectiles[i].Shooter != _player && _projectilesToDel.IndexOf(_projectiles[i]) == -1) _projectilesToDel.Add(_projectiles[i]);
             _bombes--;
             Console.WriteLine("BOOOOOOOOOM!");
         }

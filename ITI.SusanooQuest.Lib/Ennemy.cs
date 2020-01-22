@@ -15,6 +15,7 @@ namespace ITI.SusanooQuest.Lib
         #region fields
 
         IMovementEn _movement;
+        IAttackPattern _attack;
         readonly string _tag;
         ushort _cd;
 
@@ -29,6 +30,7 @@ namespace ITI.SusanooQuest.Lib
 
         internal void Update()
         {
+            Attack.Update();
             if (_life <= 0) Kill();
             else _pos = _movement.Move(_pos);
             
@@ -40,6 +42,8 @@ namespace ITI.SusanooQuest.Lib
             _game = null;
 
         }
+
+
 
         internal JToken Serialize()
         {
@@ -62,8 +66,13 @@ namespace ITI.SusanooQuest.Lib
             get { return _speed; }
             set { _speed = value; }
         }
-        public string Tag => _tag;
 
+        internal IAttackPattern Attack
+        {
+            get { return _attack; }
+            set { _attack = value; }
+        }
+        public string Tag => _tag;
         public Game Context => _game;
     }
 
