@@ -116,28 +116,32 @@ namespace ITI.SusanooQuest.Lib
         float IMovement.Length => _length;
     }
 
-    class Homing : IMovement
+    class Ax : IMovement
     {
         readonly float _length;
         float _step;
-        bool _dir;
-        float _a;
         Vector _u;
+        bool _dir;
         
 
-        internal Homing(float step, float a, bool dir, Ennemy e, Vector u)
+        internal Ax(float step, Vector u, bool dir)
         {
-            _a = a;
+            _dir = dir;
+            _length = 5;
             _step = step;
             _u = u.Multiply(_step);
-            _dir = dir;
-            
         }
 
         Vector IMovement.Move(Vector pos)
         {
-            //if (!_dir) _u.Multiply(-1);
-            return pos.Add(_u);
+            if (_dir)
+            {
+                pos = pos.Add(_u);
+            } else
+            {
+                pos = pos.Sub(_u);
+            }
+            return pos;
         }
 
         float IMovement.Length => _length;

@@ -33,8 +33,7 @@ namespace ITI.SusanooQuest.Lib
             _ennemies = new List<Ennemy>();
             _death = new List<Ennemy>();
             _map = new Map(900, 1000);
-            //_player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 8);
-            _player = new Player(new Vector(500, 500), 5, this, playerLife, 8);
+            _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 8);
             _random = new Random();
             _highScore = highScore;
             _projectiles = new List<Projectile>();
@@ -134,7 +133,7 @@ namespace ITI.SusanooQuest.Lib
             if (ennemy == null) throw new NullReferenceException("Ennemy is null.");
             if (ennemy.Context != this) throw new ArgumentException("Context is an another game.");
             if (_ennemies.Contains(ennemy)) throw new ArgumentException("This ennemy is already in the game.");
-            ennemy.Attack = new HomingPattern(ennemy);
+            ennemy.Attack = new Triple(ennemy);
             _ennemies.Add(ennemy);
         }
 
