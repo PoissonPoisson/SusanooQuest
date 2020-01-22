@@ -11,7 +11,6 @@ namespace ITI.SusanooQuest.Lib
 
         //readonly Dictionary<string,Dictionary<string,>>
         readonly List<Ennemy> _ennemies;
-        List<Ennemy> _ennemiesToDel;
         List<Ennemy> _death;
         readonly List<Projectile> _projectiles;
         readonly List<Projectile> _projectilesToDel;
@@ -26,14 +25,12 @@ namespace ITI.SusanooQuest.Lib
 
         // game_structure part
         ILevel _level;
-        readonly List<IProjectile> _projectiles2;
 
         #endregion
 
         public Game(ushort playerLife ,ushort bombes, uint highScore)
         {
             _ennemies = new List<Ennemy>();
-            _ennemiesToDel = new List<Ennemy>();
             _death = new List<Ennemy>();
             _map = new Map(900, 1000);
             //_player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 8);
@@ -47,7 +44,6 @@ namespace ITI.SusanooQuest.Lib
             _cd = 0.1;
 
             _level = new LevelOne(this);
-            _projectiles2 = new List<IProjectile>();
         }
 
         public bool Update()
@@ -60,7 +56,6 @@ namespace ITI.SusanooQuest.Lib
             {
                 _ennemies[i].Update();
             }
-
             if (_player.OnShoot)
             {
                 //Is here to make the player shoot evry 0.5 seconds
