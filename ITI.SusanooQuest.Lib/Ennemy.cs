@@ -76,52 +76,6 @@ namespace ITI.SusanooQuest.Lib
         public Game Context => _game;
     }
 
-    public class Standard : IMovementEn
-    {
-        float _speed;
-        readonly Game _game;
-        readonly ushort _type;
-
-        internal Standard(float speed, Game game)
-        {
-            _speed = speed;
-            _game = game ?? throw new NullReferenceException("Game is null.");
-            _type = 1000;
-        }
-
-        Vector IMovementEn.Move(Vector pos)
-        {
-            //Make the ennemy go the other way when it bumps against the edge of the map
-            if (pos.X < 0 || pos.X > _game.Map.Width) _speed = -(_speed);
-            return new Vector(pos.X + _speed, pos.Y);
-        }
-
-        ushort IMovementEn.Type => _type;
-    }
-
-    public class Diagonal : IMovementEn
-    {
-        float _speed;
-        readonly Game _game;
-        readonly ushort _type;
-
-        internal Diagonal(float speed, Game game)
-        {
-            _speed = speed;
-            _game = game ?? throw new NullReferenceException("Game is null.");
-            _type = 1000;
-        }
-
-        ushort IMovementEn.Type => _type;
-
-        Vector IMovementEn.Move(Vector pos)
-        {
-            //Make the ennemy go the other way when it bumps against the edge of the map
-            if (pos.X < 0 || pos.X > _game.Map.Width || pos.Y < 0 || pos.Y > _game.Map.Height) _speed = -(_speed);
-            return new Vector(pos.X + _speed, pos.Y + _speed);
-        }
-    }
-
     public class Directional : IMovementEn
     {
         float _speed;
@@ -129,11 +83,11 @@ namespace ITI.SusanooQuest.Lib
         readonly ushort _type;
         Vector _destination;
 
-        internal Directional(Ennemy context, float speed, Vector destination)
+        internal Directional(Ennemy context, float speed, Vector destination, ushort points)
         {
             _speed = speed;
             _context = context ?? throw new NullReferenceException("Context is null.");
-            _type = 1000;
+            _type = points;
             _destination = destination;
         }
 
