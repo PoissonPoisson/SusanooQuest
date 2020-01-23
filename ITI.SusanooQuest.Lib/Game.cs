@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ITI.SusanooQuest.Lib.AttackPatternFolder;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,9 +8,9 @@ namespace ITI.SusanooQuest.Lib
     public class Game
     {
         #region Fields
+
         //readonly Dictionary<string,Dictionary<string,>>
         readonly List<Ennemy> _ennemies;
-        List<Ennemy> _ennemiesToDel;
         List<Ennemy> _death;
         readonly List<Projectile> _projectiles;
         readonly List<Projectile> _projectilesToDel;
@@ -22,12 +23,14 @@ namespace ITI.SusanooQuest.Lib
         double _cd;
         DateTime _lastShot;
 
+        // game_structure part
+        ILevel _level;
+
         #endregion
 
         public Game(ushort playerLife ,ushort bombes, uint highScore)
         {
             _ennemies = new List<Ennemy>();
-            _ennemiesToDel = new List<Ennemy>();
             _death = new List<Ennemy>();
             _map = new Map(900, 1000);
             _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 8);
@@ -39,59 +42,63 @@ namespace ITI.SusanooQuest.Lib
             _score = 0;
             _cd = 0.1;
 
+            _level = new LevelOne(this);
         }
 
         public bool Update()
         {
-            if (_ennemies.Count < 1)
-            {
-                CreateEnnemy(new Vector(100, 100), 8, this, 40, 8, "standard");
-            }
+            _level = _level.NextLevel;
+            _level.Update();
 
             //Update all the ennemies
             for (int i = _ennemies.Count() - 1; i >= 0; i--)
             {
                 _ennemies[i].Update();
             }
-
             if (_player.OnShoot)
             {
                 //Is here to make the player shoot evry 0.5 seconds
                 if (DateTime.Now >= _lastShot.AddSeconds(_cd))
                 {
-                    CreateProjectile(10, _player.Strength, new Vector(_player.Position.X - 5, _player.Position.Y - 5), _player, "Y");
+                    AddProjectile(new Projectile(10, _player.Strength, new Vector(_player.Position.X, _player.Position.Y), _player, "Y") { Movement = new Y(10) });
                     _lastShot = DateTime.Now;
                 }
             }
             //Update all the projectiles
             foreach (Projectile projectile in _projectiles)
             {
+                ushort a;
                 //Make the projectile move
-                projectile.Update();
+                if (projectile.Tag == "Homing") a = 5;
+                else a = 1;
 
-                //If the projectiles belong to an ennemy, compare the position with the player and explode if collision
-                if (projectile.Shooter != _player)
+                for (ushort i = 0; i != a; i++)
                 {
-                    double distance = Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2));
-                    float sumR = projectile.Movement.Length + _player.Length;
-                    if (sumR > distance)
+                    projectile.Update();
+                    //If the projectiles belong to an ennemy, compare the position with the player and explode if collision
+                    if (projectile.Shooter != _player)
                     {
-                        ProjectileExplode(projectile, _player);
-                        break;
-                    } 
-                } else
-                //Else, compare the projectile to all the ennemies and explode 
-                {
-                    foreach (Ennemy e in _ennemies)
-                    {
-                        float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(e.Position.X - projectile.Position.X, 2) + Math.Pow(e.Position.Y - projectile.Position.Y, 2)));
-                        float sumR = projectile.Movement.Length + e.Length;
-                        if (sumR > distance) ProjectileExplode(projectile, e);
+                        double distance = Math.Sqrt(Math.Pow(_player.Position.X - projectile.Position.X, 2) + Math.Pow(_player.Position.Y - projectile.Position.Y, 2));
+                        float sumR = projectile.Movement.Length + _player.Length;
+                        if (sumR > distance)
+                        {
+                            ProjectileExplode(projectile, _player);
+                            break;
+                        }
                     }
+                    else
+                    //Else, compare the projectile to all the ennemies and explode 
+                    {
+                        foreach (Ennemy e in _ennemies)
+                        {
+                            float distance = Convert.ToSingle(Math.Sqrt(Math.Pow(e.Position.X - projectile.Position.X, 2) + Math.Pow(e.Position.Y - projectile.Position.Y, 2)));
+                            float sumR = projectile.Movement.Length + e.Length;
+                            if (sumR > distance) ProjectileExplode(projectile, e);
+                        }
+                    }
+                    //Del projectile if out of bond
+                    if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
                 }
-
-                //Del projectile if out of bond
-                if (projectile.Position.Y > _map.Height || projectile.Position.Y < -20) _projectilesToDel.Add(projectile);
             }
             //Del all the projectile that expload or went out of bond 
             if (_projectilesToDel.Count != 0)
@@ -121,39 +128,24 @@ namespace ITI.SusanooQuest.Lib
 
         }
 
-        internal Ennemy CreateEnnemy(Vector pos, float length, Game game, ushort life, float speed, string tag)
+        internal void AddEnnemy(Ennemy ennemy)
         {
-            if (pos.X < 0 || pos.Y < 0) throw new ArgumentOutOfRangeException("out of bond", nameof(pos));
-            if (length <= 0) throw new ArgumentException("Length must be positive", nameof(length));
-            if (life <= 0) throw new ArgumentException("Life must be positive", nameof(life));
-            if (speed < 0) throw new ArgumentException("Speed must be positive", nameof(speed));
-            if (game == null) throw new ArgumentNullException(nameof(game));
-
-            //Creat the incomplete ennemy
-            Ennemy ennemy = new Ennemy(pos, length, game, life, speed, tag);
-
-            //Complete it with his movement methode (designe pattern strategy)
-            switch (tag)
-            {
-                case "standard":
-                    ennemy.Movement = new Standard(ennemy.Speed, this);
-                    break;
-                case "diagonal":
-                    ennemy.Movement = new Diagonal(ennemy.Speed, this);
-                    break;
-                default:
-                    throw new ArgumentException("Does not match any ennemy type", nameof(tag));
-            }
-
+            if (ennemy == null) throw new NullReferenceException("Ennemy is null.");
+            if (ennemy.Context != this) throw new ArgumentException("Context is an another game.");
+            if (_ennemies.Contains(ennemy)) throw new ArgumentException("This ennemy is already in the game.");
+            ennemy.Attack = new AttackPatternFolder.Double(ennemy);
             _ennemies.Add(ennemy);
-            return ennemy;
+        }
+
+        internal void AddProjectile(Projectile projectile)
+        {
+            _projectiles.Add(projectile);
         }
 
         internal void CreateProjectile(double speed, int damage, Vector origin, Entity shooter, string type)
         {
             if (speed < 0 || damage < 0) throw new ArgumentException("Must be superior to 0");
             if (shooter == null) throw new ArgumentNullException();
-            if (origin.X < 0 || origin.Y < 0) throw new ArgumentOutOfRangeException("out of Bound");
 
             //Creat the incomplete projectile
             Projectile projec = new Projectile(speed, damage, origin, shooter, type);
@@ -182,8 +174,7 @@ namespace ITI.SusanooQuest.Lib
         //Clear all projectile when a bomb is used
         public void OnClearProjectil()
         {
-            for (int i = _projectiles.Count-1; i >= 0; i--) if (_projectiles[i].Shooter != _player) _projectiles.Remove(_projectiles[i]);
-            //foreach (Projectile projectile in _projectiles) if (projectile.Shooter != _player) _projectiles.Remove(projectile);
+            for (int i = _projectiles.Count-1; i >= 0; i--) if (_projectiles[i].Shooter != _player && _projectilesToDel.IndexOf(_projectiles[i]) == -1) _projectilesToDel.Add(_projectiles[i]);
             _bombes--;
             Console.WriteLine("BOOOOOOOOOM!");
         }

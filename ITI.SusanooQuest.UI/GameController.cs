@@ -93,23 +93,24 @@ namespace ITI.SusanooQuest.UI
             _playerHitboxTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Green };
             _playerHitboxTexture.Position = new Vector2f
             (
-                _game.Player.Position.X + _playerHitboxTexture.Radius,
-                _game.Player.Position.Y + _playerHitboxTexture.Radius
+                _game.Player.Position.X - _playerHitboxTexture.Radius,
+                _game.Player.Position.Y - _playerHitboxTexture.Radius
             );
-            //_playerTexture2 = new RectangleShape(new Vector2f(60, 60))
-            //{
-            //    Position = _playerHitboxTexture.Position,
-            //    Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png")),
-            //    //FillColor = Color.Yellow
-            //};
+            _playerTexture2 = new RectangleShape(new Vector2f(60, 60))
+            {
+                Position = _playerHitboxTexture.Position,
+                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png")),
+                //FillColor = Color.Yellow
+            };
             //Dictionary of projectiles texture
             _projectilesTexture = new Dictionary<string, CircleShape>();
             _projectilesTexture.Add("Y", new CircleShape(5) { FillColor = Color.Blue});
             _projectilesTexture.Add("CosY", new CircleShape(5) { FillColor = Color.Red });
+            _projectilesTexture.Add("Homing", new CircleShape(5) { FillColor = Color.Magenta });
 
             //Dictionary of ennemy texture
             _ennemiesTexture = new Dictionary<string, CircleShape>();
-            _ennemiesTexture.Add("standard", new CircleShape(8));
+            _ennemiesTexture.Add("standard", new CircleShape(20));
             _ennemiesTexture.Add("diagonal", new CircleShape(8) { FillColor = Color.Cyan});
 
             _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
@@ -227,7 +228,7 @@ namespace ITI.SusanooQuest.UI
             UpdateLife();
             _texts["Score"].DisplayedString = ScoreToString(_game.Score, 10);
             _texts["HichScore"].DisplayedString = ScoreToString(_game.HighScore, 10);
-            if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
+            if (_game.Player.Life <= 0) _nextMenu = new EndPageMenu(_window, false);
         }
 
         public void Dispose()
@@ -254,12 +255,12 @@ namespace ITI.SusanooQuest.UI
                 _game.Player.Position.X - _playerHitboxTexture.Radius,
                 _game.Player.Position.Y - _playerHitboxTexture.Radius
             );
-            //_playerTexture2.Position = new Vector2f(
-            //    _playerHitboxTexture.Position.X - (_playerTexture2.Size.X / 2),
-            //    _playerHitboxTexture.Position.Y - (_playerTexture2.Size.Y / 2)
-            //);
+            _playerTexture2.Position = new Vector2f(
+                _playerHitboxTexture.Position.X - (_playerTexture2.Size.X / 2),
+                _playerHitboxTexture.Position.Y - (_playerTexture2.Size.Y / 2)
+            );
 
-            //_drawMap.Draw(_playerTexture2);
+            _drawMap.Draw(_playerTexture2);
             _drawMap.Draw(_playerHitboxTexture);
 
             foreach (Projectile p in _game.Projectiles)

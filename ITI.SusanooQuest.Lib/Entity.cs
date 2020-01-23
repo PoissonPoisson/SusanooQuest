@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ITI.SusanooQuest.Lib
 {
@@ -17,7 +15,7 @@ namespace ITI.SusanooQuest.Lib
 
         #endregion
 
-        protected Entity(Vector pos, float length, Game game, ushort life, float speed)
+        protected Entity(Vector pos, float length, Game game, int life, float speed)
         {
             if (length < 0) throw new IndexOutOfRangeException("Length can't be nagative.");
             if (speed < 0) throw new IndexOutOfRangeException("Speed can't be nagative.");
@@ -42,12 +40,6 @@ namespace ITI.SusanooQuest.Lib
         public float Length => _length;
 
         internal ushort Strength => _strength;
-
-        #endregion
-
-        #region Methodes
-
-        internal abstract void Update();
 
         #endregion
     }

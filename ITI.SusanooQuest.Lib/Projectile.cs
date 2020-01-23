@@ -26,7 +26,6 @@ namespace ITI.SusanooQuest.Lib
         {
             if (speed < 0 || damage < 0) throw new ArgumentException("Must be superior to 0");
             if (shooter == null) throw new ArgumentNullException();
-            if (origin.X < 0 || origin.Y < 0) throw new ArgumentOutOfRangeException("out of Bound");
 
             _origin = origin;
             _pos = new Vector(0, 0);
@@ -112,6 +111,37 @@ namespace ITI.SusanooQuest.Lib
             x = Convert.ToSingle(200 * Math.Cos(Convert.ToDouble(y) / 50));
             y += _step;
             return new Vector(Convert.ToSingle(x), Convert.ToSingle(y));
+        }
+
+        float IMovement.Length => _length;
+    }
+
+    class Ax : IMovement
+    {
+        readonly float _length;
+        float _step;
+        Vector _u;
+        bool _dir;
+        
+
+        internal Ax(float step, Vector u, bool dir)
+        {
+            _dir = dir;
+            _length = 5;
+            _step = step;
+            _u = u.Multiply(_step);
+        }
+
+        Vector IMovement.Move(Vector pos)
+        {
+            if (_dir)
+            {
+                pos = pos.Add(_u);
+            } else
+            {
+                pos = pos.Sub(_u);
+            }
+            return pos;
         }
 
         float IMovement.Length => _length;
