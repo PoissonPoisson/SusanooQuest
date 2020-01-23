@@ -69,6 +69,8 @@ namespace ITI.SusanooQuest.UI
             _highScore = data.Item2;
 
             _selectCircl = new CircleShape(25) { Position = _buttons[_maxLive].Image.Position, FillColor = Color.Yellow};
+            SoundManager mySoundManager = SoundManager.GetInstance();            
+            mySoundManager.LaunchMusic(nbMusic: 1);
         }
 
         #region Properties
