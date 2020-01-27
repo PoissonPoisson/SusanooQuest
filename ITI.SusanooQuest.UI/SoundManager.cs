@@ -18,6 +18,7 @@ namespace ITI.SusanooQuest.UI
         int _currentmusic;
         List<Music> _musiclist;
         bool _isPlayingMusic;
+        float _volumeMusic; 
 
         public static SoundManager GetInstance()
         {
@@ -46,7 +47,9 @@ namespace ITI.SusanooQuest.UI
                 GetMusic("ITI.SusanooQuest.UI.Resources.sad-piano-ncs-uncopyright-music.wav"),                            // 3 : GameOverPage
                 GetMusic("ITI.SusanooQuest.UI.Resources.y2mate.com-neo_tokyo_cyberpunk_mix_7JqKRqOmzi0.wav")             // 4 : LevelOneMenu
              /* GetMusic("ITI.SusanooQuest.UI.Resources..wav")     */                                                 // 5 : LevelTwo Menu
-            };        
+            };
+
+            _volumeMusic = 100f; 
         }
 
         Music GetMusic(string resourceName)
@@ -57,14 +60,24 @@ namespace ITI.SusanooQuest.UI
         }
 
         public Music GetCurrentMusic => _musiclist[_currentmusic] ;
-        public float GetCurrentVolume => _musiclist[_currentmusic].Volume;
+        public float GetCurrentVolume
+        {
+            get => _volumeMusic; 
+            set
+            {
+                _volumeMusic = value;
+                _musiclist[_currentmusic].Volume = value;
+            }
+        }
+
 
         public void Shoot()
         {
             _soundOfPlayerProjectil.Volume = 10;
             _soundOfPlayerProjectil.Loop = true;
             _soundOfPlayerProjectil.Play();
-        } 
+        }
+
         public void StopShoot()
         { 
             _soundOfPlayerProjectil.Stop();
@@ -96,6 +109,7 @@ namespace ITI.SusanooQuest.UI
 
             _currentmusic = nbMusic;            
             _musiclist[nbMusic].Play();
+            _musiclist[nbMusic].Volume = _volumeMusic;
             _isPlayingMusic = true;
             
             
