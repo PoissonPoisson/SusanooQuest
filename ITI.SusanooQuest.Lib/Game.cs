@@ -137,7 +137,7 @@ namespace ITI.SusanooQuest.Lib
             if (ennemy == null) throw new NullReferenceException("Ennemy is null.");
             if (ennemy.Context != this) throw new ArgumentException("Context is an another game.");
             if (_ennemies.Contains(ennemy)) throw new ArgumentException("This ennemy is already in the game.");
-            ennemy.Attack = new AttackPatternFolder.Double(ennemy);
+            ennemy.Attack = new HomingPattern(ennemy);
             _ennemies.Add(ennemy);
         }
 
@@ -171,7 +171,7 @@ namespace ITI.SusanooQuest.Lib
         internal void OnKill(Ennemy ennemy)
         {
             _ennemies.Remove(ennemy);
-            _score += ennemy.Movement.Type;
+            if ((0 < ennemy.Position.X && ennemy.Position.X <= _map.Width) && (0 < ennemy.Position.Y && ennemy.Position.Y <= _map.Height)) _score += ennemy.Movement.Type;
             //Console.WriteLine( _ennemies.Count());
         }
         
