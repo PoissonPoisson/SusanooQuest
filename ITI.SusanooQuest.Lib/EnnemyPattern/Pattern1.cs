@@ -31,6 +31,7 @@ namespace ITI.SusanooQuest.Lib
                 {
                     _context.Context.AddEnnemy(new Ennemy(new Vector(-i * 100, 90 - i * 10), 20, _context.Context, 25, 4, "standard"));
                     _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 90 - i * 10), 1000);
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Attack = new HomingPattern(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1]);
                 }
                 _step++;
             }
@@ -40,6 +41,7 @@ namespace ITI.SusanooQuest.Lib
                 {
                     _context.Context.AddEnnemy(new Ennemy(new Vector(1000 + i * 100, 150 - i * 10), 20, _context.Context, 25, 4, "standard"));
                     _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 150 -i * 10), 1000);
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Attack = new HomingPattern(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1]);
                 }
                 _step++;
             }
@@ -49,8 +51,10 @@ namespace ITI.SusanooQuest.Lib
                 {
                     _context.Context.AddEnnemy(new Ennemy(new Vector(-100 - (5.5f * 10 * i), 100 - i * 20), 20, _context.Context, 25, 4, "standard"));
                     _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 500), 1000);
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Attack = new HomingPattern(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1]);
                     _context.Context.AddEnnemy(new Ennemy(new Vector(-100 - (5.5f * 10 * i), 100 - 50 - i * 20), 20, _context.Context, 25, 4, "standard"));
                     _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450), 1000);
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Attack = new HomingPattern(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1]);
                 }
                 _step++;
             }
