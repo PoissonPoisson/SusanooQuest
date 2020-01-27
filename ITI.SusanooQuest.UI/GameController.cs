@@ -5,6 +5,7 @@ using ITI.SusanooQuest.Lib;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using SFML.Audio;
 
 namespace ITI.SusanooQuest.UI
 {
@@ -15,6 +16,8 @@ namespace ITI.SusanooQuest.UI
         readonly RenderWindow _window;
         readonly View _view;
         float _ratio;
+        bool _isFirering;
+        bool _isBombing;
         readonly RectangleShape _bg;
         IController _nextMenu;
         readonly Dictionary<string, Text> _texts;
@@ -31,6 +34,7 @@ namespace ITI.SusanooQuest.UI
         readonly RectangleShape _bgStates;
         readonly Dictionary<string, CircleShape> _projectilesTexture;
         readonly Dictionary<string, CircleShape> _ennemiesTexture;
+        readonly Sound _soundOfPlayerProjectil;  
         
         #endregion
 
@@ -114,10 +118,13 @@ namespace ITI.SusanooQuest.UI
             _ennemiesTexture.Add("diagonal", new CircleShape(8) { FillColor = Color.Cyan});
 
             _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
-            _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };
+            _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };           
             
 
             _window.SetFramerateLimit(60);
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.LaunchMusic(nbMusic: 4);
+
         }
 
         #region Properties
@@ -135,6 +142,7 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e)
         {
+            Console.WriteLine("KeyPressed({0})", e);
             switch(e.Code)
             {
                 case Keyboard.Key.LShift:
@@ -158,12 +166,14 @@ namespace ITI.SusanooQuest.UI
                     break;
                 case Keyboard.Key.W:
                     _game.Player.StartShoot();
+                    StartSoundFire();
                     break;
                 case Keyboard.Key.X:
                     if (_game.Bombes > 0)
                     {
                         _game.OnClearProjectil();
                         UpdateBomb();
+                        BomberSoundStart();
                     }
                     break;
                 case Keyboard.Key.Escape:
@@ -174,6 +184,7 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyReleased(KeyEventArgs e)
         {
+            Console.WriteLine("KeyReleased({0})", e);
             switch (e.Code)
             {
                 case Keyboard.Key.LShift:
@@ -193,10 +204,43 @@ namespace ITI.SusanooQuest.UI
                     break;
                 case Keyboard.Key.W:
                     _game.Player.EndShoot();
+                    StopSoundFire();
                     break;
                 case Keyboard.Key.X:
+                    BomberSoundStop();
                     break;
             }
+        }
+        public void BomberSoundStart()
+        {
+            if (_isBombing) return;
+            _isBombing = true;
+           // _game.OnClearProjectil();
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.Explode();
+        }
+        public void BomberSoundStop()
+        {
+            _isBombing = false;
+        }
+
+        public void StartSoundFire()
+        {
+            if (_isFirering) return;
+
+            _isFirering = true;
+            //_game.Player.StartShoot();
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.Shoot();
+
+        }
+        public void StopSoundFire()
+        {
+            if (!_isFirering) return;
+            _isFirering = false;
+            _game.Player.EndShoot();
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.StopShoot();
         }
 
         public void Render()
@@ -225,7 +269,7 @@ namespace ITI.SusanooQuest.UI
         public void Update()
         {
             _game.Update();
-            UpdateLife();
+            UpdateLife();            
             _texts["Score"].DisplayedString = ScoreToString(_game.Score, 10);
             _texts["HichScore"].DisplayedString = ScoreToString(_game.HighScore, 10);
             if (_game.Player.Life <= 0) _nextMenu = new EndPageMenu(_window, false);
@@ -312,9 +356,13 @@ namespace ITI.SusanooQuest.UI
 
         void UpdateLife()
         {
-            _texts["Life"].DisplayedString = _game.Player.Life.ToString();
-        }
+            if (_texts["Life"].DisplayedString != _game.Player.Life.ToString()) 
+            {
+                SoundManager.GetInstance().HitSound();
+                _texts["Life"].DisplayedString = _game.Player.Life.ToString(); 
+            }                      
 
+        }
         #endregion
     }
 }

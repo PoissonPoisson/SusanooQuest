@@ -19,8 +19,7 @@ namespace ITI.SusanooQuest.UI
         readonly View _view;
         readonly RectangleShape _bg;
         readonly Font _font;
-        readonly Text[] _texts;
-        readonly Music _music;
+        readonly Text[] _texts;        
         readonly Button _button;
         readonly RenderTexture _credit;
         readonly Sprite _spriteCredit;
@@ -86,23 +85,25 @@ namespace ITI.SusanooQuest.UI
             }
             else
             {
+                
                 _button = new Button(
-                    new Vector(_size.X / 2 - buttonTexture.Size.X / 2, 800),
-                    (int)buttonTexture.Size.X,
-                    (int)buttonTexture.Size.Y,
-                    buttonTexture
+                new Vector(_size.X / 2 - buttonTexture.Size.X / 2, 800),
+                (int)buttonTexture.Size.X,
+                (int)buttonTexture.Size.Y,
+                buttonTexture
                 );
 
                 _texts = new Text[1]
                 {
                     new Text("Game Over", _font) { CharacterSize = 120, FillColor = Color.Red, Position = new Vector2f(750, 350) }
+
                 };
             }
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.LaunchMusic(nbMusic: 3);
 
-            //_music = new Music(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.Hanezeve_Caradhina.wav"));
-            //_music.Play();
-            //_music.Loop = true;
         }
+
 
         #region Properties
 
@@ -123,8 +124,7 @@ namespace ITI.SusanooQuest.UI
                 foreach (Text text in _creditTexts) text.Dispose();
             }
             if (_button != null) _button.Image.Dispose();
-            //_music.Stop();
-            //_music.Dispose();
+            
         }
 
         public void KeyPressed(KeyEventArgs e)
