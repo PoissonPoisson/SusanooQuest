@@ -137,7 +137,7 @@ namespace ITI.SusanooQuest.Lib
             if (ennemy == null) throw new NullReferenceException("Ennemy is null.");
             if (ennemy.Context != this) throw new ArgumentException("Context is an another game.");
             if (_ennemies.Contains(ennemy)) throw new ArgumentException("This ennemy is already in the game.");
-            ennemy.Attack = new HomingPattern(ennemy);
+            //ennemy.Attack = new HomingPattern(ennemy);
             _ennemies.Add(ennemy);
         }
 
