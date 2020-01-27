@@ -2,7 +2,7 @@
 
 namespace ITI.SusanooQuest.Lib
 {
-    public class Pattern1 : IPattern
+    internal class Pattern1 : IPattern
     {
         readonly ILevel _context;
         IPattern _nextPattern;

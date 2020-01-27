@@ -8,6 +8,7 @@ namespace ITI.SusanooQuest.Lib
     {
         Vector Move(Vector pos);
         internal ushort Type { get; }
+        internal Vector Direction { get; set; }
     }
 
     public class Ennemy : Entity
@@ -30,7 +31,7 @@ namespace ITI.SusanooQuest.Lib
 
         internal void Update()
         {
-            Attack.Update();
+            if (Attack != null) Attack.Update();
             if (_life <= 0) Kill();
             else _pos = _movement.Move(_pos);
             
@@ -93,10 +94,10 @@ namespace ITI.SusanooQuest.Lib
 
         ushort IMovementEn.Type => _type;
 
-        internal Vector Direction
+        Vector IMovementEn.Direction
         {
-            get { return _destination; }
-            set { _destination = value; }
+            get => _destination;
+            set => _destination = value;
         }
 
         Vector IMovementEn.Move(Vector pos)

@@ -40,5 +40,15 @@ namespace ITI.SusanooQuest.Lib
         {
             return (float)Math.Sqrt(Math.Pow(X - other.X, 2) + Math.Pow(Y - other.Y, 2));
         }
+
+        public static bool operator ==(Vector vector1, Vector vector2)
+        {
+            return vector1.X == vector2.X && vector1.Y == vector2.Y;
+        }
+
+        public static bool operator !=(Vector vector1, Vector vector2)
+        {
+            return vector1.X != vector2.X && vector1.Y != vector2.Y;
+        }
     }
 }
