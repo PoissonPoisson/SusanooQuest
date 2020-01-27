@@ -4,12 +4,12 @@ using System.Text;
 
 namespace ITI.SusanooQuest.Lib
 {
-    class Triple : IAttackPattern
+    class Double : IAttackPattern
     {
         Ennemy _context;
         Vector _target;
         DateTime _lastShot;
-        public Triple(Ennemy context)
+        public Double(Ennemy context)
         {
             _context = context;
             _lastShot = DateTime.Now;

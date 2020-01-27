@@ -20,7 +20,7 @@ namespace ITI.SusanooQuest.UI
         readonly RectangleShape _bg;
         IController _nextMenu;
         readonly Vector _size;
-        readonly Music _music;
+        
 
         #endregion
 
@@ -53,12 +53,10 @@ namespace ITI.SusanooQuest.UI
             _buttons[3] = new Button(new Vector(1200, 615), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_quit.png"));
             _buttons[4] = new Button(new Vector(1200, 715), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
-            _music = new Music(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.Lullaby_of_Deserted_Hell.wav"));
-            _music.Play();
-            _music.Loop = true;
-            
-            
-            
+
+            SoundManager mySoundManager = SoundManager.GetInstance();
+            mySoundManager.LaunchMusic(nbMusic:0);            
+                       
         }
 
         #region Properties
@@ -135,12 +133,7 @@ namespace ITI.SusanooQuest.UI
             {
                 button.Image.Dispose();
             }
-            _music.Stop();
-            
-        }       
-            
-        
-
+        }
         #endregion
     }
 }

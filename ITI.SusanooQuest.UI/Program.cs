@@ -52,6 +52,8 @@ namespace ITI.SusanooQuest.UI
                     
                     window.Display();
                 }
+
+                SoundManager.GetInstance().Dispose();
             }
         }
     }

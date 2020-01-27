@@ -25,6 +25,7 @@ namespace ITI.SusanooQuest.UI
         ushort _maxLive;
         uint _highScore;
         CircleShape _selectCircl;
+        readonly RectangleShape _volumeBar;
 
         #endregion
 
@@ -39,12 +40,16 @@ namespace ITI.SusanooQuest.UI
             _nextMenu = this;
             _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
             _view = new View(new FloatRect(0.0f, 0.0f, _size.X, _size.Y));
-            _bg = new RectangleShape(new Vector2f(_size.X, _size.Y))
+            _bg = new RectangleShape(new Vector2f(_size.X, _size.Y))            
             {
                 Position = new Vector2f(0.0f, 0.0f),
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.bg_MainMenu.png"))
             };
-
+            _volumeBar = new RectangleShape(new Vector2f(1000, 50))
+            {
+                Position = new Vector2f(460, 515),
+                FillColor = Color.Magenta
+            };
             _buttons = new Button[6];
             Texture buttonTexture;
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_return.png"));
@@ -69,6 +74,8 @@ namespace ITI.SusanooQuest.UI
             _highScore = data.Item2;
 
             _selectCircl = new CircleShape(25) { Position = _buttons[_maxLive].Image.Position, FillColor = Color.Yellow};
+            SoundManager mySoundManager = SoundManager.GetInstance();            
+            mySoundManager.LaunchMusic(nbMusic: 1);            
         }
 
         #region Properties
@@ -90,9 +97,16 @@ namespace ITI.SusanooQuest.UI
                     (e.X - (_window.Size.X / 2 - (_size.X / 2) * _ratio)) / _ratio,
                     (e.Y - (_window.Size.Y / 2 - (_size.Y / 2) * _ratio)) / _ratio
                 );
+                Console.WriteLine($"X : {posInput.X}, Y : {posInput.Y}");
 
-                //Console.WriteLine($"X : {posInput.X}, Y : {posInput.Y}");
                 //Console.WriteLine($"Button :\n - X : {_buttons[0].Pos.X} - {_buttons[0].Pos.X + _buttons[0].Width}\n - Y : {_buttons[0].Pos.Y} - {_buttons[0].Pos.Y + _buttons[0].Height}");
+                if (_volumeBar.Position.X <= posInput.X && posInput.X < _volumeBar.Position.X + _volumeBar.Size.X && _volumeBar.Position.Y <= posInput.Y && posInput.Y < _volumeBar.Position.Y + _volumeBar.Size.Y)
+                {
+                    // SoundManager.GetInstance().GetCurrentMusic.Volume = ((((_volumeBar.Position.X + _volumeBar.Size.X)-_volumeBar.Position.X)-(e.X- (_volumeBar.Position.X + _volumeBar.Size.X))*100)/ ((_volumeBar.Position.X + _volumeBar.Size.X)-_volumeBar.Position.X));
+                    SoundManager.GetInstance().GetCurrentMusic.Volume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
+                    Console.WriteLine((100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X));
+
+                }
 
                 if (_buttons[0].Selected(posInput))
                 {
@@ -137,7 +151,7 @@ namespace ITI.SusanooQuest.UI
                 _window.Draw(button.Image, RenderStates.Default);
             }
             _window.Draw(_texts[0], RenderStates.Default);
-
+            _window.Draw(_volumeBar);
             _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
 
             _view.Viewport = new FloatRect(
@@ -160,6 +174,7 @@ namespace ITI.SusanooQuest.UI
             _view.Dispose();
             _bg.Texture.Dispose();
             _bg.Dispose();
+            _volumeBar.Dispose();
             _selectCircl.Dispose();
             foreach (Button button in _buttons)
             {
