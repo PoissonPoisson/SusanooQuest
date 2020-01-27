@@ -103,9 +103,9 @@ namespace ITI.SusanooQuest.UI
                 if (_volumeBar.Position.X <= posInput.X && posInput.X < _volumeBar.Position.X + _volumeBar.Size.X && _volumeBar.Position.Y <= posInput.Y && posInput.Y < _volumeBar.Position.Y + _volumeBar.Size.Y)
                 {
                     // SoundManager.GetInstance().GetCurrentMusic.Volume = ((((_volumeBar.Position.X + _volumeBar.Size.X)-_volumeBar.Position.X)-(e.X- (_volumeBar.Position.X + _volumeBar.Size.X))*100)/ ((_volumeBar.Position.X + _volumeBar.Size.X)-_volumeBar.Position.X));
-                    SoundManager.GetInstance().GetCurrentMusic.Volume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
+                    //SoundManager.GetInstance().GetCurrentMusic.Volume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
                     Console.WriteLine((100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X));
-
+                    SoundManager.GetInstance().GetCurrentVolume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
                 }
 
                 if (_buttons[0].Selected(posInput))
@@ -127,7 +127,7 @@ namespace ITI.SusanooQuest.UI
                 }
             }
         }
-
+        
         public void KeyPressed(KeyEventArgs e)
         {
             if (e.Code == Keyboard.Key.Escape)
