@@ -268,8 +268,13 @@ namespace ITI.SusanooQuest.UI
         public void Update()
         {
             _game.Update();
-            UpdateLife();            
-            if (_game.Player.Life == 0) _nextMenu = new EndPageMenu(_window, false);
+            UpdateLife();
+            if (_game.Player.Life == 0)
+            {
+                SoundManager soundManager = SoundManager.GetInstance();
+                soundManager.StopShoot();
+                _nextMenu = new EndPageMenu(_window, false);
+            }
         }
 
         public void Dispose()
