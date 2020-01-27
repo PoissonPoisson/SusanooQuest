@@ -8,6 +8,7 @@ namespace ITI.SusanooQuest.Lib
         IPattern _nextPattern;
         readonly DateTime _startPattern;
         ushort _step;
+        Random _random;
 
         internal Pattern1(ILevel context)
         {
@@ -15,6 +16,7 @@ namespace ITI.SusanooQuest.Lib
             _nextPattern = this;
             _startPattern = DateTime.Now;
             _step = 0;
+            _random = new Random();
         }
 
         public IPattern NextPatern => _nextPattern;
@@ -25,154 +27,147 @@ namespace ITI.SusanooQuest.Lib
 
             if (_step == 0 && now >= _startPattern.AddSeconds(3))
             {
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-100, 80), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 80));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-200, 70), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 70));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-300, 60), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 60));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-400, 50), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 50));
+                for (int i = 1; i <= 4; i++)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(-i * 100, 90 - i * 10), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 90 - i * 10), 1000);
+                }
                 _step++;
             }
             else if (_step == 1 && now >= _startPattern.AddSeconds(8))
             {
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1000, 150), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 150));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1100, 140), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 140));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1200, 130), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 130));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1300, 120), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 120));
+                for (int i = 0; i <= 3; i++)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(1000 + i * 100, 150 - i * 10), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 150 -i * 10), 1000);
+                }
                 _step++;
             }
             else if (_step == 2 && now >= _startPattern.AddSeconds(12))
             {
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-100, 100), 20, _context.Context, 25, 4,"standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 500));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-155, 80), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 500));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-210, 60), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 500));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-265, 40), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 500));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-100, 50), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-155, 30), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-210, 10), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-265, -10), 20, _context.Context, 25, 4,"standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
+                for (int i = 0; i < 5; i++)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(-100 - (5.5f * 10 * i), 100 - i * 20), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 500), 1000);
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(-100 - (5.5f * 10 * i), 100 - 50 - i * 20), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450), 1000);
+                }
                 _step++;
             }
             else if (_step == 3 && now >= _startPattern.AddSeconds(17))
             {
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1000, 100), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 500));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1055, 80), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 500));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1110, 60), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 500));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1165, 40), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 500));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1000, 50), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1055, 30), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1110, 10), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1165, -10), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 450));
+                for (int i = 0; i < 5; i++)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(1000 + (5.5f * 10 * i), 100 - i * 20), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 500), 1000);
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(1000 + (5.5f * 10 * i), 100 - 50 - i * 20), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 450), 1000);
+                }
                 _step++;
             }
             else if (_step == 4 && now >= _startPattern.AddSeconds(25))
             {
-                _context.Context.AddEnnemy(new Ennemy(new Vector(200, -100), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 1200));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(200, -200), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 1200));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(200, -300), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 1200));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(200, -400), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 1200));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(200, -500), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 1200));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(700, -100), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(700, 1200));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(700, -200), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(700, 1200));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(700, -300), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(700, 1200));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(700, -400), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(700, 1200));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(700, -500), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(700, 1200));
+                for (int i = 1; i <= 5; i++)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(200, -i * 100), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 1200), 1000);
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(700, -i * 100), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(700, 1200), 1000);
+                }
                 _step++;
             }
             else if (_step == 5 && now >= _startPattern.AddSeconds(30))
             {
                 _context.Context.AddEnnemy(new Ennemy(new Vector(200, -100), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 100));
+                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 100), 1000);
                 _step++;
             }
             else if (_step == 6 && now >= _startPattern.AddSeconds(30))
             {
                 _context.Context.AddEnnemy(new Ennemy(new Vector(200, -100), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 400));
+                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(200, 400), 1000);
                 _step++;
             }
             else if (_step == 7 && now >= _startPattern.AddSeconds(31))
             {
                 _context.Context.AddEnnemy(new Ennemy(new Vector(800, -100), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(800, 300));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-100, 450), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-150, 450), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-200, 450), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-250, 450), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-300, 450), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(-350, 450), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450));
+                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(800, 300), 1000);
 
+                   for (int i = 0; i < 6; i++)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(-100 - i * 50, 450), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(1100, 450), 1000);
+                }
                 _step++;
             }
             else if (_step == 8 && now >= _startPattern.AddSeconds(32))
             {
                 _context.Context.AddEnnemy(new Ennemy(new Vector(500, -100), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(500, 200));
+                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(500, 200), 1000);
                 _step++;
             }
             else if (_step == 9 && now >= _startPattern.AddSeconds(33))
             {
                 _context.Context.AddEnnemy(new Ennemy(new Vector(300, -100), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(300, 150));
+                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(300, 150), 1000);
                 _step++;
             }
             else if (_step == 10 && now >= _startPattern.AddSeconds(34))
             {
                 _context.Context.AddEnnemy(new Ennemy(new Vector(700, -100), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(700, 500));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1000, 350), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 350));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1050, 350), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 350));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1100, 350), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 350));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1150, 350), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 350));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1200, 350), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 350));
-                _context.Context.AddEnnemy(new Ennemy(new Vector(1250, 350), 20, _context.Context, 25, 4, "standard"));
-                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 350));
+                _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(700, 500), 1000);
+
+                for (int i = 0; i < 6; i++)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(1000 + i * 50, 350), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(-200, 350), 1000);
+                } 
                 _step++;
             }
-            else if (_step == 11) _nextPattern = new Pattern1(_context);
+            else if (_step == 11 && now >= _startPattern.AddSeconds(40))
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    int posX = _random.Next(100, 800);
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(posX, _random.Next(-700, -100)), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(posX, _random.Next(100, 300)), 1000);
+                }
+                _step++;
+            }
+            else if (_step == 12 && now >= _startPattern.AddSeconds(45))
+            {
+                for (int i = 0; i < 800; i += 100)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(50 + i, -100 - i), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(50 + i, 1300), 1000);
+                }
+                for (int i = 0; i < 800; i += 100)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(850 - i, -900 - i), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(850 - i, 1300), 1000);
+                }
+                for (int i = 0; i < 800; i += 100)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(50 + i, -1700 - i), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(50 + i, 1300), 1000);
+                }
+                for (int i = 0; i < 800; i += 100)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(850 - i, -2500 - i), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(850 - i, 1300), 1000);
+                }
+                for (int i = 0; i < 800; i += 100)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(50 + i, -3300 - i), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(50 + i, 1300), 1000);
+                }
+                for (int i = 0; i <= 800; i += 100)
+                {
+                    _context.Context.AddEnnemy(new Ennemy(new Vector(850 - i, -4100 - i), 20, _context.Context, 25, 4, "standard"));
+                    _context.Context.Ennemy[_context.Context.Ennemy.Count - 1].Movement = new Directional(_context.Context.Ennemy[_context.Context.Ennemy.Count - 1], 4, new Vector(850 - i, 1300), 1000);
+                }
+                _step++;
+            }
         }
     }
 }

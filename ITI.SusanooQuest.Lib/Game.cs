@@ -22,6 +22,7 @@ namespace ITI.SusanooQuest.Lib
         ushort _bombes;
         double _cd;
         DateTime _lastShot;
+        ushort _playerLifeAtBegining;
 
         // game_structure part
         ILevel _level;
@@ -41,6 +42,7 @@ namespace ITI.SusanooQuest.Lib
             _bombes = bombes;
             _score = 0;
             _cd = 0.1;
+            _playerLifeAtBegining = playerLife;
 
             _level = new LevelOne(this);
         }
@@ -110,6 +112,8 @@ namespace ITI.SusanooQuest.Lib
             _player.Update();
 
             if (_highScore < _score) _highScore = _score;
+            if (_player.Life == 0) DataManager.Writer(_playerLifeAtBegining, _highScore);
+
             return _player.Life == 0;
         }
 
