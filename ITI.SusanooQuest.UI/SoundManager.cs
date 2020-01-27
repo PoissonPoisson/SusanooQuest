@@ -11,7 +11,6 @@ namespace ITI.SusanooQuest.UI
     class SoundManager : IDisposable
     {
         static SoundManager _instance;
-
         readonly Sound _soundOfPlayerProjectil;
         readonly Sound _soundOfExplosion;
         readonly Sound _soundOfTheCreationOfAnEnnemy;
@@ -57,12 +56,15 @@ namespace ITI.SusanooQuest.UI
             return music;
         }
 
+        public Music GetCurrentMusic => _musiclist[_currentmusic] ;
+        public float GetCurrentVolume => _musiclist[_currentmusic].Volume;
+
         public void Shoot()
         {
-            _soundOfPlayerProjectil.Volume = 20;
+            _soundOfPlayerProjectil.Volume = 10;
             _soundOfPlayerProjectil.Loop = true;
             _soundOfPlayerProjectil.Play();
-        }
+        } 
         public void StopShoot()
         { 
             _soundOfPlayerProjectil.Stop();
@@ -92,7 +94,7 @@ namespace ITI.SusanooQuest.UI
 
             //instancier musique 
 
-            _currentmusic = nbMusic;
+            _currentmusic = nbMusic;            
             _musiclist[nbMusic].Play();
             _isPlayingMusic = true;
             
@@ -100,11 +102,9 @@ namespace ITI.SusanooQuest.UI
             //lancer musique 
         }
         public void StopMusic()
-        {
-           
+        {             
             _musiclist[_currentmusic].Stop();
-            _isPlayingMusic = false;
-            
+            _isPlayingMusic = false;           
         }
 
         public void Dispose()
