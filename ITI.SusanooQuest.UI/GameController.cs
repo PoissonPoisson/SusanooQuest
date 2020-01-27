@@ -279,6 +279,7 @@ namespace ITI.SusanooQuest.UI
                 soundManager.StopShoot();
                 _nextMenu = new EndPageMenu(_window, false);
             }
+            if (_game.End) _nextMenu = new EndPageMenu(_window, true);
         }
 
         public void Dispose()

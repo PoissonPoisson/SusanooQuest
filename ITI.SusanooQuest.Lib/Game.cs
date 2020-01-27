@@ -23,6 +23,7 @@ namespace ITI.SusanooQuest.Lib
         double _cd;
         DateTime _lastShot;
         ushort _playerLifeAtBegining;
+        bool _end;
 
         // game_structure part
         ILevel _level;
@@ -43,14 +44,18 @@ namespace ITI.SusanooQuest.Lib
             _score = 0;
             _cd = 0.1;
             _playerLifeAtBegining = playerLife;
+            _end = false;
 
             _level = new LevelOne(this);
         }
 
+        public bool End => _end;
+
         public bool Update()
         {
             _level = _level.NextLevel;
-            _level.Update();
+            if (_level == null) _end = true;
+            else _level.Update();
 
             //Update all the ennemies
             for (int i = _ennemies.Count() - 1; i >= 0; i--)

@@ -60,26 +60,26 @@ namespace ITI.SusanooQuest.UI
                 _spriteCredit = new Sprite(_credit.Texture) { Position = new Vector2f(_size.X / 2 - _credit.Size.X / 2, _size.Y) };
                 _creditTexts = new Text[18]
                 {
-                    new Text("END", _font) { CharacterSize = 200, FillColor = Color.Black, Position = new Vector2f(350, 0) },
-                    new Text("Susanoo's Quest", _font) { CharacterSize = 150, FillColor = Color.Black, Position = new Vector2f(100, 1100) },
-                    new Text("Un projet porté par :", _font) { CharacterSize = 80, FillColor = Color.Black, Position = new Vector2f(150, 1500) },
-                    new Text("IN'TECH", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 1600) },
-                    new Text("Développé par :", _font) { CharacterSize = 80, FillColor = Color.Black, Position = new Vector2f(150, 1700) },
-                    new Text("Delorme-Glorieux Romain", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 1800) },
-                    new Text("Picotin Paul", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 1860) },
-                    new Text("Roussin Antoine", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 1920) },
-                    new Text("Encadré par :", _font) { CharacterSize = 80, FillColor = Color.Black, Position = new Vector2f(150, 2020) },
-                    new Text("Raquillet Antoine", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 2120) },
-                    new Text("Dchimir Rachid", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 2180) },
-                    new Text("Grapgismes par :", _font) { CharacterSize = 80, FillColor = Color.Black, Position = new Vector2f(150, 2280) },
-                    new Text("fjsmu", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 2380) },
-                    new Text("Grosman Romain", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 2440) },
-                    new Text("Song par :", _font) { CharacterSize = 80, FillColor = Color.Black, Position = new Vector2f(150, 2540) },
-                    new Text("Williatico", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 2640) },
-                    new Text("Takeshi Saito", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f(200, 2700) },
-                    new Text("Merci à vous !", _font) { CharacterSize = 100, FillColor = Color.Black, Position = new Vector2f(280, 3000) }
+                    new Text("END", _font) { CharacterSize = 200, FillColor = Color.White, Position = new Vector2f(350, 0) },
+                    new Text("Susanoo's Quest", _font) { CharacterSize = 150, FillColor = Color.White, Position = new Vector2f(100, 1100) },
+                    new Text("Un projet porté par :", _font) { CharacterSize = 80, FillColor = Color.White, Position = new Vector2f(150, 1500) },
+                    new Text("IN'TECH", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 1600) },
+                    new Text("Développé par :", _font) { CharacterSize = 80, FillColor = Color.White, Position = new Vector2f(150, 1700) },
+                    new Text("Delorme-Glorieux Romain", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 1800) },
+                    new Text("Picotin Paul", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 1860) },
+                    new Text("Roussin Antoine", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 1920) },
+                    new Text("Encadré par :", _font) { CharacterSize = 80, FillColor = Color.White, Position = new Vector2f(150, 2020) },
+                    new Text("Raquillet Antoine", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 2120) },
+                    new Text("Dchimir Rachid", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 2180) },
+                    new Text("Grapgismes par :", _font) { CharacterSize = 80, FillColor = Color.White, Position = new Vector2f(150, 2280) },
+                    new Text("fjsmu", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 2380) },
+                    new Text("Grosman Romain", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 2440) },
+                    new Text("Song par :", _font) { CharacterSize = 80, FillColor = Color.White, Position = new Vector2f(150, 2540) },
+                    new Text("Williatico", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 2640) },
+                    new Text("Takeshi Saito", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 2700) },
+                    new Text("Merci à vous !", _font) { CharacterSize = 100, FillColor = Color.White, Position = new Vector2f(280, 3000) }
                 };
-                //new Text("", _font) { CharacterSize = 50, FillColor = Color.Black, Position = new Vector2f() }
+                //new Text("", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f() }
                 foreach (Text text in _creditTexts) _credit.Draw(text);
                 _credit.Display();
             }
@@ -173,7 +173,7 @@ namespace ITI.SusanooQuest.UI
         {
             if (_spriteCredit != null)
             {
-                _spriteCredit.Position -= new Vector2f(0, 0.5f);
+                _spriteCredit.Position -= new Vector2f(0, 2f);
                 if (_spriteCredit.Position.Y <= -_credit.Size.Y) _nextMenu = new MainMenu(_window);
             }
         }
