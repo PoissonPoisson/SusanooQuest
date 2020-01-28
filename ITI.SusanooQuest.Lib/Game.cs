@@ -35,6 +35,7 @@ namespace ITI.SusanooQuest.Lib
             _ennemies = new List<Ennemy>();
             _death = new List<Ennemy>();
             _map = new Map(900, 1000);
+            playerLife += 50;
             _player = new Player(new Vector(_map.Width / 2, _map.Height - 100), 5, this, playerLife, 8);
             _random = new Random();
             _highScore = highScore;

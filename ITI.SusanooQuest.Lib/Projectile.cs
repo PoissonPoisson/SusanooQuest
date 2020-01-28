@@ -72,7 +72,7 @@ namespace ITI.SusanooQuest.Lib
 
         internal Y(double step)
         {
-            _length = 5;
+            _length = 30;
             _step = step;
         }
 

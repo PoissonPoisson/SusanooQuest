@@ -41,18 +41,18 @@ namespace ITI.SusanooQuest.UI
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.bg_MainMenu.png"))
             };
 
-            _buttons = new Button[5];
+            _buttons = new Button[4];
             Texture buttonTexture;
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_play.png"));
-            _buttons[0] = new Button(new Vector(1200, 315), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
-            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_multiplayer2.png"));
-            _buttons[1] = new Button(new Vector(1200, 415), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
+            _buttons[0] = new Button(new Vector(1200, 365), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
+            //buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_multiplayer2.png"));
+            //_buttons[1] = new Button(new Vector(1200, 415), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_option.png"));
-            _buttons[2] = new Button(new Vector(1200, 515), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
+            _buttons[1] = new Button(new Vector(1200, 465), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_credit.png"));
-            _buttons[3] = new Button(new Vector(1200, 615), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
+            _buttons[2] = new Button(new Vector(1200, 565), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_quit.png"));
-            _buttons[4] = new Button(new Vector(1200, 715), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
+            _buttons[3] = new Button(new Vector(1200, 665), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
 
             SoundManager mySoundManager = SoundManager.GetInstance();
             mySoundManager.LaunchMusic(nbMusic:0);            
@@ -103,10 +103,10 @@ namespace ITI.SusanooQuest.UI
                 );
 
                 if (_buttons[0].Selected(posInput)) _nextMenu = new GameController(_window);
-                if (_buttons[1].Selected(posInput)) ;// _nextMenu = new GameMulti();
-                if (_buttons[2].Selected(posInput)) _nextMenu = new OptionMenu(_window);
-                if (_buttons[3].Selected(posInput)) _nextMenu = new Credit(_window);
-                if (_buttons[4].Selected(posInput)) _window.Close();
+                //if (_buttons[1].Selected(posInput)) ;// _nextMenu = new GameMulti();
+                if (_buttons[1].Selected(posInput)) _nextMenu = new OptionMenu(_window);
+                if (_buttons[2].Selected(posInput)) _nextMenu = new Credit(_window);
+                if (_buttons[3].Selected(posInput)) _window.Close();
             }
         }
 

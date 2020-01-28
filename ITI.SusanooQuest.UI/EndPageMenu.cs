@@ -58,7 +58,7 @@ namespace ITI.SusanooQuest.UI
 
                 _credit = new RenderTexture(1000, 3500);
                 _spriteCredit = new Sprite(_credit.Texture) { Position = new Vector2f(_size.X / 2 - _credit.Size.X / 2, _size.Y) };
-                _creditTexts = new Text[18]
+                _creditTexts = new Text[19]
                 {
                     new Text("END", _font) { CharacterSize = 200, FillColor = Color.White, Position = new Vector2f(350, 0) },
                     new Text("Susanoo's Quest", _font) { CharacterSize = 150, FillColor = Color.White, Position = new Vector2f(100, 1100) },
@@ -77,7 +77,8 @@ namespace ITI.SusanooQuest.UI
                     new Text("Song par :", _font) { CharacterSize = 80, FillColor = Color.White, Position = new Vector2f(150, 2540) },
                     new Text("Williatico", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 2640) },
                     new Text("Takeshi Saito", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 2700) },
-                    new Text("Merci à vous !", _font) { CharacterSize = 100, FillColor = Color.White, Position = new Vector2f(280, 3000) }
+                    new Text("Titouan Cellier", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f(200, 2760) },
+                    new Text("Merci à vous !", _font) { CharacterSize = 100, FillColor = Color.White, Position = new Vector2f(280, 3060) }
                 };
                 //new Text("", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f() }
                 foreach (Text text in _creditTexts) _credit.Draw(text);

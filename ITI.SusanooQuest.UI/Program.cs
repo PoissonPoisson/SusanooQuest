@@ -19,19 +19,19 @@ namespace ITI.SusanooQuest.UI
                 window.KeyPressed += (s, e) =>
                 {
                     currentMenu.KeyPressed(e);
-                    Console.WriteLine(e);
+                    //Console.WriteLine(e);
                 };
 
                 window.KeyReleased += (s, e) =>
                 {
                     currentMenu.KeyReleased(e);
-                    Console.WriteLine(e);
+                    //Console.WriteLine(e);
                 };
 
                 window.MouseButtonPressed += (s, e) =>
                 {
                     currentMenu.MouseButtonPressed(e);
-                    Console.WriteLine(e);
+                    //Console.WriteLine(e);
                 };
 
                 // =====
