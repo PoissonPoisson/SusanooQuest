@@ -190,9 +190,10 @@ namespace ITI.SusanooQuest.Lib
                 }
                 _step++;
             }
-            else if (_step == 13 && now >= _startPattern.AddSeconds(55) && _context.Context.Ennemy.Count == 0)
+            else if (_step == 13 && now >= _startPattern.AddSeconds(60) && _context.Context.Ennemy.Count == 0)
             {
                 _nextPattern = null;
+                _step++;
             }
         }
     }

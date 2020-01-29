@@ -33,7 +33,8 @@ namespace ITI.SusanooQuest.UI
         readonly Sprite _spriteStates;
         readonly RectangleShape _bgStates;
         readonly Dictionary<string, RectangleShape> _projectilesTexture;
-        readonly Dictionary<string, CircleShape> _ennemiesTexture;
+        //readonly Dictionary<string, CircleShape> _ennemiesTexture;
+        readonly Dictionary<string, RectangleShape> _ennemiesTexture;
         readonly Sound _soundOfPlayerProjectil;  
         
         #endregion
@@ -114,9 +115,11 @@ namespace ITI.SusanooQuest.UI
 
 
             //Dictionary of ennemy texture
-            _ennemiesTexture = new Dictionary<string, CircleShape>();
-            _ennemiesTexture.Add("standard", new CircleShape(20));
-            _ennemiesTexture.Add("diagonal", new CircleShape(8) { FillColor = Color.Cyan});
+            //_ennemiesTexture = new Dictionary<string, CircleShape>();
+            //_ennemiesTexture.Add("standard", new CircleShape(20));
+            //_ennemiesTexture.Add("diagonal", new CircleShape(8) { FillColor = Color.Cyan});
+            _ennemiesTexture = new Dictionary<string, RectangleShape>();
+            _ennemiesTexture.Add("standard", new RectangleShape(new Vector2f(45f, 45f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.standard_ennemy.png")) });
 
             _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
             _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };           
@@ -283,8 +286,7 @@ namespace ITI.SusanooQuest.UI
             UpdateLife();
             _texts["Score"].DisplayedString = ScoreToString(_game.Score, 10);
             _texts["HichScore"].DisplayedString = ScoreToString(_game.HighScore, 10);
-            if (_game.Player.Life <= 0) _nextMenu = new EndPageMenu(_window, false);
-            if (_game.Player.Life == 0)
+            if (_game.Player.Life <= 0)
             {
                 SoundManager soundManager = SoundManager.GetInstance();
                 soundManager.StopShoot();
@@ -339,8 +341,8 @@ namespace ITI.SusanooQuest.UI
 
             foreach (Ennemy e in _game.Ennemy)
             {
-                _ennemiesTexture.TryGetValue(e.Tag, out CircleShape value);
-                value.Position = new Vector2f(e.Position.X - e.Length, e.Position.Y - e.Length);
+                _ennemiesTexture.TryGetValue(e.Tag, out RectangleShape value);
+                value.Position = new Vector2f(e.Position.X - value.Size.X / 2, e.Position.Y - value.Size.Y / 2);
                 _drawMap.Draw(value);
             }
 
