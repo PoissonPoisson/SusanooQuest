@@ -51,11 +51,6 @@ namespace ITI.SusanooQuest.UI
                 Position = new Vector2f(460, 515),
                 FillColor = Color.Black
             };
-            _volumeBarBackground = new RectangleShape(new Vector2f(1000, 50))
-            {
-                Position = new Vector2f(460, 515),
-                FillColor = Color.Green
-            };
             _buttons = new Button[6];
             Texture buttonTexture;
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_return.png"));
@@ -71,9 +66,6 @@ namespace ITI.SusanooQuest.UI
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_5.png"));
             _buttons[5] = new Button(new Vector(1300, 300), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
 
-            _font = new Font(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.THBiolinum.ttf"));
-            _texts = new Text[1];
-            _texts[0] = new Text($"Nombre de vie", _font) { CharacterSize = 60, FillColor = Color.Red, Position = new Vector2f(600, 275) };
 
             Tuple<ushort, uint> data = DataManager.Reader();
             _maxLive = data.Item1;
@@ -86,7 +78,19 @@ namespace ITI.SusanooQuest.UI
                 Position = _buttons[_maxLive].Image.Position
             };
             SoundManager mySoundManager = SoundManager.GetInstance();            
-            mySoundManager.LaunchMusic(nbMusic: 1);            
+            mySoundManager.LaunchMusic(nbMusic: 1);
+
+            _font = new Font(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.THBiolinum.ttf"));
+            _texts = new Text[2]
+            {
+                new Text($"Nombre de vie", _font, 60) { FillColor = Color.White, Position = new Vector2f(600, 275) },
+                new Text($"Volume : {Math.Round(mySoundManager.GetCurrentVolume, 0)}%", _font, 50) {FillColor = Color.White, Position = new Vector2f(850f, 500f) }
+            };
+            _volumeBarBackground = new RectangleShape(new Vector2f(1000 * mySoundManager.GetCurrentVolume / 100, 50))
+            {
+                Position = new Vector2f(460, 515),
+                FillColor = Color.Green
+            };
         }
 
         #region Properties
@@ -108,21 +112,15 @@ namespace ITI.SusanooQuest.UI
                     (e.X - (_window.Size.X / 2 - (_size.X / 2) * _ratio)) / _ratio,
                     (e.Y - (_window.Size.Y / 2 - (_size.Y / 2) * _ratio)) / _ratio
                 );
-                Console.WriteLine($"X : {posInput.X}, Y : {posInput.Y}");
 
-                //Console.WriteLine($"Button :\n - X : {_buttons[0].Pos.X} - {_buttons[0].Pos.X + _buttons[0].Width}\n - Y : {_buttons[0].Pos.Y} - {_buttons[0].Pos.Y + _buttons[0].Height}");
-                if (_volumeBar.Position.X <= posInput.X && posInput.X < _volumeBar.Position.X + _volumeBar.Size.X && _volumeBar.Position.Y <= posInput.Y && posInput.Y < _volumeBar.Position.Y + _volumeBar.Size.Y)
+                if (_volumeBar.Position.X <= posInput.X && posInput.X <= _volumeBar.Position.X + _volumeBar.Size.X && _volumeBar.Position.Y < posInput.Y && posInput.Y <= _volumeBar.Position.Y + _volumeBar.Size.Y)
                 {
-                    // SoundManager.GetInstance().GetCurrentMusic.Volume = ((((_volumeBar.Position.X + _volumeBar.Size.X)-_volumeBar.Position.X)-(e.X- (_volumeBar.Position.X + _volumeBar.Size.X))*100)/ ((_volumeBar.Position.X + _volumeBar.Size.X)-_volumeBar.Position.X));
-                    //SoundManager.GetInstance().GetCurrentMusic.Volume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
-                    Console.WriteLine((100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X));
-                    SoundManager.GetInstance().GetCurrentVolume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
-                    _volumeBarBackground = new RectangleShape(new Vector2f(posInput.X -_volumeBar.Position.X, 50))
-                    {
-                        Position = new Vector2f(460, 515),   //0.0
-                        FillColor = Color.Green,
-                    };
-                                       
+                    float result = (100 * (posInput.X - _volumeBar.Position.X)) / _volumeBar.Size.X;
+
+                    SoundManager.GetInstance().GetCurrentVolume = result;
+
+                    _volumeBarBackground.Size = new Vector2f(posInput.X - _volumeBar.Position.X, 50);
+                    _texts[1].DisplayedString = $"Volume : {Math.Round(result, 0)}%";
                 }
 
                 if (_buttons[0].Selected(posInput))
@@ -163,13 +161,10 @@ namespace ITI.SusanooQuest.UI
         {
             _window.Draw(_bg, RenderStates.Default);
             _window.Draw(_selectCircl, RenderStates.Default);
-            foreach (Button button in _buttons)
-            {
-                _window.Draw(button.Image, RenderStates.Default);
-            }
-            _window.Draw(_texts[0], RenderStates.Default);
+            foreach (Button button in _buttons) _window.Draw(button.Image, RenderStates.Default);
             _window.Draw(_volumeBar);
             _window.Draw(_volumeBarBackground);
+            foreach (Text text in _texts) _window.Draw(text);
             _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
 
             _view.Viewport = new FloatRect(
@@ -195,15 +190,9 @@ namespace ITI.SusanooQuest.UI
             _volumeBar.Dispose();
             _volumeBarBackground.Dispose();
             _selectCircl.Dispose();
-            foreach (Button button in _buttons)
-            {
-                button.Image.Dispose();
-            }
+            foreach (Button button in _buttons) button.Image.Dispose();
             _font.Dispose();
-            foreach(Text text in _texts)
-            {
-                text.Dispose();
-            }
+            foreach(Text text in _texts) text.Dispose();
         }
 
         #endregion
