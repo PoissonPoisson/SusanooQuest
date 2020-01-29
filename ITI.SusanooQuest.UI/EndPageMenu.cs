@@ -54,6 +54,7 @@ namespace ITI.SusanooQuest.UI
 
             if (win)
             {
+                SoundManager.GetInstance().LaunchMusic(5);
                 _texts = new Text[0];
 
                 _credit = new RenderTexture(1000, 3500);
@@ -83,10 +84,13 @@ namespace ITI.SusanooQuest.UI
                 //new Text("", _font) { CharacterSize = 50, FillColor = Color.White, Position = new Vector2f() }
                 foreach (Text text in _creditTexts) _credit.Draw(text);
                 _credit.Display();
+                
             }
             else
             {
-                
+                SoundManager mySoundManager = SoundManager.GetInstance();
+                mySoundManager.LaunchMusic(nbMusic: 3);
+
                 _button = new Button(
                 new Vector(_size.X / 2 - buttonTexture.Size.X / 2, 800),
                 (int)buttonTexture.Size.X,
@@ -100,8 +104,7 @@ namespace ITI.SusanooQuest.UI
 
                 };
             }
-            SoundManager mySoundManager = SoundManager.GetInstance();
-            mySoundManager.LaunchMusic(nbMusic: 3);
+            
 
         }
 

@@ -41,12 +41,14 @@ namespace ITI.SusanooQuest.UI
 
             _musiclist = new List<Music>()
             {
-                GetMusic("ITI.SusanooQuest.UI.Resources.Lullaby_of_Deserted_Hell.wav"),                                   // 0 : MainMenu
-                GetMusic("ITI.SusanooQuest.UI.Resources.y2mate.com-elektronomia_sky_high_ncs_release_TW9d8vYrVFQ.wav"),   // 1 : Options Menu
-                GetMusic("ITI.SusanooQuest.UI.Resources.warriyo-mortals-feat-laura-brehm-ncs-release.wav"),               // 2 : CreditMenu
-                GetMusic("ITI.SusanooQuest.UI.Resources.sad-piano-ncs-uncopyright-music.wav"),                            // 3 : GameOverPage
-                GetMusic("ITI.SusanooQuest.UI.Resources.y2mate.com-neo_tokyo_cyberpunk_mix_7JqKRqOmzi0.wav")             // 4 : LevelOneMenu
-             /* GetMusic("ITI.SusanooQuest.UI.Resources..wav")     */                                                 // 5 : LevelTwo Menu
+                GetMusic("ITI.SusanooQuest.UI.Resources.Lullaby_of_Deserted_Hell.wav"),                                     // 0 : MainMenu
+                GetMusic("ITI.SusanooQuest.UI.Resources.y2mate.com-elektronomia_sky_high_ncs_release_TW9d8vYrVFQ.wav"),     // 1 : Options Menu
+                GetMusic("ITI.SusanooQuest.UI.Resources.warriyo-mortals-feat-laura-brehm-ncs-release.wav"),                 // 2 : CreditMenu
+                GetMusic("ITI.SusanooQuest.UI.Resources.sad-piano-ncs-uncopyright-music.wav"),                              // 3 : GameOverPage
+                GetMusic("ITI.SusanooQuest.UI.Resources.y2mate.com-neo_tokyo_cyberpunk_mix_7JqKRqOmzi0.wav"),               // 4 : LevelOneMenu
+                GetMusic("ITI.SusanooQuest.UI.Resources.Assassin_s-Creed-Odyssey-OST-Assassin_s-Creed-_Ezio_s-Family_.wav") // 5 : winMenu
+                /* GetMusic("ITI.SusanooQuest.UI.Resources..wav")     */                                                    // 6 : LevelTwo Menu
+                
             };
 
             _volumeMusic = 100f; 

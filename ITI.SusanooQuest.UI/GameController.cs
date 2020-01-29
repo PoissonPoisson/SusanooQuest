@@ -271,16 +271,16 @@ namespace ITI.SusanooQuest.UI
             UpdateLife();
             _texts["Score"].DisplayedString = ScoreToString(_game.Score, 10);
             _texts["HichScore"].DisplayedString = ScoreToString(_game.HighScore, 10);
-            if (_game.Player.Life <= 0) _nextMenu = new EndPageMenu(_window, false);
-            if (_game.Player.Life == 0)
-            {
-                SoundManager soundManager = SoundManager.GetInstance();
-                soundManager.StopShoot();
-                _nextMenu = new EndPageMenu(_window, false);
-            }
+            //if (_game.Player.Life <= 0) _nextMenu = new EndPageMenu(_window, false);
+            //if (_game.Player.Life == 0)
+            //{
+            //    SoundManager soundManager = SoundManager.GetInstance();
+            //    soundManager.StopShoot();
+            //    _nextMenu = new EndPageMenu(_window, false);
+            //}
             if (_game.End)
             {
-                SoundManager.GetInstance().StopShoot();
+                SoundManager.GetInstance().StopShoot();                
                 _nextMenu = new EndPageMenu(_window, true);
             }
         }
