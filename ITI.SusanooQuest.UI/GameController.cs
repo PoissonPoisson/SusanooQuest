@@ -151,26 +151,32 @@ namespace ITI.SusanooQuest.UI
                 case Keyboard.Key.LShift:
                     _game.Player.Slow = true;
                     break;
+                case Keyboard.Key.Q:
                 case Keyboard.Key.Left:
                     _game.Player.Deplacment["Right"] = false;
                     _game.Player.Deplacment["Left"] = true;
                     break;
+                case Keyboard.Key.Z:
                 case Keyboard.Key.Up:
                     _game.Player.Deplacment["Down"] = false;
                     _game.Player.Deplacment["Up"] = true;
                     break;
+                case Keyboard.Key.D:
                 case Keyboard.Key.Right:
                     _game.Player.Deplacment["Left"] = false;
                     _game.Player.Deplacment["Right"] = true;
                     break;
+                case Keyboard.Key.S:
                 case Keyboard.Key.Down:
                     _game.Player.Deplacment["Up"] = false;
                     _game.Player.Deplacment["Down"] = true;
                     break;
+                case Keyboard.Key.Space:
                 case Keyboard.Key.W:
                     _game.Player.StartShoot();
                     StartSoundFire();
                     break;
+                case Keyboard.Key.F:
                 case Keyboard.Key.X:
                     if (_game.Bombes > 0)
                     {
@@ -192,22 +198,28 @@ namespace ITI.SusanooQuest.UI
                 case Keyboard.Key.LShift:
                     _game.Player.Slow = false;
                     break;
+                case Keyboard.Key.Q:
                 case Keyboard.Key.Left:
                     _game.Player.Deplacment["Left"] = false;
                     break;
+                case Keyboard.Key.Z:
                 case Keyboard.Key.Up:
                     _game.Player.Deplacment["Up"] = false;
                     break;
+                case Keyboard.Key.D:
                 case Keyboard.Key.Right:
                     _game.Player.Deplacment["Right"] = false;
                     break;
+                case Keyboard.Key.S:
                 case Keyboard.Key.Down:
                     _game.Player.Deplacment["Down"] = false;
                     break;
+                case Keyboard.Key.Space:
                 case Keyboard.Key.W:
                     _game.Player.EndShoot();
                     StopSoundFire();
                     break;
+                case Keyboard.Key.F:
                 case Keyboard.Key.X:
                     BomberSoundStop();
                     break;
@@ -282,7 +294,7 @@ namespace ITI.SusanooQuest.UI
             }
             if (_game.End)
             {
-                SoundManager.GetInstance().StopShoot();
+                SoundManager.GetInstance().StopShoot();                
                 _nextMenu = new EndPageMenu(_window, true);
             }
         }

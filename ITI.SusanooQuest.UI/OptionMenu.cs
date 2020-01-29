@@ -112,8 +112,10 @@ namespace ITI.SusanooQuest.UI
                     (e.X - (_window.Size.X / 2 - (_size.X / 2) * _ratio)) / _ratio,
                     (e.Y - (_window.Size.Y / 2 - (_size.Y / 2) * _ratio)) / _ratio
                 );
+                Console.WriteLine($"X : {posInput.X}, Y : {posInput.Y}");
 
                 if (_volumeBar.Position.X <= posInput.X && posInput.X <= _volumeBar.Position.X + _volumeBar.Size.X && _volumeBar.Position.Y < posInput.Y && posInput.Y <= _volumeBar.Position.Y + _volumeBar.Size.Y)
+                    //_volumeBarBackground = new RectangleShape(new Vector2f(posInput.X - _volumeBar.Position.X, 50))
                 {
                     float result = (100 * (posInput.X - _volumeBar.Position.X)) / _volumeBar.Size.X;
 
