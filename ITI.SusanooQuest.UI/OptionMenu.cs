@@ -26,6 +26,7 @@ namespace ITI.SusanooQuest.UI
         uint _highScore;
         RectangleShape _selectCircl;
         readonly RectangleShape _volumeBar;
+        RectangleShape _volumeBarBackground;
 
         #endregion
 
@@ -48,7 +49,12 @@ namespace ITI.SusanooQuest.UI
             _volumeBar = new RectangleShape(new Vector2f(1000, 50))
             {
                 Position = new Vector2f(460, 515),
-                FillColor = Color.Magenta
+                FillColor = Color.Black
+            };
+            _volumeBarBackground = new RectangleShape(new Vector2f(1000, 50))
+            {
+                Position = new Vector2f(460, 515),
+                FillColor = Color.Green
             };
             _buttons = new Button[6];
             Texture buttonTexture;
@@ -111,6 +117,12 @@ namespace ITI.SusanooQuest.UI
                     //SoundManager.GetInstance().GetCurrentMusic.Volume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
                     Console.WriteLine((100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X));
                     SoundManager.GetInstance().GetCurrentVolume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
+                    _volumeBarBackground = new RectangleShape(new Vector2f(posInput.X -_volumeBar.Position.X, 50))
+                    {
+                        Position = new Vector2f(460, 515),   //0.0
+                        FillColor = Color.Green,
+                    };
+                                       
                 }
 
                 if (_buttons[0].Selected(posInput))
@@ -157,6 +169,7 @@ namespace ITI.SusanooQuest.UI
             }
             _window.Draw(_texts[0], RenderStates.Default);
             _window.Draw(_volumeBar);
+            _window.Draw(_volumeBarBackground);
             _ratio = Math.Min(_window.Size.X / _size.X, _window.Size.Y / _size.Y);
 
             _view.Viewport = new FloatRect(
@@ -180,6 +193,7 @@ namespace ITI.SusanooQuest.UI
             _bg.Texture.Dispose();
             _bg.Dispose();
             _volumeBar.Dispose();
+            _volumeBarBackground.Dispose();
             _selectCircl.Dispose();
             foreach (Button button in _buttons)
             {
