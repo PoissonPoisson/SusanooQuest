@@ -19,6 +19,8 @@ namespace ITI.SusanooQuest.UI
         float _report;
         readonly RectangleShape _bg;
         IController _nextMenu;
+        readonly Text[] _texts;
+        readonly Font _font;
 
         #endregion
 
@@ -40,18 +42,36 @@ namespace ITI.SusanooQuest.UI
             };
             _buttons = new Button[1];
             Texture buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_return.png"));
-            _buttons[0] = new Button(new Vector(760, 515), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
+            _buttons[0] = new Button(new Vector(760, 900), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             SoundManager mySoundManager = SoundManager.GetInstance();
             mySoundManager.LaunchMusic(nbMusic: 2);
 
+
+            _font = new Font(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.THBiolinum.ttf"));
+            _texts = new Text[15]
+            {
+                new Text("Songs", _font, 70) { Position = new Vector2f(100, 100) },
+                new Text("Lullaby of Deserted Hell", _font, 60) { Position = new Vector2f(150, 200) },
+                new Text("https://www.youtube.com/watch?v=aDfALl6DM7U", _font, 60) { Position = new Vector2f(800, 180) },
+                new Text("https://en.touhouwiki.net/wiki/Touhou_Wiki:Copyrights", _font, 60) { Position = new Vector2f(800, 240) },
+                new Text("Autres musiques", _font, 60) { Position = new Vector2f(150, 300) },
+                new Text("Libre de droits", _font, 60) { Position = new Vector2f(800, 300) },
+                new Text("Effets sonors des tirs", _font, 60) { Position = new Vector2f(150, 380) },
+                new Text("Titouan Cellier", _font, 60) { Position = new Vector2f(800, 380) },
+                new Text("Effets sonors de dégat", _font, 60) { Position = new Vector2f(150, 460) },
+                new Text("https://www.youtube.com/watch?v=NTnaMsGryJ4", _font, 60) { Position = new Vector2f(800, 460) },
+
+                new Text("Artworks", _font, 70) { Position = new Vector2f(100, 550) },
+                new Text("Background artwork by fjsmu", _font, 60) { Position = new Vector2f(150, 650) },
+                new Text("https://www.pixiv.net/en/artworks/69412949", _font, 60) { Position = new Vector2f(800, 650) },
+                new Text("Autre design", _font, 60) { Position = new Vector2f(150, 730) },
+                new Text("Grosman Romain", _font, 60) { Position = new Vector2f(800, 730) }
+            };
         }
 
         #region Properties
 
-        public IController GetNextMenu
-        {
-            get { return _nextMenu; }
-        }
+        public IController GetNextMenu => _nextMenu;
 
         #endregion
 
@@ -90,6 +110,7 @@ namespace ITI.SusanooQuest.UI
             {
                 _window.Draw(button.Image);
             }
+            foreach (Text text in _texts) _window.Draw(text);
 
             _report = Math.Min(_window.Size.X / 1920.0f, _window.Size.Y / 1080.0f);
 
