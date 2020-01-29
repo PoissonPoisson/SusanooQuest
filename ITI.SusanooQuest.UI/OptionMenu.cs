@@ -49,12 +49,12 @@ namespace ITI.SusanooQuest.UI
             _volumeBar = new RectangleShape(new Vector2f(1000, 50))
             {
                 Position = new Vector2f(460, 515),
-                FillColor = Color.Magenta
+                FillColor = Color.Black
             };
             _volumeBarBackground = new RectangleShape(new Vector2f(1000, 50))
             {
                 Position = new Vector2f(460, 515),
-                FillColor = Color.Black
+                FillColor = Color.Green
             };
             _buttons = new Button[6];
             Texture buttonTexture;
@@ -117,10 +117,10 @@ namespace ITI.SusanooQuest.UI
                     //SoundManager.GetInstance().GetCurrentMusic.Volume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
                     Console.WriteLine((100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X));
                     SoundManager.GetInstance().GetCurrentVolume = (100 * (posInput.X - _volumeBar.Position.X)) / (_volumeBar.Size.X + _volumeBar.Position.X);
-                    _volumeBarBackground = new RectangleShape(new Vector2f(posInput.X -_volumeBar.Position.X, 50))
+                    _volumeBarBackground = new RectangleShape(new Vector2f(posInput.X - _volumeBar.Position.X, 50))
                     {
                         Position = new Vector2f(460, 515),   //0.0
-                        FillColor = Color.Black,
+                        FillColor = Color.Green
                     };
                                        
                 }
