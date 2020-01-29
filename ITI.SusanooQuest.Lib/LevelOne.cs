@@ -24,7 +24,8 @@ namespace ITI.SusanooQuest.Lib
         public void Update()
         {
             _pattern = _pattern.NextPatern;
-            _pattern.Update();
+            if (_pattern == null) _nextLevel = null;
+            else _pattern.Update();
         }
     }
 }

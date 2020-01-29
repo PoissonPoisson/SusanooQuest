@@ -24,7 +24,7 @@ namespace ITI.SusanooQuest.UI
         readonly Vector _size;
         ushort _maxLive;
         uint _highScore;
-        CircleShape _selectCircl;
+        RectangleShape _selectCircl;
         readonly RectangleShape _volumeBar;
         RectangleShape _volumeBarBackground;
 
@@ -79,7 +79,12 @@ namespace ITI.SusanooQuest.UI
             _maxLive = data.Item1;
             _highScore = data.Item2;
 
-            _selectCircl = new CircleShape(25) { Position = _buttons[_maxLive].Image.Position, FillColor = Color.Yellow};
+            //_selectCircl = new CircleShape(25) { Position = _buttons[_maxLive].Image.Position, FillColor = Color.Yellow};
+            _selectCircl = new RectangleShape(new Vector2f(50f, 50f))
+            {
+                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.select_nb_life.png")),
+                Position = _buttons[_maxLive].Image.Position
+            };
             SoundManager mySoundManager = SoundManager.GetInstance();            
             mySoundManager.LaunchMusic(nbMusic: 1);            
         }

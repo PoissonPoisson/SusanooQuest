@@ -25,14 +25,14 @@ namespace ITI.SusanooQuest.UI
         readonly Vector _size;
         readonly Game _game;
         readonly RectangleShape _bgMap;
-        readonly CircleShape _playerHitboxTexture;
+        readonly RectangleShape _playerHitboxTexture;
         readonly RectangleShape _playerTexture2;
         readonly RenderTexture _drawMap;
         readonly Sprite _spriteMap;
         readonly RenderTexture _drawStats;
         readonly Sprite _spriteStates;
         readonly RectangleShape _bgStates;
-        readonly Dictionary<string, CircleShape> _projectilesTexture;
+        readonly Dictionary<string, RectangleShape> _projectilesTexture;
         readonly Dictionary<string, CircleShape> _ennemiesTexture;
         readonly Sound _soundOfPlayerProjectil;  
         
@@ -91,26 +91,27 @@ namespace ITI.SusanooQuest.UI
             _bgMap = new RectangleShape(new Vector2f(_game.Map.Width, _game.Map.Height))
             {
                 Position = new Vector2f(0f, 0f),
-                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.background_map.jpg"))
+                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.bg_map.png"))
             };
 
-            _playerHitboxTexture = new CircleShape(_game.Player.Length) { FillColor = Color.Green };
-            _playerHitboxTexture.Position = new Vector2f
-            (
-                _game.Player.Position.X - _playerHitboxTexture.Radius,
-                _game.Player.Position.Y - _playerHitboxTexture.Radius
-            );
+            _playerHitboxTexture = new RectangleShape(new Vector2f(10f, 10f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.red_ball.png")) };
+            
             _playerTexture2 = new RectangleShape(new Vector2f(60, 60))
             {
                 Position = _playerHitboxTexture.Position,
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.perso.png")),
-                //FillColor = Color.Yellow
             };
             //Dictionary of projectiles texture
-            _projectilesTexture = new Dictionary<string, CircleShape>();
-            _projectilesTexture.Add("Y", new CircleShape(5) { FillColor = Color.Blue});
-            _projectilesTexture.Add("CosY", new CircleShape(5) { FillColor = Color.Red });
-            _projectilesTexture.Add("Homing", new CircleShape(5) { FillColor = Color.Magenta });
+            //_projectilesTexture = new Dictionary<string, CircleShape>();
+            //_projectilesTexture.Add("Y", new CircleShape(5) { FillColor = Color.Blue});
+            //_projectilesTexture.Add("CosY", new CircleShape(5) { FillColor = Color.Red });
+            //_projectilesTexture.Add("Homing", new CircleShape(5) { FillColor = Color.Magenta });
+
+            _projectilesTexture = new Dictionary<string, RectangleShape>();
+            _projectilesTexture.Add("Y", new RectangleShape(new Vector2f(30f, 30f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.red_ball.png")) });
+            _projectilesTexture.Add("cosY", new RectangleShape(new Vector2f(30f, 30f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.green_ball.png")) });
+            _projectilesTexture.Add("follow", new RectangleShape(new Vector2f(30f, 30f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.blue_ball.png")) });
+
 
             //Dictionary of ennemy texture
             _ennemiesTexture = new Dictionary<string, CircleShape>();
@@ -142,7 +143,6 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyPressed(KeyEventArgs e)
         {
-            Console.WriteLine("KeyPressed({0})", e);
             switch(e.Code)
             {
                 case Keyboard.Key.LShift:
@@ -184,7 +184,6 @@ namespace ITI.SusanooQuest.UI
 
         public void KeyReleased(KeyEventArgs e)
         {
-            Console.WriteLine("KeyReleased({0})", e);
             switch (e.Code)
             {
                 case Keyboard.Key.LShift:
@@ -279,6 +278,11 @@ namespace ITI.SusanooQuest.UI
                 soundManager.StopShoot();
                 _nextMenu = new EndPageMenu(_window, false);
             }
+            if (_game.End)
+            {
+                SoundManager.GetInstance().StopShoot();
+                _nextMenu = new EndPageMenu(_window, true);
+            }
         }
 
         public void Dispose()
@@ -302,8 +306,8 @@ namespace ITI.SusanooQuest.UI
 
             _playerHitboxTexture.Position = new Vector2f
             (
-                _game.Player.Position.X - _playerHitboxTexture.Radius,
-                _game.Player.Position.Y - _playerHitboxTexture.Radius
+                _game.Player.Position.X - _playerHitboxTexture.Size.X / 2,
+                _game.Player.Position.Y - _playerHitboxTexture.Size.Y / 2
             );
             _playerTexture2.Position = new Vector2f(
                 _playerHitboxTexture.Position.X - (_playerTexture2.Size.X / 2),
@@ -315,8 +319,9 @@ namespace ITI.SusanooQuest.UI
 
             foreach (Projectile p in _game.Projectiles)
             {
-                _projectilesTexture.TryGetValue(p.Tag, out CircleShape value);
-                value.Position = new Vector2f(p.Position.X - p.Movement.Length, p.Position.Y - p.Movement.Length);
+                _projectilesTexture.TryGetValue(p.Tag, out RectangleShape value);
+                //value.Position = new Vector2f(p.Position.X - p.Movement.Length, p.Position.Y - p.Movement.Length);
+                value.Position = new Vector2f(p.Position.X - value.Size.X / 2, p.Position.Y - value.Size.Y / 2);
                 _drawMap.Draw(value);
             }
 

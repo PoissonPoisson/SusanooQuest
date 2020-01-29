@@ -23,6 +23,7 @@ namespace ITI.SusanooQuest.Lib
         double _cd;
         DateTime _lastShot;
         ushort _playerLifeAtBegining;
+        bool _end;
 
         // game_structure part
         ILevel _level;
@@ -43,14 +44,18 @@ namespace ITI.SusanooQuest.Lib
             _score = 0;
             _cd = 0.1;
             _playerLifeAtBegining = playerLife;
+            _end = false;
 
             _level = new LevelOne(this);
         }
 
+        public bool End => _end;
+
         public bool Update()
         {
             _level = _level.NextLevel;
-            _level.Update();
+            if (_level == null) _end = true;
+            else _level.Update();
 
             //Update all the ennemies
             for (int i = _ennemies.Count() - 1; i >= 0; i--)
@@ -137,7 +142,7 @@ namespace ITI.SusanooQuest.Lib
             if (ennemy == null) throw new NullReferenceException("Ennemy is null.");
             if (ennemy.Context != this) throw new ArgumentException("Context is an another game.");
             if (_ennemies.Contains(ennemy)) throw new ArgumentException("This ennemy is already in the game.");
-            ennemy.Attack = new HomingPattern(ennemy);
+            //ennemy.Attack = new HomingPattern(ennemy);
             _ennemies.Add(ennemy);
         }
 

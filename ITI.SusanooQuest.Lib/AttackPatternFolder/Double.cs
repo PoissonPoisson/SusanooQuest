@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ITI.SusanooQuest.Lib.AttackPatternFolder
+namespace ITI.SusanooQuest.Lib
 {
     class Double : IAttackPattern
     {
@@ -26,9 +24,9 @@ namespace ITI.SusanooQuest.Lib.AttackPatternFolder
                 float norm2 = (float)Math.Sqrt(Math.Pow(u2.X, 2) + Math.Pow(u2.Y, 2));
                 Vector vu1 = new Vector(u1.X / norm1, u1.Y / norm1);
                 Vector vu2 = new Vector(u2.X / norm2, u2.Y / norm2);
-                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, "Y") 
+                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, "cosY") 
                     { Movement = new Ax(5, vu1, true) });
-                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, "Y") 
+                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, "cosY") 
                     { Movement = new Ax(5, vu2, false) });
                 _lastShot = DateTime.Now;
             }
