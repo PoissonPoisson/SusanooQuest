@@ -108,9 +108,9 @@ namespace ITI.SusanooQuest.UI
             //_projectilesTexture.Add("Homing", new CircleShape(5) { FillColor = Color.Magenta });
 
             _projectilesTexture = new Dictionary<string, RectangleShape>();
-            _projectilesTexture.Add("Y", new RectangleShape(new Vector2f(30f, 30f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.red_ball.png")) });
-            _projectilesTexture.Add("cosY", new RectangleShape(new Vector2f(30f, 30f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.green_ball.png")) });
-            _projectilesTexture.Add("follow", new RectangleShape(new Vector2f(30f, 30f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.blue_ball.png")) });
+            _projectilesTexture.Add("Y", new RectangleShape(new Vector2f(20f, 20f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.red_ball.png")) });
+            _projectilesTexture.Add("cosY", new RectangleShape(new Vector2f(20f, 20f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.green_ball.png")) });
+            _projectilesTexture.Add("follow", new RectangleShape(new Vector2f(20f, 20f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.blue_ball.png")) });
 
 
             //Dictionary of ennemy texture
