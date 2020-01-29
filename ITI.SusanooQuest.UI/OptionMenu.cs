@@ -49,12 +49,12 @@ namespace ITI.SusanooQuest.UI
             _volumeBar = new RectangleShape(new Vector2f(1000, 50))
             {
                 Position = new Vector2f(460, 515),
-                FillColor = Color.Magenta
+                FillColor = Color.Black
             };
             _volumeBarBackground = new RectangleShape(new Vector2f(1000, 50))
             {
                 Position = new Vector2f(460, 515),
-                FillColor = Color.Black
+                FillColor = Color.Green
             };
             _buttons = new Button[6];
             Texture buttonTexture;
@@ -120,7 +120,7 @@ namespace ITI.SusanooQuest.UI
                     _volumeBarBackground = new RectangleShape(new Vector2f(posInput.X -_volumeBar.Position.X, 50))
                     {
                         Position = new Vector2f(460, 515),   //0.0
-                        FillColor = Color.Black,
+                        FillColor = Color.Green,
                     };
                                        
                 }
