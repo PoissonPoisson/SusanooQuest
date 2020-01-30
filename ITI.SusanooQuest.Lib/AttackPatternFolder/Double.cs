@@ -1,16 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ITI.SusanooQuest.Lib
 {
     class Double : IAttackPattern
     {
-        Ennemy _context;
+        readonly Ennemy _context;
         Vector _target;
         DateTime _lastShot;
+        readonly Dictionary<string, string> _ennemyTypeProjectile;
+
         public Double(Ennemy context)
         {
             _context = context;
             _lastShot = DateTime.Now;
+            _ennemyTypeProjectile = new Dictionary<string, string>();
+            _ennemyTypeProjectile.Add("fireL", "fire");
+            _ennemyTypeProjectile.Add("fireR", "fire");
+            _ennemyTypeProjectile.Add("waterL", "water");
+            _ennemyTypeProjectile.Add("waterR", "water");
+            _ennemyTypeProjectile.Add("dirtL", "dirt");
+            _ennemyTypeProjectile.Add("dirtR", "dirt");
         }
 
         void IAttackPattern.Update()
@@ -24,9 +34,9 @@ namespace ITI.SusanooQuest.Lib
                 float norm2 = (float)Math.Sqrt(Math.Pow(u2.X, 2) + Math.Pow(u2.Y, 2));
                 Vector vu1 = new Vector(u1.X / norm1, u1.Y / norm1);
                 Vector vu2 = new Vector(u2.X / norm2, u2.Y / norm2);
-                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, "cosY") 
+                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, _ennemyTypeProjectile[_context.Tag]) 
                     { Movement = new Ax(5, vu1, true) });
-                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, "cosY") 
+                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, _ennemyTypeProjectile[_context.Tag]) 
                     { Movement = new Ax(5, vu2, false) });
                 _lastShot = DateTime.Now;
             }

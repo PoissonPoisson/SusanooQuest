@@ -6,13 +6,22 @@ namespace ITI.SusanooQuest.Lib
 {
     class HomingPattern : IAttackPattern
     {
-        Ennemy _context;
+        readonly Ennemy _context;
         Vector _target;
         DateTime _lastShot;
+        readonly Dictionary<string, string> _ennemyTypeProjectile;
+
         public HomingPattern(Ennemy context)
         {
             _context = context;
             _lastShot = DateTime.Now;
+            _ennemyTypeProjectile = new Dictionary<string, string>();
+            _ennemyTypeProjectile.Add("fireL", "fire");
+            _ennemyTypeProjectile.Add("fireR", "fire");
+            _ennemyTypeProjectile.Add("waterL", "water");
+            _ennemyTypeProjectile.Add("waterR", "water");
+            _ennemyTypeProjectile.Add("dirtL", "dirt");
+            _ennemyTypeProjectile.Add("dirtR", "dirt");
         }
 
         void IAttackPattern.Update()
@@ -25,7 +34,7 @@ namespace ITI.SusanooQuest.Lib
                 Vector u = new Vector(_target.X - _context.Position.X, _target.Y - _context.Position.Y);
                 float norm = (float)Math.Sqrt(Math.Pow(u.X, 2) + Math.Pow(u.Y, 2));
                 Vector vu = new Vector(u.X / norm, u.Y / norm);
-                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, "follow") { Movement = new Ax(5, vu, true) });
+                _context.Context.AddProjectile(new Projectile(5, 1, new Vector(_context.Position.X, _context.Position.Y), _context, _ennemyTypeProjectile[_context.Tag]) { Movement = new Ax(5, vu, true) });
                 _lastShot = DateTime.Now;
             }
         }

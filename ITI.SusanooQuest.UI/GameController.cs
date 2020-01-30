@@ -71,7 +71,7 @@ namespace ITI.SusanooQuest.UI
             _bgStates = new RectangleShape(new Vector2f(720, 600))
             {
                 Position = new Vector2f(0, 0),
-                FillColor = Color.Black
+                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.bg_game_states.png"))
             };
             
             _font = new Font(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.THBiolinum.ttf"));
@@ -112,6 +112,9 @@ namespace ITI.SusanooQuest.UI
             _projectilesTexture.Add("Y", new RectangleShape(new Vector2f(20f, 20f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.red_ball.png")) });
             _projectilesTexture.Add("cosY", new RectangleShape(new Vector2f(20f, 20f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.green_ball.png")) });
             _projectilesTexture.Add("follow", new RectangleShape(new Vector2f(20f, 20f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.blue_ball.png")) });
+            _projectilesTexture.Add("fire", new RectangleShape(new Vector2f(20f, 20f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.red_ball2.png")) });
+            _projectilesTexture.Add("water", new RectangleShape(new Vector2f(20f, 20f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.blue_ball2.png")) });
+            _projectilesTexture.Add("dirt", new RectangleShape(new Vector2f(20f, 20f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.green_ball2.png")) });
 
 
             //Dictionary of ennemy texture
@@ -120,6 +123,12 @@ namespace ITI.SusanooQuest.UI
             //_ennemiesTexture.Add("diagonal", new CircleShape(8) { FillColor = Color.Cyan});
             _ennemiesTexture = new Dictionary<string, RectangleShape>();
             _ennemiesTexture.Add("standard", new RectangleShape(new Vector2f(45f, 45f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.standard_ennemy.png")) });
+            _ennemiesTexture.Add("fireL", new RectangleShape(new Vector2f(45f, 45f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.fire_ennemy1.png")) });
+            _ennemiesTexture.Add("fireR", new RectangleShape(new Vector2f(45f, 45f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.fire_ennemy2.png")) });
+            _ennemiesTexture.Add("waterL", new RectangleShape(new Vector2f(45f, 45f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.water_ennemy1.png")) });
+            _ennemiesTexture.Add("waterR", new RectangleShape(new Vector2f(45f, 45f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.water_ennemy2.png")) });
+            _ennemiesTexture.Add("dirtL", new RectangleShape(new Vector2f(45f, 45f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.dirt_ennemy1.png")) });
+            _ennemiesTexture.Add("dirtR", new RectangleShape(new Vector2f(45f, 45f)) { Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.dirt_ennemy2.png")) });
 
             _drawMap = new RenderTexture((uint)_game.Map.Width, (uint)_game.Map.Height);
             _spriteMap = new Sprite(_drawMap.Texture) { Position = new Vector2f(100f, 40f) };           

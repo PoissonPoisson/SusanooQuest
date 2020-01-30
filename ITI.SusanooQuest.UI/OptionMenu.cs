@@ -24,9 +24,10 @@ namespace ITI.SusanooQuest.UI
         readonly Vector _size;
         ushort _maxLive;
         uint _highScore;
-        RectangleShape _selectCircl;
+        readonly RectangleShape _selectCircl;
         readonly RectangleShape _volumeBar;
-        RectangleShape _volumeBarBackground;
+        readonly RectangleShape _volumeBarBackground;
+        readonly RectangleShape _panel;
 
         #endregion
 
@@ -83,13 +84,20 @@ namespace ITI.SusanooQuest.UI
             _font = new Font(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.THBiolinum.ttf"));
             _texts = new Text[2]
             {
-                new Text($"Nombre de vie", _font, 60) { FillColor = Color.White, Position = new Vector2f(600, 275) },
+                new Text($"Nombre de vie", _font, 60) { FillColor = Color.Black, Position = new Vector2f(600, 280
+                ) },
                 new Text($"Volume : {Math.Round(mySoundManager.GetCurrentVolume, 0)}%", _font, 50) {FillColor = Color.White, Position = new Vector2f(850f, 500f) }
             };
             _volumeBarBackground = new RectangleShape(new Vector2f(1000 * mySoundManager.GetCurrentVolume / 100, 50))
             {
                 Position = new Vector2f(460, 515),
                 FillColor = Color.Green
+            };
+
+            _panel = new RectangleShape(new Vector2f(1200f, 800f))
+            {
+                Position = new Vector2f(1920 / 2 - 1200 / 2, 1080 / 2 - 800 / 2),
+                Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.panel.png"))
             };
         }
 
@@ -112,10 +120,8 @@ namespace ITI.SusanooQuest.UI
                     (e.X - (_window.Size.X / 2 - (_size.X / 2) * _ratio)) / _ratio,
                     (e.Y - (_window.Size.Y / 2 - (_size.Y / 2) * _ratio)) / _ratio
                 );
-                Console.WriteLine($"X : {posInput.X}, Y : {posInput.Y}");
 
                 if (_volumeBar.Position.X <= posInput.X && posInput.X <= _volumeBar.Position.X + _volumeBar.Size.X && _volumeBar.Position.Y < posInput.Y && posInput.Y <= _volumeBar.Position.Y + _volumeBar.Size.Y)
-                    //_volumeBarBackground = new RectangleShape(new Vector2f(posInput.X - _volumeBar.Position.X, 50))
                 {
                     float result = (100 * (posInput.X - _volumeBar.Position.X)) / _volumeBar.Size.X;
 
@@ -162,6 +168,7 @@ namespace ITI.SusanooQuest.UI
         public void Render()
         {
             _window.Draw(_bg, RenderStates.Default);
+            _window.Draw(_panel);
             _window.Draw(_selectCircl, RenderStates.Default);
             foreach (Button button in _buttons) _window.Draw(button.Image, RenderStates.Default);
             _window.Draw(_volumeBar);
@@ -191,6 +198,7 @@ namespace ITI.SusanooQuest.UI
             _bg.Dispose();
             _volumeBar.Dispose();
             _volumeBarBackground.Dispose();
+            _panel.Dispose();
             _selectCircl.Dispose();
             foreach (Button button in _buttons) button.Image.Dispose();
             _font.Dispose();
