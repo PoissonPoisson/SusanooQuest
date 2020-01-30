@@ -51,22 +51,22 @@ namespace ITI.SusanooQuest.UI
             _font = new Font(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.THBiolinum.ttf"));
             _texts = new Text[15]
             {
-                new Text("Songs", _font, 70) { Position = new Vector2f(100, 100) },
-                new Text("Lullaby of Deserted Hell", _font, 60) { Position = new Vector2f(150, 200) },
-                new Text("https://www.youtube.com/watch?v=aDfALl6DM7U", _font, 50) { Position = new Vector2f(800, 185) },
-                new Text("https://en.touhouwiki.net/wiki/Touhou_Wiki:Copyrights", _font, 50) { Position = new Vector2f(800, 245) },
-                new Text("Autres musiques", _font, 60) { Position = new Vector2f(150, 300) },
-                new Text("Libres de droits", _font, 50) { Position = new Vector2f(800, 305) },
-                new Text("Effets sonors des tirs", _font, 60) { Position = new Vector2f(150, 380) },
-                new Text("Titouan Cellier", _font, 50) { Position = new Vector2f(800, 385) },
-                new Text("Effets sonors de dégat", _font, 60) { Position = new Vector2f(150, 460) },
-                new Text("https://www.youtube.com/watch?v=NTnaMsGryJ4", _font, 50) { Position = new Vector2f(800, 465) },
+                new Text("Songs", _font, 70) { Position = new Vector2f(100, 100), FillColor = Color.Black },
+                new Text("Lullaby of Deserted Hell", _font, 60) { Position = new Vector2f(150, 200), FillColor = Color.Black },
+                new Text("https://www.youtube.com/watch?v=aDfALl6DM7U", _font, 50) { Position = new Vector2f(800, 185), FillColor = Color.Black },
+                new Text("https://en.touhouwiki.net/wiki/Touhou_Wiki:Copyrights", _font, 50) { Position = new Vector2f(800, 245), FillColor = Color.Black },
+                new Text("Autres musiques", _font, 60) { Position = new Vector2f(150, 300), FillColor = Color.Black },
+                new Text("Libres de droits", _font, 50) { Position = new Vector2f(800, 305), FillColor = Color.Black },
+                new Text("Effets sonors des tirs", _font, 60) { Position = new Vector2f(150, 380), FillColor = Color.Black },
+                new Text("Titouan Cellier", _font, 50) { Position = new Vector2f(800, 385), FillColor = Color.Black },
+                new Text("Effets sonors de dégat", _font, 60) { Position = new Vector2f(150, 460), FillColor = Color.Black },
+                new Text("https://www.youtube.com/watch?v=NTnaMsGryJ4", _font, 50) { Position = new Vector2f(800, 465), FillColor = Color.Black },
 
-                new Text("Artworks", _font, 70) { Position = new Vector2f(100, 550) },
-                new Text("Arrière plan par fjsmu", _font, 60) { Position = new Vector2f(150, 650) },
-                new Text("https://www.pixiv.net/en/artworks/69412949", _font, 50) { Position = new Vector2f(800, 655) },
-                new Text("Autres designs", _font, 60) { Position = new Vector2f(150, 730) },
-                new Text("Grosman Romain", _font, 50) { Position = new Vector2f(800, 735) }
+                new Text("Artworks", _font, 70) { Position = new Vector2f(100, 550), FillColor = Color.Black },
+                new Text("Arrière plan par fjsmu", _font, 60) { Position = new Vector2f(150, 650), FillColor = Color.Black },
+                new Text("https://www.pixiv.net/en/artworks/69412949", _font, 50) { Position = new Vector2f(800, 655), FillColor = Color.Black },
+                new Text("Autres designs", _font, 60) { Position = new Vector2f(150, 730), FillColor = Color.Black },
+                new Text("Grosman Romain", _font, 50) { Position = new Vector2f(800, 735), FillColor = Color.Black }
             };
 
             _panel = new RectangleShape(new Vector2f(1800f, 900))
