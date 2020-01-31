@@ -54,7 +54,7 @@ namespace ITI.SusanooQuest.UI
             };
             _buttons = new Button[6];
             Texture buttonTexture;
-            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_return.png"));
+            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_return2.png"));
             _buttons[0] = new Button(new Vector(760, 800), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_1.png"));
             _buttons[1] = new Button(new Vector(900, 300), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);

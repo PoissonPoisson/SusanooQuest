@@ -24,6 +24,7 @@ namespace ITI.SusanooQuest.UI
         readonly RenderTexture _credit;
         readonly Sprite _spriteCredit;
         readonly Text[] _creditTexts;
+        readonly RectangleShape _panel;
 
         #endregion
 
@@ -50,7 +51,7 @@ namespace ITI.SusanooQuest.UI
             };
             _font = new Font(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.THBiolinum.ttf"));
 
-            Texture buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_Menu.png"));
+            Texture buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_accueil2.png"));
 
             if (win)
             {
@@ -92,16 +93,22 @@ namespace ITI.SusanooQuest.UI
                 mySoundManager.LaunchMusic(nbMusic: 3);
 
                 _button = new Button(
-                new Vector(_size.X / 2 - buttonTexture.Size.X / 2, 800),
-                (int)buttonTexture.Size.X,
-                (int)buttonTexture.Size.Y,
-                buttonTexture
+                    new Vector(1920 / 2 - 200, 770),
+                    (int)buttonTexture.Size.X,
+                    (int)buttonTexture.Size.Y,
+                    buttonTexture
                 );
 
                 _texts = new Text[1]
                 {
                     new Text("Game Over", _font) { CharacterSize = 120, FillColor = Color.Red, Position = new Vector2f(750, 350) }
 
+                };
+
+                _panel = new RectangleShape(new Vector2f(720, 600))
+                {
+                    Position = new Vector2f(1920 / 2 - 350, 240),
+                    Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.bg_game_states.png"))
                 };
             }
             
@@ -122,6 +129,7 @@ namespace ITI.SusanooQuest.UI
             _view.Dispose();
             _bg.Dispose();
             _font.Dispose();
+            if (_panel != null) _panel.Dispose();
             foreach (Text text in _texts) text.Dispose();
             if (_creditTexts != null)
             {
@@ -156,6 +164,7 @@ namespace ITI.SusanooQuest.UI
         public void Render()
         {
             _window.Draw(_bg, RenderStates.Default);
+            if (_panel != null) _window.Draw(_panel);
             if (_credit != null) _window.Draw(_spriteCredit);
             if (_button != null) _window.Draw(_button.Image, RenderStates.Default);
             foreach (Text text in _texts) _window.Draw(text, RenderStates.Default);

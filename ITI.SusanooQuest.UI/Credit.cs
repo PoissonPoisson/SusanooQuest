@@ -42,7 +42,7 @@ namespace ITI.SusanooQuest.UI
                 Texture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.bg_MainMenu.png"))
             };
             _buttons = new Button[1];
-            Texture buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_return.png"));
+            Texture buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_return2.png"));
             _buttons[0] = new Button(new Vector(760, 900), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             SoundManager mySoundManager = SoundManager.GetInstance();
             mySoundManager.LaunchMusic(nbMusic: 2);

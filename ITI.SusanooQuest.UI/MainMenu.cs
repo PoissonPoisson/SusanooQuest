@@ -43,15 +43,15 @@ namespace ITI.SusanooQuest.UI
 
             _buttons = new Button[4];
             Texture buttonTexture;
-            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_play.png"));
+            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_play2.png"));
             _buttons[0] = new Button(new Vector(1200, 365), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
             //buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_multiplayer2.png"));
             //_buttons[1] = new Button(new Vector(1200, 415), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
-            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_option.png"));
+            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_option2.png"));
             _buttons[1] = new Button(new Vector(1200, 465), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
-            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_credit.png"));
+            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_credit2.png"));
             _buttons[2] = new Button(new Vector(1200, 565), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
-            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_quit.png"));
+            buttonTexture = new Texture(currentAssembly.GetManifestResourceStream("ITI.SusanooQuest.UI.Resources.button_quit2.png"));
             _buttons[3] = new Button(new Vector(1200, 665), (int)buttonTexture.Size.X, (int)buttonTexture.Size.Y, buttonTexture);
 
             SoundManager mySoundManager = SoundManager.GetInstance();
